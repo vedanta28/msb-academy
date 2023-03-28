@@ -5,10 +5,10 @@ const xss = require("xss-clean");
 const rateLimit = require("express-rate-limit");
 const mongoSanitize = require("express-mongo-sanitize");
 
-const errorLog = require("./utils/errorLog");
-
+// Code Modules
 // Load environment variables from .env file: Keep this the first requirement
 require("dotenv").config();
+const errorLog = require("./utils/errorLog");
 
 // Uncaught Exceptions For Synchronous Code
 process.on("uncaughtException", (err) => {
@@ -24,8 +24,10 @@ require("./utils/connectDatabase").connect();
 const app = express();
 
 // Middlewares
+
 // Sets security HTTP headers
 app.use(helmet());
+
 // Limit requests from same IP to our api
 app.use(
   "/api",
@@ -35,10 +37,13 @@ app.use(
     message: "Too many requests from this IP",
   })
 );
+
 // Middleware to parse body into req.body
 app.use(express.json({ limit: "10kb" }));
+
 // Data sanitisation against NoSQL query injection -> "email" : { "$gt" : ""}, we need to prevent this
 app.use(mongoSanitize());
+
 // Data sanitisation against XSS attacks
 app.use(xss());
 

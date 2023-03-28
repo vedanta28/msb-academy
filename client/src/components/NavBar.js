@@ -10,6 +10,7 @@ import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
+import AdbIcon from '@mui/icons-material/Adb';
 
 // Menu Items
 const pages = ["Courses", "Classroom"];
@@ -41,23 +42,25 @@ function NavBar() {
   };
 
   return (
-    <AppBar position="sticky" sx={{ backgroundColor: "white", color: "grey" }}>
+    <AppBar position="relative" sx={{ backgroundColor: "transparent", color: "grey", boxShadow:"none", zIndex:"2"  }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
+          {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
+          <img src="./msb.svg" alt="" style={{width: "60px", marginRight: "10px"}}/>  
           {/* ----------------------------------LARGE SCREEN START--------------------------------- */}
           {/* LOGO */}
           <Typography
-            variant="h5"
+            variant="h5" 
             noWrap
             component="a"
             href="/"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
+              fontFamily: 'Open Sans',
               fontWeight: 700,
               letterSpacing: ".3rem",
-              color: "inherit",
+              color: "black",
               textDecoration: "none",
               marginRight: "30px",
             }}

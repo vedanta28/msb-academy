@@ -1,5 +1,4 @@
-exports.errorLog = (err) => {
-  console.log("Uncaught Exception. Shutting Down");
+const errorLog = (err) => {
   console.log(
     "------------------------------ERROR--------------------------------"
   );
@@ -11,3 +10,5 @@ exports.errorLog = (err) => {
   );
   console.log("Error Stack:" + err.stack);
 };
+
+module.exports = errorLog;

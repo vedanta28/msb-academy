@@ -1,3 +1,17 @@
 .App{
     position: relative;
+    background-color: lightgreen;
+}
+
+.NavContainer{
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    z-index: 2;
+}
+
+.Home{
+
 }

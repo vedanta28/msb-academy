@@ -18,7 +18,7 @@ const pages = ["Courses", "Classroom"];
 const settings = ["Profile", "Courses", "Payments", "Logout"];
 
 // User
-const user = true;
+const user = false;
 
 function NavBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -86,10 +86,14 @@ function NavBar() {
                     padding: "10px",
                     marginLeft: "10px",
                     marginRight: "10px",
+                    borderBottom: "2px solid transparent",
+                    borderRadius: "0px",
                     ":hover": {
                       bgcolor: "transparent",
+                      borderBottom: "2px solid black"
                     },
                   }}
+                  disableTouchRipple
                 >
                   {page}
                 </Button>
@@ -195,12 +199,16 @@ function NavBar() {
                   variant="outlined"
                   sx={{
                     color: "black",
-                    border: "1px solid grey",
+                    border: "none",
+                    borderBottom: "2px solid transparent",
+                    borderRadius: "0px",
                     ":hover": {
                       bgcolor: "transparent",
-                      border: "1px solid grey",
+                      border:"none",
+                      borderBottom: "2px solid black",
                     },
                   }}
+                  disableTouchRipple
                 >
                   Sign In
                 </Button>

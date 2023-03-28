@@ -1,0 +1,32 @@
+.App{
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background-image: url("../../ER_Diagram/ER_diagram.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+.Cover { 
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: white;
+    width: 100vw;
+    height: 100vh;
+    opacity: 0.5;
+}
+
+.Notify{
+    position: relative;
+    color: rebeccapurple;
+    text-align: center;
+    font-size: 50px;
+    transform-origin: center;
+    z-index: 2;
+}

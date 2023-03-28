@@ -11,7 +11,11 @@ require('dotenv').config();
 // Uncaught Exceptions For Synchronous Code
 process.on("uncaughtException", (err) => {
   console.log("Uncaught Exception. Shutting Down");
-  console.log(err.name, err.message, err.stack);
+  console.log("------------------------------ERROR--------------------------------");
+  console.log("Error Name: " + err.name);
+  console.log("Error Message: " + err.message);
+  console.log("---------------------------ERROR STACK-----------------------------");
+  console.log("Error Stack:" + err.stack);
   process.exit(1);
 });
 
@@ -64,7 +68,9 @@ app.listen(PORT, () => {
 // Unhandled Rejection for Failed Promises
 process.on("unhandledRejection", (err) => {
   console.log("Unhandled Rejection. Shutting Down");
-  console.log(err.name, err.message);
+  console.log("------------------------------ERROR--------------------------------");
+  console.log("Error Name: " + err.name);
+  console.log("Error Message: " + err.message);
   server.close(() => {
     process.exit(1);
   });

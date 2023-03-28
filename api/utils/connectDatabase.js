@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const errorLog = require('./errorLog');
+const handleLog = require('./errorLog');
 
 exports.connect = () => {
   const DB = process.env.DATABASE.replace(

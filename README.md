@@ -2,10 +2,6 @@
 An online teaching plaform.
 Made with Love.
 
-# client
-Made Using React
-Go to Client Directory
-
 ## Run Locally
 
 Clone the project

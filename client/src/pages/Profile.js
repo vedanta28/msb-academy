@@ -4,9 +4,6 @@ import { AccountProfileDetails } from '../sections/account/account-profile-detai
  
 const Page = () => (
   <div className='Base'>
-      <title>
-        Profile
-      </title>
     <Box
       component="main"
       sx={{

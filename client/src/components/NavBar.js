@@ -10,17 +10,32 @@ import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
+import { useNavigate } from "react-router-dom";
 
 // Menu Items
 const pages = ["Courses", "Classroom"];
 
 // User Settings
-const settings = ["Profile", "Payments", "Log Out"];
+const settings = ["Profile", "CheckOut", "Log Out"];
 
 // User
-const user = true;
+const user = false;
 
 function NavBar() {
+
+  let navigate = useNavigate();
+  const routeChange = (path) => {
+    if(path === "/log Out") 
+    {
+        user = false; // need to make an api call to log out
+        navigate("/");
+        return;
+    }
+    else{
+      navigate(path);
+    }
+  }
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -103,20 +118,20 @@ function NavBar() {
             ))}
           </Box>
 
-            {/* ----------------------------------LARGE SCREEN END----------------------------------- */}
-            {/* ---------------------------------SMALL SCREEN START---------------------------------- */}
-            {/* NAVIGATION */}
-            <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleOpenNavMenu}
-                color="inherit"
-              >
-                <MenuIcon />
-              </IconButton>
+          {/* ----------------------------------LARGE SCREEN END----------------------------------- */}
+          {/* ---------------------------------SMALL SCREEN START---------------------------------- */}
+          {/* NAVIGATION */}
+          <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+              color="inherit"
+            >
+              <MenuIcon />
+            </IconButton>
 
             <Menu
               id="menu-appbar"
@@ -136,19 +151,23 @@ function NavBar() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              
               {/* NAVIGATION OPTIONS */}
               {pages.map((page) => (
                 <MenuItem key={page} onClick={() => handleCloseNavMenu(page)}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
-
             </Menu>
           </Box>
 
-            {/* LOGO */}
-            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" }, justifyContent: "center" }}>
+          {/* LOGO */}
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: "flex", md: "none" },
+              justifyContent: "center",
+            }}
+          >
             <img
               src="./msb.svg"
               alt=""
@@ -156,83 +175,91 @@ function NavBar() {
             />
 
             <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              mt: 2,
-              ml: 2,
-              display: { xs: "flex", md: "none" },
-              fontFamily: "Open Sans",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "black",
-              textDecoration: "none",
-            }}
-          >
-            MSB
-          </Typography>
+              variant="h6"
+              noWrap
+              component="a"
+              href="/"
+              sx={{
+                mr: 2,
+                mt: 2,
+                ml: 2,
+                display: { xs: "flex", md: "none" },
+                fontFamily: "Open Sans",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "black",
+                textDecoration: "none",
+              }}
+            >
+              MSB
+            </Typography>
           </Box>
 
-            {/* ----------------------------------SMALL SCREEN END----------------------------------- */}
-            {/* ------------------------------------USER SETTINGS------------------------------------ */}
-            {user ? (
-              // User is logged in
-              <Box sx={{ flexGrow: 0 }}>
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                </IconButton>
-                <Menu
-                  sx={{ mt: "45px" }}
-                  id="menu-appbar"
-                  anchorEl={anchorElUser}
-                  anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  open={Boolean(anchorElUser)}
-                  onClose={handleCloseUserMenu}
-                >
-                  {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={() => {}}>
-                      <Typography textAlign="center">{setting}</Typography>
-                    </MenuItem>
-                  ))}
-                </Menu>
-              </Box>
-            ) : (
-              // User is not logged in
-              <Box sx={{ flexGrow: 0 }}>
-                <Button
-                  variant="outlined"
-                  href="/signin"
-                  sx={{
-                    color: "black",
+          {/* ----------------------------------SMALL SCREEN END----------------------------------- */}
+          {/* ------------------------------------USER SETTINGS------------------------------------ */}
+          {user ? (
+            // User is logged in
+            <Box sx={{ flexGrow: 0 }}>
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              </IconButton>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) => (
+                  <MenuItem
+                    key={setting}
+                    onClick={() => {
+                      {
+                        handleCloseUserMenu();
+                        routeChange(`/${setting.toLowerCase()}`);
+                      }
+                    }}
+                  >
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+          ) : (
+            // User is not logged in
+            <Box sx={{ flexGrow: 0 }}>
+              <Button
+                variant="outlined"
+                href="/signin"
+                sx={{
+                  color: "black",
+                  border: "none",
+                  borderBottom: "2px solid transparent",
+                  borderRadius: "0px",
+                  ":hover": {
+                    bgcolor: "transparent",
                     border: "none",
-                    borderBottom: "2px solid transparent",
-                    borderRadius: "0px",
-                    ":hover": {
-                      bgcolor: "transparent",
-                      border:"none",
-                      borderBottom: "2px solid black",
-                    },
-                  }}
-                  disableTouchRipple
-                >
-                  Sign In
-                </Button>
-              </Box>
-            )}
-          </Toolbar>
-        </Container>
-      </AppBar>
+                    borderBottom: "2px solid black",
+                  },
+                }}
+                disableTouchRipple
+              >
+                Sign In
+              </Button>
+            </Box>
+          )}
+        </Toolbar>
+      </Container>
+    </AppBar>
   );
 }
 export default NavBar;

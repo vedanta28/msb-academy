@@ -2,8 +2,23 @@ import React, { useState } from "react";
 import "./App.css";
 import NavBar from "./components/NavBar";
 import SignIn from "./pages/SignIn";
+import Home from "./pages/Home";
+import Course from "./pages/Course";
+import Courses from "./pages/Courses";
+import Classroom from "./pages/Classroom";
+import Profile from "./pages/Profile";
+import CheckOut from "./pages/CheckOut";
+import NoUser from "./pages/NoUser";
+
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
 function App() {
+  const user = false;
 
   // For Changing Color of Navbar on Scroll
   const [scroll, setScroll] = useState(false);
@@ -15,8 +30,8 @@ function App() {
   });
 
   return (
-      <div className="App" >
-        
+    <div className="App">
+      <Router>
         <div
           className="NavContainer"
           style={{
@@ -27,9 +42,28 @@ function App() {
         </div>
 
         <div className="Sections">
-          <SignIn/>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/courses" element={<Courses />} />
+            <Route
+              path="/classroom"
+              element={user ? <Classroom /> : <NoUser />}
+            />
+            <Route
+              path="/course/:id"
+              element={user ? <Course /> : <NoUser />}
+            />
+            <Route path="/profile" element={user ? <Profile /> : <NoUser />} />
+            <Route
+              path="/checkout"
+              element={user ? <CheckOut /> : <NoUser />}
+            />
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
         </div>
-      </div>
+      </Router>
+    </div>
   );
 }
 export default App;

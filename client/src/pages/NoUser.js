@@ -1,16 +1,8 @@
-import Head from 'next/head';
-import NextLink from 'next/link';
-// import ArrowLeftIcon from '@heroicons/react/24/solid/ArrowLeftIcon';
 import { Box, Button, Container, SvgIcon, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const Page = () => (
   <div className="Base NoUser">
-    <Head>
-      {/* <title>
-        401 | Sign In To View Your Courses
-      </title> */}
-    </Head>
     <Box
       component="main"
       sx={{
@@ -51,7 +43,6 @@ const Page = () => (
             Please Sign In To View Your Courses
           </Typography>
           <Button
-            component={NextLink}
             href="/"
             startIcon={(
               <SvgIcon fontSize="small">

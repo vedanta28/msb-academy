@@ -18,7 +18,7 @@ import {
 } from "react-router-dom";
 
 function App() {
-  const user = false;
+  const user = true;
 
   // For Changing Color of Navbar on Scroll
   const [scroll, setScroll] = useState(false);

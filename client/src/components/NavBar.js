@@ -19,7 +19,7 @@ const pages = ["Courses", "Classroom"];
 const settings = ["Profile", "CheckOut", "Log Out"];
 
 // User
-let user = false;
+let user = true;
 
 function NavBar() {
 

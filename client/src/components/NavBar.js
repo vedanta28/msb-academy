@@ -15,10 +15,10 @@ import MenuItem from "@mui/material/MenuItem";
 const pages = ["Courses", "Classroom"];
 
 // User Settings
-const settings = ["Profile", "Courses", "Payments", "Logout"];
+const settings = ["Profile", "Payments", "Log Out"];
 
 // User
-const user = false;
+const user = true;
 
 function NavBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -212,6 +212,7 @@ function NavBar() {
               <Box sx={{ flexGrow: 0 }}>
                 <Button
                   variant="outlined"
+                  href="/signin"
                   sx={{
                     color: "black",
                     border: "none",

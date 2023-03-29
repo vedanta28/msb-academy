@@ -1,20 +1,23 @@
 import React, { useState } from "react";
 import "./App.css";
 import NavBar from "./components/NavBar";
-import Home from "./pages/Home";
+import SignIn from "./pages/SignIn";
 
 function App() {
+
   // For Changing Color of Navbar on Scroll
   const [scroll, setScroll] = useState(false);
   window.addEventListener("scroll", () => {
-    const scrollCheck = window.scrollY > 20;
+    const scrollCheck = window.scrollY > 0;
     if (scrollCheck !== scroll) {
       setScroll(!scroll);
+      console.log(scrollCheck);
     }
   });
 
   return (
       <div className="App" >
+        
         <div
           className="NavContainer"
           style={{
@@ -23,8 +26,9 @@ function App() {
         >
           <NavBar />
         </div>
+
         <div className="Sections">
-          <Home className="Home" />
+          <SignIn/>
         </div>
       </div>
   );

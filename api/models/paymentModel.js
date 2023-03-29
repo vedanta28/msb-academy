@@ -18,3 +18,5 @@ const paymentSchema = new moongoose.Schema({
 },
 {collection: 'payments'}
 );
+const Payment = moongoose.model('Payment', paymentSchema);
+module.exports = Payment;

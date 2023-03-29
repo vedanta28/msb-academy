@@ -106,7 +106,7 @@ function NavBar() {
             {/* ----------------------------------LARGE SCREEN END----------------------------------- */}
             {/* ---------------------------------SMALL SCREEN START---------------------------------- */}
             {/* NAVIGATION */}
-            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+            <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
               <IconButton
                 size="large"
                 aria-label="account of current user"
@@ -148,24 +148,33 @@ function NavBar() {
           </Box>
 
             {/* LOGO */}
+            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" }, justifyContent: "center" }}>
+            <img
+              src="./msb.svg"
+              alt=""
+              style={{ width: "60px", marginRight: "10px" }}
+            />
+
             <Typography
-              variant="h5"
-              noWrap
-              component="a"
-              href=""
-              sx={{
-                mr: 2,
-                display: { xs: "flex", md: "none" },
-                flexGrow: 1,
-                fontFamily: "Open Sans",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
-                textDecoration: "none",
-              }}
-            >
-              MSB ACADEMY
-            </Typography>
+            variant="h6"
+            noWrap
+            component="a"
+            href="/"
+            sx={{
+              mr: 2,
+              mt: 2,
+              ml: 2,
+              display: { xs: "flex", md: "none" },
+              fontFamily: "Open Sans",
+              fontWeight: 700,
+              letterSpacing: ".3rem",
+              color: "black",
+              textDecoration: "none",
+            }}
+          >
+            MSB
+          </Typography>
+          </Box>
 
             {/* ----------------------------------SMALL SCREEN END----------------------------------- */}
             {/* ------------------------------------USER SETTINGS------------------------------------ */}

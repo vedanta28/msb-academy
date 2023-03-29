@@ -41,182 +41,186 @@ function NavBar() {
   };
 
   return (
-      <AppBar
-        position="sticky"
-        sx={{ background: "transparent", color: "black", boxShadow: "none" }}
-      >
-        <Container maxWidth="xl">
-          <Toolbar disableGutters>
+    <AppBar
+      position="sticky"
+      sx={{ background: "transparent", color: "black", boxShadow: "none" }}
+    >
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          {/* ----------------------------------LARGE SCREEN START--------------------------------- */}
+          
+          {/* LOGO */}
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <img
               src="./msb.svg"
               alt=""
               style={{ width: "60px", marginRight: "10px" }}
             />
-            {/* ----------------------------------LARGE SCREEN START--------------------------------- */}
-            {/* LOGO */}
-            <Typography
-              variant="h5"
-              noWrap
-              component="a"
-              href="/"
+          </Box>
+
+          <Typography
+            variant="h5"
+            noWrap
+            component="a"
+            href="/"
+            sx={{
+              mr: 2,
+              display: { xs: "none", md: "flex" },
+              fontFamily: "Open Sans",
+              fontWeight: 700,
+              letterSpacing: ".3rem",
+              color: "black",
+              textDecoration: "none",
+              marginRight: "30px",
+            }}
+          >
+            MSB ACADEMY
+          </Typography>
+
+          {/* NAVIGATION */}
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            {pages.map((page) => (
+              <Button
+                key={page}
+                href={`${page.toLowerCase()}`}
+                sx={{
+                  my: 2,
+                  color: "black",
+                  display: "block",
+                  padding: "10px",
+                  marginLeft: "10px",
+                  marginRight: "10px",
+                  borderBottom: "2px solid transparent",
+                  borderRadius: "0px",
+                  ":hover": {
+                    bgcolor: "transparent",
+                    borderBottom: "2px solid black",
+                  },
+                }}
+                disableTouchRipple
+              >
+                {page}
+              </Button>
+            ))}
+          </Box>
+
+          {/* ----------------------------------LARGE SCREEN END----------------------------------- */}
+          {/* ---------------------------------SMALL SCREEN START---------------------------------- */}
+          {/* NAVIGATION */}
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+              color="inherit"
+            >
+              <MenuIcon />
+            </IconButton>
+
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
               sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-                fontFamily: "Open Sans",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "black",
-                textDecoration: "none",
-                marginRight: "30px",
+                display: { xs: "block", md: "none" },
               }}
             >
-              MSB ACADEMY
-            </Typography>
-
-            {/* NAVIGATION */}
-            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+              
+              {/* NAVIGATION OPTIONS */}
               {pages.map((page) => (
-                <Button
-                  key={page}
-                  href={`${page.toLowerCase()}`}
-                  sx={{
-                    my: 2,
-                    color: "black",
-                    display: "block",
-                    padding: "10px",
-                    marginLeft: "10px",
-                    marginRight: "10px",
-                    borderBottom: "2px solid transparent",
-                    borderRadius: "0px",
-                    ":hover": {
-                      bgcolor: "transparent",
-                      borderBottom: "2px solid black"
-                    },
-                  }}
-                  disableTouchRipple
-                >
-                  {page}
-                </Button>
+                <MenuItem key={page} onClick={() => handleCloseNavMenu(page)}>
+                  <Typography textAlign="center">{page}</Typography>
+                </MenuItem>
               ))}
-            </Box>
 
-            {/* ----------------------------------LARGE SCREEN END----------------------------------- */}
-            {/* ---------------------------------SMALL SCREEN START---------------------------------- */}
-            {/* NAVIGATION */}
-            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleOpenNavMenu}
-                color="inherit"
-              >
-                <MenuIcon />
+            </Menu>
+          </Box>
+
+          {/* LOGO */}
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+            <img
+              src="./msb.svg"
+              alt=""
+              style={{ width: "60px", mr: "5px", ml: "5px" }}
+            />
+          </Box>
+
+          {/* ----------------------------------SMALL SCREEN END----------------------------------- */}
+          {/* ------------------------------------USER SETTINGS------------------------------------ */}
+          {user ? (
+            // User is logged in
+            <Box sx={{ flexGrow: 0 }}>
+
+              {/* USER AVATAR */}
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
 
+              {/* USER SETTINGS MENU */}
               <Menu
+                sx={{ mt: "45px" }}
                 id="menu-appbar"
-                anchorEl={anchorElNav}
+                anchorEl={anchorElUser}
                 anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left",
+                  vertical: "top",
+                  horizontal: "right",
                 }}
                 keepMounted
                 transformOrigin={{
                   vertical: "top",
-                  horizontal: "left",
+                  horizontal: "right",
                 }}
-                open={Boolean(anchorElNav)}
-                onClose={handleCloseNavMenu}
-                sx={{
-                  display: { xs: "block", md: "none" },
-                }}
-              >
-                {pages.map((page) => (
-                  <MenuItem key={page} onClick={() => handleCloseNavMenu(page)}>
-                    <Typography textAlign="center">{page}</Typography>
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              > 
+
+                {/* SETTINGS OPTIONS */}
+                {settings.map((setting) => (
+                  <MenuItem key={setting} onClick={() => {}}>
+                    <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
                 ))}
+
               </Menu>
             </Box>
-
-            {/* LOGO */}
-            <Typography
-              variant="h5"
-              noWrap
-              component="a"
-              href=""
-              sx={{
-                mr: 2,
-                display: { xs: "flex", md: "none" },
-                flexGrow: 1,
-                fontFamily: "Open Sans",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
-                textDecoration: "none",
-              }}
-            >
-              MSB ACADEMY
-            </Typography>
-
-            {/* ----------------------------------SMALL SCREEN END----------------------------------- */}
-            {/* ------------------------------------USER SETTINGS------------------------------------ */}
-            {user ? (
-              // User is logged in
-              <Box sx={{ flexGrow: 0 }}>
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                </IconButton>
-                <Menu
-                  sx={{ mt: "45px" }}
-                  id="menu-appbar"
-                  anchorEl={anchorElUser}
-                  anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  open={Boolean(anchorElUser)}
-                  onClose={handleCloseUserMenu}
-                >
-                  {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={() => {}}>
-                      <Typography textAlign="center">{setting}</Typography>
-                    </MenuItem>
-                  ))}
-                </Menu>
-              </Box>
-            ) : (
-              // User is not logged in
-              <Box sx={{ flexGrow: 0 }}>
-                <Button
-                  variant="outlined"
-                  sx={{
-                    color: "black",
+          ) : (            
+            // USER IS NOT LOGGED IN
+            <Box sx={{ flexGrow: 0, mr: "1rem" }}>
+              <Button
+                variant="outlined"
+                href="/signin"
+                sx={{
+                  color: "black",
+                  border: "none",
+                  borderBottom: "2px solid transparent",
+                  borderRadius: "0px",
+                  ":hover": {
+                    bgcolor: "transparent",
                     border: "none",
-                    borderBottom: "2px solid transparent",
-                    borderRadius: "0px",
-                    ":hover": {
-                      bgcolor: "transparent",
-                      border:"none",
-                      borderBottom: "2px solid black",
-                    },
-                  }}
-                  disableTouchRipple
-                >
-                  Sign In
-                </Button>
-              </Box>
-            )}
-          </Toolbar>
-        </Container>
-      </AppBar>
+                    borderBottom: "2px solid black",
+                  },
+                }}
+                disableTouchRipple
+              >
+                Sign In
+              </Button>
+            </Box>
+          )}
+        </Toolbar>
+      </Container>
+    </AppBar>
   );
 }
 export default NavBar;

@@ -8,10 +8,9 @@ function App() {
   // For Changing Color of Navbar on Scroll
   const [scroll, setScroll] = useState(false);
   window.addEventListener("scroll", () => {
-    const scrollCheck = window.scrollY > 0;
+    const scrollCheck = window.scrollY > 20;
     if (scrollCheck !== scroll) {
       setScroll(!scroll);
-      console.log(scrollCheck);
     }
   });
 

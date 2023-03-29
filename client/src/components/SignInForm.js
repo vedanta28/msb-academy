@@ -7,7 +7,6 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 
-
 export default function SignInForm() {
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -43,7 +42,7 @@ export default function SignInForm() {
         }}
       >
         <Typography fontFamily="Open Sans" component="h1" variant="h5">
-          Sign in
+          Sign In
         </Typography>
 
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 4 }}>

@@ -22,19 +22,16 @@ const settings = ["Profile", "CheckOut", "Log Out"];
 let user = true;
 
 function NavBar() {
-
   let navigate = useNavigate();
   const routeChange = (path) => {
-    if(path === "/log Out") 
-    {
-        user = false; // need to make an api call to log out
-        navigate("/");
-        return;
-    }
-    else{
+    if (path === "/log Out") {
+      user = false; // need to make an api call to log out
+      navigate("/");
+      return;
+    } else {
       navigate(path);
     }
-  }
+  };
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -200,7 +197,7 @@ function NavBar() {
           {user ? (
             // User is logged in
             <Box sx={{ flexGrow: 0 }}>
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, mr: 2 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
               <Menu

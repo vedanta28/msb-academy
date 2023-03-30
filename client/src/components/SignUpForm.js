@@ -8,8 +8,11 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
-export default function SignInForm() {
+export default function SignUpForm() {
+  
   const [value, setValue] = React.useState(null);
+
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -71,6 +74,7 @@ export default function SignInForm() {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               label="Date of Birth"
+              inputFormat="DD/MM/YYYY"
               value={value}
               sx={{
                 mt: 1.5,
@@ -80,6 +84,11 @@ export default function SignInForm() {
               required
               onChange={(newValue) => {
                 setValue(newValue);
+              }}
+              slotProps={{
+                textField: {
+                  helperText: 'MM / DD / YYYY',
+                },
               }}
               renderInput={(params) => (
                 <TextField {...params} />

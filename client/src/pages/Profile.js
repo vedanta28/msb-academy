@@ -1,41 +1,36 @@
-import { Box, Container, Stack, Typography, Unstable_Grid2 as Grid } from '@mui/material';
-import { AccountProfile } from '../sections/account/account-profile';
-import { AccountProfileDetails } from '../sections/account/account-profile-details';
- 
+import {
+  Box,
+  Container,
+  Stack,
+  Typography,
+  Unstable_Grid2 as Grid,
+} from "@mui/material";
+import ProfileCard from "../components/ProfileCard";
+import ProfileDetails from "../components/ProfileDetails";
+import PasswordCard from "../components/PasswordCard";
+
 const Page = () => (
-  <div className='Base'>
+  <div className="Base Profile">
     <Box
       component="main"
       sx={{
         flexGrow: 1,
-        py: 8
+        py: 8,
       }}
     >
       <Container maxWidth="lg">
         <Stack spacing={3}>
           <div>
-            <Typography variant="h4">
-              Profile
-            </Typography>
+            <Typography variant="h4" sx={{ fontFamily: "Open Sans"}}>Profile</Typography>
           </div>
           <div>
-            <Grid
-              container
-              spacing={3}
-            >
-              <Grid
-                xs={12}
-                md={6}
-                lg={4}
-              >
-                <AccountProfile />
+            <Grid container spacing={3}>
+              <Grid xs={12} md={6} lg={4}>
+                <ProfileCard />
               </Grid>
-              <Grid
-                xs={12}
-                md={6}
-                lg={8}
-              >
-                <AccountProfileDetails />
+              <Grid xs={12} md={6} lg={8}>
+                <ProfileDetails />
+                <PasswordCard />
               </Grid>
             </Grid>
           </div>
@@ -45,9 +40,5 @@ const Page = () => (
   </div>
 );
 
-Page.getLayout = (page) => (
-  <div>
-    {page}
-  </div>
-);
+Page.getLayout = (page) => <div>{page}</div>;
 export default Page;

@@ -16,14 +16,16 @@ const user = {
   avatar: "./koustav.png",
   city: "Kolkata",
   country: "India",
-  jobTitle: "Senior Mern Stack Developer | ML Enthusiast",
+  jobTitle: "Student",
   company: "IIT Bhubaneswar",
   name: "Koustav Sen",
+  email: "20cs01072@iitbbs.ac.in",
   timezone: "GMT+5:30",
 };
 
-export const AccountProfile = () => (
-  <Card>
+export default function ProfileCard() {
+  return (
+    <Card className="ProfileCard">
     <CardContent>
       <Box
         sx={{
@@ -38,17 +40,25 @@ export const AccountProfile = () => (
             height: 80,
             mb: 2,
             width: 80,
+            border: "1px solid black",
           }}
         />
         <Typography gutterBottom variant="h5">
           {user.name}
         </Typography>
-        <Box sx={{display: 'flex', margin:'5px', flexWrap:"wrap"}}>
-        <Typography color="text.secondary" variant="body2" noWrap="false">
+
+
+        <Box sx={{display: 'flex', margin:'5px'}}>
+        <Typography color="text.secondary" variant="body2" >
           {user.jobTitle}
         </Typography>
         </Box>
 
+        <Box sx={{display: 'flex', margin:'5px'}}>
+        <Typography color="text.secondary" variant="body2" >
+          {user.email}
+        </Typography>
+        </Box>
 
         <Box sx={{display: 'flex', margin:'5px'}}>
         <LocationOnIcon fontSize="small" />
@@ -57,20 +67,27 @@ export const AccountProfile = () => (
         </Typography>
         </Box>
 
-        <Box sx={{display: 'flex', margin:'5px'}}>
+        {/* <Box sx={{display: 'flex', margin:'5px'}}>
         <SchoolIcon fontSize="small" sx={{mr:1}}/>
         <Typography color="text.secondary" variant="body2" >
           {user.company}
         </Typography>
-        </Box>
+        </Box> */}
 
       </Box>
     </CardContent>
-    <Divider />
+    <hr style={{width: "90%", borderTop: "0.2px solid rgba(230,230,230)"}} />
     <CardActions>
-      <Button fullWidth variant="text">
+      <Button fullWidth sx={{
+        backgroundColor: "white",
+        marginTop: "5px",
+        ":hover":{
+          backgroundColor: "white"
+        }
+      }} disableTouchRipple>
         Upload picture
       </Button>
     </CardActions>
   </Card>
-);
+  )
+};

@@ -11,31 +11,23 @@ import {
   Unstable_Grid2 as Grid,
 } from "@mui/material";
 
-const states = [
-  {
-    value: "west-bengal",
-    label: "West Bengal",
-  },
-  {
-    value: "odisha",
-    label: "Odisha",
-  },
-  {
-    value: "other",
-    label: "Others",
-  },
-];
+import dayjs from "dayjs";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
-export const AccountProfileDetails = () => {
+export default function ProfileDetails() {
   const [values, setValues] = useState({
     firstName: "Koustav",
     lastName: "Sen",
     email: "20cs01072@iitbbs.ac.in",
     phone: "123456789",
     state: "west-bengal",
+    dob: "2001-09-07",
     country: "India",
-    hello: "Ho",
   });
+
+  const [value, setValue] = useState(dayjs(values.dob));
 
   const handleChange = useCallback((event) => {
     setValues((prevState) => ({
@@ -50,15 +42,14 @@ export const AccountProfileDetails = () => {
 
   return (
     <form autoComplete="off" noValidate onSubmit={handleSubmit}>
-      <Card>
-        <CardHeader subheader="The information can be edited" title="Profile" />
+      <Card className="ProfileDetails">
+        <CardHeader title="Details" />
         <CardContent sx={{ pt: 0 }}>
           <Box sx={{ m: -1.5 }}>
             <Grid container spacing={3}>
               <Grid xs={12} md={6}>
                 <TextField
                   fullWidth
-                  helperText="Please specify the first name"
                   label="First name"
                   name="firstName"
                   onChange={handleChange}
@@ -79,60 +70,44 @@ export const AccountProfileDetails = () => {
               <Grid xs={12} md={6}>
                 <TextField
                   fullWidth
-                  label="Email Address"
-                  name="email"
-                  onChange={handleChange}
-                  required
-                  value={values.email}
-                />
-              </Grid>
-              <Grid xs={12} md={6}>
-                <TextField
-                  fullWidth
                   label="Phone Number"
                   name="phone"
                   onChange={handleChange}
-                  type="number"
                   value={values.phone}
                 />
               </Grid>
+
               <Grid xs={12} md={6}>
-                <TextField
-                  fullWidth
-                  label="Country"
-                  name="country"
-                  onChange={handleChange}
-                  required
-                  value={values.country}
-                />
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    label="Date of Birth"
+                    value={value}
+                    sx={{
+                      width: "100%",
+                    }}
+                    required
+                    onChange={(newValue) => {
+                      setValue(newValue);
+                    }}
+                    slotProps={{
+                      textField: {
+                        helperText: 'MM / DD / YYYY',
+                      },
+                    }}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </LocalizationProvider>
               </Grid>
-              <Grid xs={12} md={6}>
-                <TextField
-                  fullWidth
-                  label="Select State"
-                  name="state"
-                  onChange={handleChange}
-                  required
-                  select
-                  SelectProps={{ native: true }}
-                  value={values.state}
-                >
-                  {states.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </TextField>
-              </Grid>
-              
+
+
             </Grid>
           </Box>
         </CardContent>
         <Divider />
         <CardActions sx={{ justifyContent: "flex-end" }}>
-          <Button variant="contained">Save details</Button>
+          <Button variant="contained" sx={{ mt: 2}}>Save details</Button>
         </CardActions>
       </Card>
     </form>
   );
-};
+}

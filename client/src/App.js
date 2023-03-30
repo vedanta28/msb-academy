@@ -38,6 +38,7 @@ function App() {
             backgroundColor: scroll ? "white" : "transparent",
           }}
         >
+          {/* <MyAppBar /> */}
           <NavBar />
         </div>
 

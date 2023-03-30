@@ -6,8 +6,8 @@
 
 .HomeDesktop {
     display: flex;
-    height: 80vh;
-    width: calc(100% - 20px);
+    height: calc(98vh - 120px);
+    width: 100%;
     margin: 0;
     padding: 20px;
     justify-content: center;
@@ -29,16 +29,19 @@
 
 .HomeText-1{
     font-size: 32px;
+    font-family: 'Kanit', sans-serif;
 }
 
 .HomeText-2{
     font-size: 40px;
+    font-family: 'Kanit', sans-serif;
 }
 
 .HomeText-3{
-    font-size: 20px;
+    font-size: 16px;
     margin: 5px;
     margin-top: 20px;
+    font-family: 'Kanit', sans-serif;
 }
 
 .HomeImageContainer{
@@ -75,21 +78,25 @@
 
 .HomeText-4{
     font-size: 24px;
+    font-family: 'Kanit', sans-serif;
 }
 
 .HomeText-5{
     font-size: 32px;
     margin-bottom: 20px;
+    font-family: 'Kanit', sans-serif;
 }
 
 .HomeText-6{
     color: #0ABC81;
     font-size: 20px;
+    font-family: 'Kanit', sans-serif;
 }
 
 .HomeText-7{
     font-size: 20px;
     font-weight: 400;
+    font-family: 'Kanit', sans-serif;
 }
 
 .MobileImageContainer{

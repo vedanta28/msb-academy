@@ -13,7 +13,7 @@ const data = {
 };
 
 const Page = () => (
-  <div className="Checkout">
+  <div className="Course">
     <div style={{ margin: "auto" }}>{CourseCard(data)}</div>
   </div>
 );

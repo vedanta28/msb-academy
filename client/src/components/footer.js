@@ -13,7 +13,7 @@ export default function Footer() {
     <Box
       sx={{
         width: "100%",
-        height: "20px",
+        height: "30px",
       }}
       component="footer"
       variant="outlined"

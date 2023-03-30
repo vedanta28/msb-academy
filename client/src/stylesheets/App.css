@@ -23,3 +23,10 @@
     height: 100vh;
     background-color: white;
 }
+
+.Course{
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 100px;
+}

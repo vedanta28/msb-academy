@@ -34,41 +34,38 @@ export default function GuestFooter() {
             my: 1,
           }}
         >
-          {/* <div>
-            <Image priority src="/Logo.svg" width={75} height={30} alt="Logo" />
-            </div> */}
           <img
             src="/msb.svg"
             alt="Logo"
             style={{ width: "75px", height: "30px" }}
           />
         </Box>
-
         <Box
           sx={{
             flexGrow: 1,
-            justifyContent: "center",
+            justifyContent: "left",
             display: "flex",
-            mb: 2,
+            flexDirection: "row",
+            mb: 1,
           }}
         >
           <Typography variant="caption" color="initial">
             Copyright ©2023. MSB Academy. All rights reserved.
           </Typography>
-        </Box>
-        <Box
-          sx={{
-            flexGrow: 1,
-            justifyContent: "right",
-            display: "flex",
-            mb: 2,
-          }}
-        >
-          <FacebookIcon sx={{ ml: 1 }} />
-          <YouTubeIcon sx={{ ml: 1 }} />
-          <TwitterIcon sx={{ ml: 1 }} />
-          <InstagramIcon sx={{ ml: 1 }} />
-          <LinkedInIcon sx={{ ml: 1 }} />
+          <Box
+            sx={{
+              flexGrow: 1,
+              justifyContent: "right",
+              display: "flex",
+              mb: 2,
+            }}
+          >
+            <FacebookIcon sx={{ ml: 1 }} />
+            <YouTubeIcon sx={{ ml: 1 }} />
+            <TwitterIcon sx={{ ml: 1 }} />
+            <InstagramIcon sx={{ ml: 1 }} />
+            <LinkedInIcon sx={{ ml: 1 }} />
+          </Box>
         </Box>
       </Container>
     </Paper>

@@ -1,4 +1,4 @@
-import "./App.css";
+import "./stylesheets/App.css";
 import NavContainer from "./components/NavContainer";
 import SignIn from "./pages/SignIn";
 import Home from "./pages/Home";
@@ -8,7 +8,7 @@ import Classroom from "./pages/Classroom";
 import Profile from "./pages/Profile";
 import CheckOut from "./pages/CheckOut";
 import NoUser from "./pages/NoUser";
-import Footer from "./components/footer";
+import Footer from "./components/Footer";
 
 import {
   BrowserRouter as Router,
@@ -45,8 +45,8 @@ function App() {
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>
+        <Footer />
       </Router>
-      <Footer/>
     </div>
   );
 }

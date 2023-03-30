@@ -1,58 +1,60 @@
 import * as React from "react";
+import "../stylesheets/Home.css";
 import Button from "@mui/material/Button";
+import { Box } from "@mui/material";
 
-const Home = () => {
+function Home() {
   return (
-    <div className="Base" style={{height:"1000vh"}}>
-      <div className="Home">
+    <div className="Home">
+      <Box className="HomeDesktop" sx={{ display: { xs: "none", md: "flex" } }}>
+        {/* TEXT */}
         <div className="HomeText">
-          <h1
-            style={{
-              fontFamily: "Kanit, sans-serif",
-              fontSize: "48px",
-            }}
+          <h6 className="HomeText-1">One Stop Solution For</h6>
+          <h6 className="HomeText-2">Computer Science</h6>
+          <h6 className="HomeText-3">
+            Be the
+            <span style={{ color: "#0ABC81" }}>{" Most Significant Bit "}</span>
+            in the Industry
+          </h6>
+          <Button
+            variant="contained"
+            sx={{ mt: 4, p: 1.5, width: "200px" }}
+            href="/courses"
           >
-            Crack your goal with India's top educators
-          </h1>
-          <h5
-            style={{
-              fontFamily: "Kanit, sans-serif",
-              fontSize: "16px",
-              margin: "5px",
-            }}
-          >
-            Over <span style={{ color: "#0ABC81" }}>8,00,000+</span> learners
-            trust us for their preparation
-          </h5>
-          <Button variant="contained">Start Learning</Button>
+            Start Learning
+          </Button>
         </div>
-        <div className="HomeImage" />
-      </div>
-      <div className="Home">
-        <div className="HomeText">
-          <h1
-            style={{
-              fontFamily: "Kanit, sans-serif",
-              fontSize: "48px",
-            }}
-          >
-            Crack your goal with India's top educators
-          </h1>
-          <h5
-            style={{
-              fontFamily: "Kanit, sans-serif",
-              fontSize: "16px",
-              margin: "5px",
-            }}
-          >
-            Over <span style={{ color: "#0ABC81" }}>8,00,000+</span> learners
-            trust us for their preparation
-          </h5>
-          <Button variant="contained">Start Learning</Button>
+
+        {/* IMAGE */}
+        <div className="HomeImageContainer">
+          <div className="HomeImage" />
         </div>
-        <div className="HomeImage" />
-      </div>
+      </Box>
+
+      <Box className="HomeMobile" sx={{ display: { xs: "flex", md: "none" } }}>
+        
+        <div className="MobileImageContainer">
+          <div className="MobileImage" />
+        </div>
+
+        <div className="Mobile HomeText">
+          <h6 className="HomeText-4">One Stop Solution For</h6>
+          <h6 className="HomeText-5">Computer Science</h6>
+          <h6 className="HomeText-7">Be the</h6>
+          <h6 className="HomeText-6">{" Most Significant Bit "}</h6>
+          <h6 className="HomeText-7">in the Industry</h6>
+          <Button
+            variant="contained"
+            sx={{ mt: 4, p: 1.5, width: "200px" }}
+            href="/courses"
+          >
+            Start Learning
+          </Button>
+        </div>
+
+      </Box>
     </div>
   );
-};
+}
+
 export default Home;

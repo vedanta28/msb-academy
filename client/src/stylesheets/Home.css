@@ -1,0 +1,108 @@
+.Home {
+    padding-top: 100px;
+    position: relative;
+    background-color: #EEEFF2;
+}
+
+.HomeDesktop {
+    display: flex;
+    height: 80vh;
+    width: calc(100% - 20px);
+    margin: 0;
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.HomeText{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+    height: 100%;
+    width: 50%;
+    padding: 20px;
+    color: #3C4852;
+    font-family: 'Kanit', sans-serif;
+    text-align: center;
+}
+
+.HomeText-1{
+    font-size: 32px;
+}
+
+.HomeText-2{
+    font-size: 40px;
+}
+
+.HomeText-3{
+    font-size: 20px;
+    margin: 5px;
+    margin-top: 20px;
+}
+
+.HomeImageContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 50%;
+}
+
+.HomeImage{
+    background-image: url("../../public/firstcard.jpg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 80%;
+    height: 80%;
+}
+
+.HomeMobile{
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    height: 80vh;
+    width: 100vw;
+}
+
+.Mobile{
+    /* border: 2px solid black;    */
+    height: 50%;
+    width: 100%;
+}
+
+.HomeText-4{
+    font-size: 24px;
+}
+
+.HomeText-5{
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.HomeText-6{
+    color: #0ABC81;
+    font-size: 20px;
+}
+
+.HomeText-7{
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.MobileImageContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.MobileImage{
+    background-image: url("../../public/firstcard.jpg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 300px;
+    height: 200px;
+}

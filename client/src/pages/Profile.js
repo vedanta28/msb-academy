@@ -1,3 +1,4 @@
+import "../stylesheets/Profile.css"
 import {
   Box,
   Container,

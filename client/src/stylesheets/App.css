@@ -1,0 +1,25 @@
+.App{
+    position: relative;
+}
+
+.NavContainer{
+    position: fixed;
+    width: 100vw;
+    top: 0;
+    z-index: 2;
+}
+
+.Base{
+    padding-top: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    padding-bottom: 100px;
+    background-color: #EEEFF2;
+}
+
+.NoUser{
+    height: 100vh;
+    background-color: white;
+}

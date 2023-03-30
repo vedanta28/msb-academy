@@ -1,0 +1,21 @@
+.Profile{
+    height: auto;
+    padding-top: 50px;
+}
+
+.ProfileCard{
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 5px 5px 10px 1px rgba(0,0,0,0.1)
+}
+
+.ProfileDetails{
+    padding: 20px;
+}
+
+.PasswordDetails{
+    margin-top: 20px;
+}

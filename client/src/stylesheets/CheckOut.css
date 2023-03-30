@@ -1,0 +1,33 @@
+/* 
+.Checkout{
+    position: relative;
+    height: auto;
+    width: 100vw;
+    padding-top: 100px;
+    background-color: #EEEFF2;
+    display: flex;
+    padding-left: 100px;
+    /* justify-content: space-evenly; */
+    /* } */
+
+/* 
+.TotalCard{
+    position: fixed;
+    right: 100px;
+}
+
+.Checkout{
+    position: relative;
+    height: auto;
+    width: 100vw;
+    padding-top: 100px;
+    background-color: #EEEFF2;
+    display: flex;
+    padding-left: 100px;
+    /* justify-content: space-evenly; */
+/* }
+
+.TotalCard{
+    position: fixed;
+    right: 100px;
+}  */

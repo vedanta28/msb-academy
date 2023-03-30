@@ -1,6 +1,5 @@
-import React, { useState } from "react";
 import "./App.css";
-import NavBar from "./components/NavBar";
+import NavContainer from "./components/NavContainer";
 import SignIn from "./pages/SignIn";
 import Home from "./pages/Home";
 import Course from "./pages/Course";
@@ -20,28 +19,10 @@ import {
 function App() {
   const user = true;
 
-  // For Changing Color of Navbar on Scroll
-  const [scroll, setScroll] = useState(false);
-  window.addEventListener("scroll", () => {
-    const scrollCheck = window.scrollY > 20;
-    if (scrollCheck !== scroll) {
-      setScroll(!scroll);
-    }
-  });
-
   return (
     <div className="App">
       <Router>
-        <div
-          className="NavContainer"
-          style={{
-            backgroundColor: scroll ? "white" : "transparent",
-          }}
-        >
-          {/* <MyAppBar /> */}
-          <NavBar />
-        </div>
-
+        <NavContainer />
         <div className="Sections">
           <Routes>
             <Route path="/" element={<Home />} />
@@ -67,4 +48,5 @@ function App() {
     </div>
   );
 }
+
 export default App;

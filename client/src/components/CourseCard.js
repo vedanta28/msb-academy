@@ -11,6 +11,7 @@ import {
   import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
   import YouTubeIcon from '@mui/icons-material/YouTube';
   import AccessTimeIcon from '@mui/icons-material/AccessTime';
+  import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 //   const data = {
 //     Picture: "./koustav.png",
@@ -23,6 +24,7 @@ import {
 //     StartDate: "21 Apr, 2021",
 //     EndDate: "7 May, 2021",
 //     TotalVideoLengh: "2h 30m",
+//     Price: "₹500"
 //   };
 
   function CourseCard(Data) {
@@ -107,6 +109,18 @@ import {
                     }}
                   >
                     Get Subcription
+                  </Button>
+                  <Button
+                    variant="contained"
+                    startIcon={<ShoppingCartIcon />}
+                    style={{
+                      color: "white",
+                      backgroundColor: "#027EFF",
+                      height: "48px",
+                      width: "176px"
+                    }}
+                  >
+                    Buy Now
                   </Button>
                   <Button
                     variant="contained"

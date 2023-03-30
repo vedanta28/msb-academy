@@ -10,6 +10,7 @@ const data = {
   StartDate: "21 Apr, 2021",
   EndDate: "7 May, 2021",
   TotalVideoLengh: "2h 30m",
+  Price: "₹500"
 };
 
 const Page = () => (

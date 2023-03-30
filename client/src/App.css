@@ -33,7 +33,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     height: 100vh;
     padding-bottom: 100px;
     background-color: #EEEFF2;
@@ -91,4 +90,36 @@
     width: 31vw;
     margin-left: 10vw;
     margin-top: 20vh;
+}
+
+.Checkout{
+    position: relative;
+    height: auto;
+    width: 100vw;
+    padding-top: 100px;
+    background-color: #EEEFF2;
+    display: flex;
+    padding-left: 100px;
+    /* justify-content: space-evenly; */
+}
+
+.TotalCard{
+    position: fixed;
+    right: 100px;
+}
+
+.Checkout{
+    position: relative;
+    height: auto;
+    width: 100vw;
+    padding-top: 100px;
+    background-color: #EEEFF2;
+    display: flex;
+    padding-left: 100px;
+    /* justify-content: space-evenly; */
+}
+
+.TotalCard{
+    position: fixed;
+    right: 100px;
 }

@@ -8,6 +8,7 @@ import Classroom from "./pages/Classroom";
 import Profile from "./pages/Profile";
 import CheckOut from "./pages/CheckOut";
 import NoUser from "./pages/NoUser";
+import Footer from "./components/footer";
 
 import {
   BrowserRouter as Router,
@@ -45,6 +46,7 @@ function App() {
           </Routes>
         </div>
       </Router>
+      <Footer/>
     </div>
   );
 }

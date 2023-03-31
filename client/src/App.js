@@ -9,6 +9,7 @@ import Profile from "./pages/Profile";
 import CheckOut from "./pages/CheckOut";
 import NoUser from "./pages/NoUser";
 import Footer from "./components/Footer";
+import CreateNewCourse from "./pages/CreateNewCourse";
 
 import {
   BrowserRouter as Router,
@@ -32,6 +33,7 @@ function App() {
               path="/classroom"
               element={user ? <Classroom /> : <NoUser />}
             />
+            <Route path="/newcourse" element={<CreateNewCourse />} />
             <Route
               path="/course/:id"
               element={user ? <Course /> : <NoUser />}

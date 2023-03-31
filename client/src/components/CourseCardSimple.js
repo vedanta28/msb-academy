@@ -10,28 +10,10 @@ import {
 } from "@mui/material";
 import Rating from "@mui/material/Rating";
 
-//   const data = {
-//     Picture: "./koustav.png",
-//     Language: "English",
-//     InstuctorName: "Koustav Sen",
-//     CourseName: "Complete Course on Computer Networks - Part I",
-//   };
-
-function CheckoutCard(Data) {
+function CourseCardSimple(Data) {
   return (
-    <Card
-      sx={{
-        backgroundColor: "white",
-        borderRadius: "7px",
-        height: "210px",
-        width: "1050px",
-        marginBottom: "10px",
-        marginLeft: "auto",
-        marginRight: "auto",
-      }}
-      elevation={0}
-    >
-      <CardContent style={{ padding: "none" }}>
+    <Card elevation={0}>
+      <CardContent className="CourseCardSimple">
         <Container style={{ display: "flex", padding: "none" }}>
           <Stack>
             <CardMedia
@@ -61,24 +43,11 @@ function CheckoutCard(Data) {
             </Typography>
             <Stack direction="row" spacing={1}>
               <Chip
-                // avatar={<Avatar alt="Natacha" src="./koustav.png" />}
                 avatar={<Avatar alt="Natacha" src={Data.InstructorImage} />}
                 label={Data.InstructorName}
                 variant="filled"
               />
             </Stack>
-            {/* <Typography
-              component="div"
-              variant="caption"
-              style={{
-                maxWidth: "auto",
-                fontFamily: "Kanit, sans-serif",
-                fontSize: "16px",
-                color: "#3C4852",
-              }}
-            >
-              {Data.InstuctorName}
-            </Typography> */}
             <Typography
               component="div"
               variant="caption"
@@ -91,7 +60,12 @@ function CheckoutCard(Data) {
             >
               {Data.Description}
             </Typography>
-            <Rating name="half-rating-read" defaultValue={Data.Rating} precision={0.5} readOnly />
+            <Rating
+              name="half-rating-read"
+              defaultValue={Data.Rating}
+              precision={0.5}
+              readOnly
+            />
             <Typography
               component="div"
               variant="h4"
@@ -111,4 +85,4 @@ function CheckoutCard(Data) {
   );
 }
 
-export default CheckoutCard;
+export default CourseCardSimple;

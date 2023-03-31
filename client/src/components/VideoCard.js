@@ -1,4 +1,4 @@
-import { Stack, Typography, Card, CardContent, colors } from "@mui/material";
+import { Stack, Typography, Card, CardContent } from "@mui/material";
 
 function VideoCard(Data) {
   const dateArray = Data.VideoDate.split(" ");

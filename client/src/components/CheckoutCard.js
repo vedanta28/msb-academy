@@ -10,10 +10,9 @@ import {
 } from "@mui/material";
 import Rating from "@mui/material/Rating";
 import DeleteIcon from "@mui/icons-material/Delete";
-import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
+import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 
-function CheckoutCard({Data}) {
-  
+function CheckoutCard({ Data, Course }) {
   const handleClick = () => {
     console.info("You clicked the Chip.");
   };
@@ -98,20 +97,23 @@ function CheckoutCard({Data}) {
                   fontSize: "22px",
                   color: "#3C4852",
                   marginTop: "auto",
-                  marginBottom: "auto"
+                  marginBottom: "auto",
                 }}
               >
-                <CurrencyRupeeIcon sx={{fontSize:"16px"}}/>
+                <CurrencyRupeeIcon sx={{ fontSize: "16px" }} />
                 {Data.Price}
               </Typography>
-              <Chip
-                label="Remove"
-                onClick={handleClick}
-                onDelete={handleDelete}
-                deleteIcon={<DeleteIcon />}
-                variant="outlined"
-                color="error"
-              />
+
+              {Course && (
+                <Chip
+                  label="Remove"
+                  onClick={handleClick}
+                  onDelete={handleDelete}
+                  deleteIcon={<DeleteIcon />}
+                  variant="outlined"
+                  color="error"
+                />
+              )}
             </Stack>
           </Stack>
         </Container>

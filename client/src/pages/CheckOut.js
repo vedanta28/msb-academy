@@ -70,7 +70,6 @@ function CheckOut() {
   return (
     <div className="CheckOut">
       <div className="Heading">
-        {" "}
         <Typography variant="h4" sx={{ fontFamily: "Open Sans" }}>
           Check Out
         </Typography>

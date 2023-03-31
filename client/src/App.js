@@ -7,19 +7,82 @@ import Courses from "./pages/Courses";
 import Classroom from "./pages/Classroom";
 import Profile from "./pages/Profile";
 import CheckOut from "./pages/CheckOut";
-import Error from "./pages/Error";
 import Footer from "./components/Footer";
 import CreateNewCourse from "./pages/CreateNewCourse";
 
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import Error from "./pages/Error";
+
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   const user = true;
+
+  const data = [
+    {
+      _id: "1",
+      Picture: "./sampleCourse.png",
+      Language: "English",
+      InstructorName: "Koustav Sen",
+      InstructorImage: "./koustav.png",
+      CourseName: "Complete Course on Computer Networks - Part I",
+      Description:
+        "In this course, Koustav will cover Computer Networks. All the important topics will be discussed in detail and would be helpful for aspirants preparing for the GATE exam.",
+      TotalVideos: "10",
+      StartDate: "21 Apr, 2021",
+      EndDate: "7 May, 2021",
+      TotalVideoLengh: "2h 30m",
+      Price: 500,
+      Rating: 4.5,
+    },
+    {
+      _id: "2",
+      Picture: "./sampleCourse.png",
+      Language: "English",
+      InstructorName: "Koustav Sen",
+      InstructorImage: "./koustav.png",
+      CourseName: "Complete Course on Computer Networks - Part II",
+      Description:
+        "In this course, Koustav will cover Computer Networks. All the important topics will be discussed in detail and would be helpful for aspirants preparing for the GATE exam.",
+      TotalVideos: "10",
+      StartDate: "21 Apr, 2021",
+      EndDate: "7 May, 2021",
+      TotalVideoLengh: "2h 30m",
+      Price: 500,
+      Rating: 4.5,
+    },
+    {
+      _id: "3",
+      Picture: "./sampleCourse.png",
+      Language: "English",
+      InstructorName: "Koustav Sen",
+      InstructorImage: "./koustav.png",
+      CourseName: "Complete Course on Computer Networks - Part III",
+      Description:
+        "In this course, Koustav will cover Computer Networks. All the important topics will be discussed in detail and would be helpful for aspirants preparing for the GATE exam.",
+      TotalVideos: "10",
+      StartDate: "21 Apr, 2021",
+      EndDate: "7 May, 2021",
+      TotalVideoLengh: "2h 30m",
+      Price: 500,
+      Rating: 4.5,
+    },
+    {
+      _id: "4",
+      Picture: "./sampleCourse.png",
+      Language: "English",
+      InstructorName: "Koustav Sen",
+      InstructorImage: "./koustav.png",
+      CourseName: "Complete Course on Computer Networks - Part IV",
+      Description:
+        "In this course, Koustav will cover Computer Networks. All the important topics will be discussed in detail and would be helpful for aspirants preparing for the GATE exam.",
+      TotalVideos: "10",
+      StartDate: "21 Apr, 2021",
+      EndDate: "7 May, 2021",
+      TotalVideoLengh: "2h 30m",
+      Price: 500,
+      Rating: 4.5,
+    },
+  ];
 
   return (
     <div className="App">
@@ -37,7 +100,10 @@ function App() {
               path="/course/:id"
               element={user ? <Course /> : <Error type="401" />}
             />
-            <Route path="/profile" element={user ? <Profile /> : <Error type="401" />} />
+            <Route
+              path="/profile"
+              element={user ? <Profile /> : <Error type="401" />}
+            />
             <Route
               path="/checkout"
               element={user ? <CheckOut /> : <Error type="401" />}

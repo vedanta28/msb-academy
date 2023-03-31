@@ -22,17 +22,6 @@ const settings = ["Profile", "CheckOut", "Log Out"];
 let user = true;
 
 function NavBar() {
-  let navigate = useNavigate();
-  const routeChange = (path) => {
-    if (path === "/log Out") {
-      user = false; // need to make an api call to log out
-      navigate("/");
-      return;
-    } else {
-      navigate(path);
-    }
-  };
-
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -50,6 +39,23 @@ function NavBar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+
+
+  let navigate = useNavigate();
+  
+  const routeChange = (path) => 
+  {
+    handleCloseUserMenu();
+    handleCloseNavMenu();
+    
+    if (path === "/log Out") {
+      navigate("/");
+      return;
+    } else {
+      navigate(path);
+    }
   };
 
   return (
@@ -93,7 +99,7 @@ function NavBar() {
             {pages.map((page) => (
               <Button
                 key={page}
-                href={`${page.toLowerCase()}`}
+                href={`/${page.toLowerCase()}`}
                 sx={{
                   my: 2,
                   color: "black",
@@ -150,7 +156,7 @@ function NavBar() {
             >
               {/* NAVIGATION OPTIONS */}
               {pages.map((page) => (
-                <MenuItem key={page} onClick={() => handleCloseNavMenu(page)}>
+                <MenuItem key={page} onClick={() => routeChange(`/${page.toLowerCase()}`)}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
@@ -219,12 +225,7 @@ function NavBar() {
                 {settings.map((setting) => (
                   <MenuItem
                     key={setting}
-                    onClick={() => {
-                      {
-                        handleCloseUserMenu();
-                        routeChange(`/${setting.toLowerCase()}`);
-                      }
-                    }}
+                    onClick={() => routeChange(`/${setting.toLowerCase()}`)}
                   >
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>

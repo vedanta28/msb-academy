@@ -6,7 +6,7 @@ const data = {
   InstuctorName: "Koustav Sen",
   CourseName: "Complete Course on Computer Networks - Part I",
   Description:
-    "In this course, Koustav will cover Computer Networks. All the important topics will be discussed in detail and would be helpful for aspirants preparing for the GATE exam.",
+    "In this course, Koustav Sen will cover Computer Networks. All the important topics will be discussed in detail and would be helpful for aspirants preparing for the GATE exam.",
   TotalVideos: "10",
   StartDate: "21 Apr 2021",
   EndDate: "7 May 2021",
@@ -16,34 +16,70 @@ const data = {
 const video = [
   {
     VideoName: "Introduction to Computer Networks",
-    VideoSeriel: "1",
-    VideoDate: "21 Apr 2021",
+    VideoSerial: "1",
+    VideoDate: "21 APR 2021",
     VideoLength: "30m",
   },
   {
     VideoName: "Introduction to Computer Networks",
-    VideoSeriel: "1",
-    VideoDate: "21 Apr 2021",
+    VideoSerial: "1",
+    VideoDate: "21 APR 2021",
     VideoLength: "30m",
   },
   {
     VideoName: "Introduction to Computer Networks",
-    VideoSeriel: "1",
-    VideoDate: "21 Apr 2021",
+    VideoSerial: "1",
+    VideoDate: "21 APR 2021",
     VideoLength: "30m",
   },
   {
     VideoName: "Introduction to Computer Networks",
-    VideoSeriel: "1",
-    VideoDate: "21 Apr 2021",
+    VideoSerial: "1",
+    VideoDate: "21 APR 2021",
     VideoLength: "30m",
   },
+  {
+    VideoName: "Introduction to Computer Networks",
+    VideoSerial: "1",
+    VideoDate: "21 APR 2021",
+    VideoLength: "30m",
+  },
+  {
+    VideoName: "Introduction to Computer Networks",
+    VideoSerial: "1",
+    VideoDate: "21 APR 2021",
+    VideoLength: "30m",
+  },
+  {
+    VideoName: "Introduction to Computer Networks",
+    VideoSerial: "1",
+    VideoDate: "21 APR 2021",
+    VideoLength: "30m",
+  },
+  {
+    VideoName: "Introduction to Computer Networks",
+    VideoSerial: "1",
+    VideoDate: "21 APR 2021",
+    VideoLength: "30m",
+  },
+  {
+    VideoName: "Introduction to Computer Networks",
+    VideoSerial: "1",
+    VideoDate: "21 APR 2021",
+    VideoLength: "30m",
+  },
+  {
+    VideoName: "Introduction to Computer Networks",
+    VideoSerial: "1",
+    VideoDate: "21 APR 2021",
+    VideoLength: "30m",
+  }
 ];
 
 const Page = () => (
   <div className="Course">
     <div style={{ margin: "auto" }}>{CourseCard(data)}</div>
-    <div style={{ margin: "auto" }}>{video.map(VideoCard)}</div>
+    <div style={{ marginRight: "auto"}}>{video.map(VideoCard)}</div>
   </div>
 );
 

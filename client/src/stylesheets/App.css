@@ -26,9 +26,8 @@
 
 .Course{
     height: auto;
-    margin-left: auto;
-    margin-right: auto;
     padding-top: 100px;
+    background-color: #EEEFF2;
 }
 
 .Courses{

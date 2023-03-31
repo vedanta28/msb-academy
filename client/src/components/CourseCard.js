@@ -34,8 +34,10 @@ import {
           backgroundColor: "white",
           borderRadius: "7px",
           height: "370px",
-          width: "1040px",
-          marginBottom: 1,
+          width: "1136px",
+          marginBottom: 10,
+          marginLeft: "auto",
+          marginRight: "auto"
         }}
       >
         <CardContent style={{ padding: "none" }}>
@@ -55,7 +57,7 @@ import {
               />
             </Stack>
             <Stack spacing={3}>
-              <Stack spacing={5} direction="row">
+              <Stack spacing={11} direction="row">
                 <Stack>
                   <Typography
                     component="div"
@@ -143,7 +145,7 @@ import {
                   {Data.StartDate} - {Data.EndDate}
                 </Typography>
                 <YouTubeIcon fontSize="large" color="disabled"/>
-                <Typography variant="caption" maxWidth="60px" marginRight={10}>
+                <Typography variant="caption" maxWidth="100px" marginTop="auto" marginBottom="auto" marginRight={10}>
                   {Data.TotalVideos} lessons
                 </Typography>
                 <AccessTimeIcon fontSize="large" color="disabled"/>

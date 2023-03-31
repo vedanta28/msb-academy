@@ -10,15 +10,10 @@ import {
 } from "@mui/material";
 import Rating from "@mui/material/Rating";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 
-//   const data = {
-//     Picture: "./koustav.png",
-//     Language: "English",
-//     InstuctorName: "Koustav Sen",
-//     CourseName: "Complete Course on Computer Networks - Part I",
-//   };
-
-function CheckoutCard(Data) {
+function CheckoutCard({Data}) {
+  
   const handleClick = () => {
     console.info("You clicked the Chip.");
   };
@@ -26,6 +21,7 @@ function CheckoutCard(Data) {
   const handleDelete = () => {
     console.info("You clicked the delete icon.");
   };
+
   return (
     <Card
       sx={{
@@ -33,7 +29,7 @@ function CheckoutCard(Data) {
         borderRadius: "7px",
         height: "215px",
         width: "1050px",
-        marginBottom: "10px",
+        marginBottom: "20px",
         marginLeft: "auto",
         marginRight: "auto",
       }}
@@ -69,24 +65,11 @@ function CheckoutCard(Data) {
             </Typography>
             <Stack direction="row" spacing={1}>
               <Chip
-                // avatar={<Avatar alt="Natacha" src="./koustav.png" />}
                 avatar={<Avatar alt="Natacha" src={Data.InstructorImage} />}
                 label={Data.InstructorName}
                 variant="filled"
               />
             </Stack>
-            {/* <Typography
-              component="div"
-              variant="caption"
-              style={{
-                maxWidth: "auto",
-                fontFamily: "Kanit, sans-serif",
-                fontSize: "16px",
-                color: "#3C4852",
-              }}
-            >
-              {Data.InstuctorName}
-            </Typography> */}
             <Typography
               component="div"
               variant="caption"
@@ -112,12 +95,13 @@ function CheckoutCard(Data) {
                 style={{
                   maxWidth: "400px",
                   fontFamily: "Kanit, sans-serif",
-                  fontSize: "20px",
+                  fontSize: "22px",
                   color: "#3C4852",
                   marginTop: "auto",
                   marginBottom: "auto"
                 }}
               >
+                <CurrencyRupeeIcon sx={{fontSize:"16px"}}/>
                 {Data.Price}
               </Typography>
               <Chip

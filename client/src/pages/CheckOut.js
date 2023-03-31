@@ -1,9 +1,11 @@
 import CheckoutCard from "../components/CheckoutCard";
 import TotalCard from "../components/TotalCard";
 import "../stylesheets/CheckOut.css";
+import { Typography } from "@mui/material";
 
 const data = [
   {
+    _id: "1",
     Picture: "./sampleCourse.png",
     Language: "English",
     InstructorName: "Koustav Sen",
@@ -15,9 +17,10 @@ const data = [
     StartDate: "21 Apr, 2021",
     EndDate: "7 May, 2021",
     TotalVideoLengh: "2h 30m",
-    Price: 500
+    Price: 500,
   },
   {
+    _id: "2",
     Picture: "./sampleCourse.png",
     Language: "English",
     InstructorName: "Koustav Sen",
@@ -29,9 +32,10 @@ const data = [
     StartDate: "21 Apr, 2021",
     EndDate: "7 May, 2021",
     TotalVideoLengh: "2h 30m",
-    Price: 500
+    Price: 500,
   },
   {
+    _id: "3",
     Picture: "./sampleCourse.png",
     Language: "English",
     InstructorName: "Koustav Sen",
@@ -43,9 +47,10 @@ const data = [
     StartDate: "21 Apr, 2021",
     EndDate: "7 May, 2021",
     TotalVideoLengh: "2h 30m",
-    Price: 500
+    Price: 500,
   },
   {
+    _id: "4",
     Picture: "./sampleCourse.png",
     Language: "English",
     InstructorName: "Koustav Sen",
@@ -57,17 +62,29 @@ const data = [
     StartDate: "21 Apr, 2021",
     EndDate: "7 May, 2021",
     TotalVideoLengh: "2h 30m",
-    Price: 500
-  }
+    Price: 500,
+  },
 ];
 
-const Page = () => (
-  <div className="CheckOut">
-    <div>{data.map(CheckoutCard)}</div>
-    <div>{TotalCard(data)}</div>
-  </div>
-);
+function CheckOut() {
+  return (
+    <div className="CheckOut">
+      <div className="Heading">
+        {" "}
+        <Typography variant="h4" sx={{ fontFamily: "Open Sans" }}>
+          Check Out
+        </Typography>
+      </div>
+      <div className="CheckOutBox">
+        <div>
+          {data.map((d) => (
+            <CheckoutCard key={d._id} Data={d} />
+          ))}
+        </div>
+        <div>{TotalCard(data)}</div>
+      </div>
+    </div>
+  );
+}
 
-Page.getLayout = (page) => <div>{page}</div>;
-
-export default Page;
+export default CheckOut;

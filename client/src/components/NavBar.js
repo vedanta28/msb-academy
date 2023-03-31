@@ -79,7 +79,8 @@ function NavBar() {
             variant="h5"
             noWrap
             component="a"
-            href="/"
+            // href="/"
+            onClick={() => routeChange("/")}
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -89,6 +90,9 @@ function NavBar() {
               color: "black",
               textDecoration: "none",
               marginRight: "30px",
+              ":hover":{
+                cursor: "pointer"
+              }
             }}
           >
             MSB ACADEMY

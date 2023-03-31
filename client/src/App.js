@@ -7,7 +7,7 @@ import Courses from "./pages/Courses";
 import Classroom from "./pages/Classroom";
 import Profile from "./pages/Profile";
 import CheckOut from "./pages/CheckOut";
-import NoUser from "./pages/NoUser";
+import Error from "./pages/Error";
 import Footer from "./components/Footer";
 import CreateNewCourse from "./pages/CreateNewCourse";
 
@@ -31,24 +31,24 @@ function App() {
             <Route path="/courses" element={<Courses />} />
             <Route
               path="/classroom"
-              element={user ? <Classroom /> : <NoUser />}
+              element={user ? <Classroom /> : <Error type="401" />}
             />
-            {/* <Route path="/newcourse" element={<CreateNewCourse />} /> */}
             <Route
               path="/course/:id"
-              element={user ? <Course /> : <NoUser />}
+              element={user ? <Course /> : <Error type="401" />}
             />
-            <Route path="/profile" element={user ? <Profile /> : <NoUser />} />
+            <Route path="/profile" element={user ? <Profile /> : <Error type="401" />} />
             <Route
               path="/checkout"
-              element={user ? <CheckOut /> : <NoUser />}
+              element={user ? <CheckOut /> : <Error type="401" />}
             />
             <Route
               path="/create-course"
-              element={user ? <CreateNewCourse /> : <NoUser />}
+              element={user ? <CreateNewCourse /> : <Error type="401" />}
             />
             <Route path="/signin" element={<SignIn />} />
-            <Route path="*" element={<Navigate to="/" />} />
+            <Route path="/dev" element={<Error type="500" />} />
+            <Route path="*" element={<Error type="404" />} />
           </Routes>
         </div>
         <Footer />

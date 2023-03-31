@@ -30,7 +30,7 @@ export default function SignUpForm() {
         backgroundColor: "white",
         marginTop: "40px",
         borderRadius: "5px",
-        height: "800px",
+        height: "840px",
         paddingBottom: "20px",
         display: "flex",
         flexDirection: "column",
@@ -68,7 +68,6 @@ export default function SignUpForm() {
             id="lname"
             label="Last Name"
             name="lname"
-            autoFocus
           />
 
           <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -103,7 +102,6 @@ export default function SignUpForm() {
             id="phone"
             label="Phone"
             name="phone"
-            autoFocus
           />
 
           <TextField
@@ -115,7 +113,6 @@ export default function SignUpForm() {
             type="email"
             id="email"
             autoComplete="email"
-            autoFocus
           />
 
           <TextField

@@ -19,9 +19,9 @@
     background-color: #EEEFF2;
 }
 
-.NoUser{
+.Error{
     height: 100vh;
-    background-color: white;
+    background-color: #EEEFF2;
 }
 
 .Course{
@@ -35,5 +35,4 @@
     margin-left: "100px";
     padding-top: 100px;
     background-color: #EEEFF2;
-    /* background-image: url("../../public/background.png"); */
 }

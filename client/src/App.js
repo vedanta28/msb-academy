@@ -4,7 +4,7 @@ import NavContainer from "./components/NavContainer";
 import Home from "./pages/Home";
 import Courses from "./pages/Courses";
 import SignIn from "./pages/SignIn";
-import CreateNewCourse from "./pages/CreateNewCourse";
+import NewCourse from "./pages/NewCourse";
 import Course from "./pages/Course";
 import Profile from "./pages/Profile";
 import Footer from "./components/Footer";
@@ -123,7 +123,7 @@ function App() {
 
             <Route
               path="/create-course"
-              element={user ? <CreateNewCourse /> : <Error type="401" />}
+              element={user ? <NewCourse /> : <Error type="401" />}
             />
 
             <Route path="/signin" element={<SignIn />} />

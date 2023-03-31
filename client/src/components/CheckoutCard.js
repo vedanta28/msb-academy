@@ -9,6 +9,7 @@ import {
   CardContent,
 } from "@mui/material";
 import Rating from "@mui/material/Rating";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 //   const data = {
 //     Picture: "./koustav.png",
@@ -18,12 +19,19 @@ import Rating from "@mui/material/Rating";
 //   };
 
 function CheckoutCard(Data) {
+  const handleClick = () => {
+    console.info("You clicked the Chip.");
+  };
+
+  const handleDelete = () => {
+    console.info("You clicked the delete icon.");
+  };
   return (
     <Card
       sx={{
         backgroundColor: "white",
         borderRadius: "7px",
-        height: "210px",
+        height: "215px",
         width: "1050px",
         marginBottom: "10px",
         marginLeft: "auto",
@@ -91,19 +99,36 @@ function CheckoutCard(Data) {
             >
               {Data.Description}
             </Typography>
-            <Rating name="half-rating-read" defaultValue={Data.Rating} precision={0.5} readOnly />
-            <Typography
-              component="div"
-              variant="h4"
-              style={{
-                maxWidth: "400px",
-                fontFamily: "Kanit, sans-serif",
-                fontSize: "20px",
-                color: "#3C4852",
-              }}
-            >
-              ₹ {Data.Price}
-            </Typography>
+            <Rating
+              name="half-rating"
+              defaultValue={2.5}
+              precision={0.5}
+              sx={{ marginBottom: "auto" }}
+            />
+            <Stack direction="row" spacing="auto">
+              <Typography
+                component="div"
+                variant="h4"
+                style={{
+                  maxWidth: "400px",
+                  fontFamily: "Kanit, sans-serif",
+                  fontSize: "20px",
+                  color: "#3C4852",
+                  marginTop: "auto",
+                  marginBottom: "auto"
+                }}
+              >
+                {Data.Price}
+              </Typography>
+              <Chip
+                label="Remove"
+                onClick={handleClick}
+                onDelete={handleDelete}
+                deleteIcon={<DeleteIcon />}
+                variant="outlined"
+                color="error"
+              />
+            </Stack>
           </Stack>
         </Container>
       </CardContent>

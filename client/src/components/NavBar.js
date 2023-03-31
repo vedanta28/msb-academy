@@ -13,13 +13,17 @@ import MenuItem from "@mui/material/MenuItem";
 import { useNavigate } from "react-router-dom";
 
 // Menu Items
-const pages = ["Courses", "Classroom", "Create Course"];
+let pages = ["Courses", "Classroom", "Create Course"];
 
 // User Settings
-const settings = ["Profile", "CheckOut", "Log Out"];
+let settings = ["Profile", "CheckOut", "Log Out"];
 
 // User
 let user = true;
+if(user)
+{
+  pages.pop();
+}
 
 function NavBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -41,21 +45,15 @@ function NavBar() {
     setAnchorElUser(null);
   };
 
-
-
   let navigate = useNavigate();
-  
-  const routeChange = (path) => 
-  {
+
+  const routeChange = (path) => {
     handleCloseUserMenu();
     handleCloseNavMenu();
 
-    if (path === "/log Out")
-      navigate("/");
-    else if (path === "/create course")
-      navigate("/create-course")
-    else
-      navigate(path);
+    if (path === "/log out") navigate("/");
+    else if (path === "/create course") navigate("/create-course");
+    else navigate(path);
   };
 
   return (
@@ -90,9 +88,9 @@ function NavBar() {
               color: "black",
               textDecoration: "none",
               marginRight: "30px",
-              ":hover":{
-                cursor: "pointer"
-              }
+              ":hover": {
+                cursor: "pointer",
+              },
             }}
           >
             MSB ACADEMY
@@ -160,7 +158,10 @@ function NavBar() {
             >
               {/* NAVIGATION OPTIONS */}
               {pages.map((page) => (
-                <MenuItem key={page} onClick={() => routeChange(`/${page.toLowerCase()}`)}>
+                <MenuItem
+                  key={page}
+                  onClick={() => routeChange(`/${page.toLowerCase()}`)}
+                >
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}

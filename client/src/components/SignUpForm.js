@@ -9,9 +9,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 export default function SignUpForm() {
-  
   const [value, setValue] = React.useState(null);
-
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -78,7 +76,7 @@ export default function SignUpForm() {
               sx={{
                 mt: 1.5,
                 mb: 1,
-                width: "100%"
+                width: "100%",
               }}
               required
               onChange={(newValue) => {
@@ -86,12 +84,10 @@ export default function SignUpForm() {
               }}
               slotProps={{
                 textField: {
-                  helperText: 'MM / DD / YYYY',
+                  helperText: "MM / DD / YYYY",
                 },
               }}
-              renderInput={(params) => (
-                <TextField {...params} />
-              )}
+              renderInput={(params) => <TextField {...params} />}
             />
           </LocalizationProvider>
 
@@ -113,6 +109,24 @@ export default function SignUpForm() {
             type="email"
             id="email"
             autoComplete="email"
+          />
+
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="country"
+            label="Country"
+            id="country"
+          />
+
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="state"
+            label="State"
+            id="state"
           />
 
           <TextField

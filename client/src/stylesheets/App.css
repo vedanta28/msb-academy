@@ -1,5 +1,6 @@
 .App{
     position: relative;
+    background-color: #EEEFF2;
 }
 
 .NavContainer{
@@ -21,18 +22,5 @@
 
 .Error{
     height: 100vh;
-    background-color: #EEEFF2;
-}
-
-.Course{
-    height: auto;
-    padding-top: 100px;
-    background-color: #EEEFF2;
-}
-
-.Courses{
-    margin: "auto";
-    margin-left: "100px";
-    padding-top: 100px;
     background-color: #EEEFF2;
 }

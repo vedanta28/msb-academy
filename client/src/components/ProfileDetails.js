@@ -22,7 +22,7 @@ export default function ProfileDetails() {
     lastName: "Sen",
     email: "20cs01072@iitbbs.ac.in",
     phone: "123456789",
-    state: "west-bengal",
+    state: "West Bengal",
     dob: "2001-09-07",
     country: "India",
   });
@@ -67,6 +67,7 @@ export default function ProfileDetails() {
                   value={values.lastName}
                 />
               </Grid>
+
               <Grid xs={12} md={6}>
                 <TextField
                   fullWidth
@@ -99,6 +100,25 @@ export default function ProfileDetails() {
                 </LocalizationProvider>
               </Grid>
 
+              <Grid xs={12} md={6}>
+                <TextField
+                  fullWidth
+                  label="Country"
+                  name="country"
+                  onChange={handleChange}
+                  value={values.country}
+                />
+              </Grid>
+
+              <Grid xs={12} md={6}>
+                <TextField
+                  fullWidth
+                  label="State"
+                  name="state"
+                  onChange={handleChange}
+                  value={values.state}
+                />
+              </Grid>
 
             </Grid>
           </Box>

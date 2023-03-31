@@ -1,23 +1,19 @@
 import "./stylesheets/App.css";
-import NavContainer from "./components/NavContainer";
-import SignIn from "./pages/SignIn";
-import Home from "./pages/Home";
-import Course from "./pages/Course";
-import Courses from "./pages/Courses";
-import Classroom from "./pages/Classroom";
-import Profile from "./pages/Profile";
-import CheckOut from "./pages/CheckOut";
-import Footer from "./components/Footer";
-import CreateNewCourse from "./pages/CreateNewCourse";
-
-import Error from "./pages/Error";
-
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import NavContainer from "./components/NavContainer";
+import Home from "./pages/Home";
+import Courses from "./pages/Courses";
+import SignIn from "./pages/SignIn";
+import CreateNewCourse from "./pages/CreateNewCourse";
+import Course from "./pages/Course";
+import Profile from "./pages/Profile";
+import Footer from "./components/Footer";
+import Error from "./pages/Error";
 
 function App() {
   const user = true;
 
-  const data = [
+  const my_data = [
     {
       _id: "1",
       Picture: "./sampleCourse.png",
@@ -84,6 +80,10 @@ function App() {
     },
   ];
 
+  const text1 = "All Courses";
+  const text2 = "My Courses";
+  const text3 = "Check Out";
+
   return (
     <div className="App">
       <Router>
@@ -91,29 +91,43 @@ function App() {
         <div className="Sections">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/courses" element={<Courses />} />
+            <Route
+              path="/courses"
+              element={<Courses data={my_data} text={text1} />}
+            />
             <Route
               path="/classroom"
-              element={user ? <Classroom /> : <Error type="401" />}
+              element={
+                user ? (
+                  <Courses data={my_data} text={text2} />
+                ) : (
+                  <Error type="401" />
+                )
+              }
             />
+
+            <Route
+              path="/checkout"
+              element={user ? <Courses data={my_data} text={text3} checkout={true} /> : <Error type="401" />}
+            />
+
             <Route
               path="/course/:id"
               element={user ? <Course /> : <Error type="401" />}
             />
+
             <Route
               path="/profile"
               element={user ? <Profile /> : <Error type="401" />}
             />
-            <Route
-              path="/checkout"
-              element={user ? <CheckOut /> : <Error type="401" />}
-            />
+
             <Route
               path="/create-course"
               element={user ? <CreateNewCourse /> : <Error type="401" />}
             />
+
             <Route path="/signin" element={<SignIn />} />
-            <Route path="/dev" element={<Error type="500" />} />
+            <Route path="/error" element={<Error type="500" />} />
             <Route path="*" element={<Error type="404" />} />
           </Routes>
         </div>

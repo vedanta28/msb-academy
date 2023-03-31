@@ -1,4 +1,4 @@
-import CourseCard from "../components/CourseCard";
+import CourseCard from "../components/DetailCard";
 import VideoCard from "../components/VideoCard";
 const data = {
   Picture: "./koustav.png",

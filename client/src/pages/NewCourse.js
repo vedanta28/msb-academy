@@ -64,7 +64,7 @@ export default function SignUpForm() {
               label="Instructor Name"
               name="name"
               defaultValue="Koustav Sen"
-              autoFocus
+              // autoFocus
             />
 
             <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -78,6 +78,7 @@ export default function SignUpForm() {
                   width: "100%",
                 }}
                 required
+                // autoFocus
                 onChange={(newValue) => {
                   setValue(newValue);
                 }}
@@ -104,10 +105,10 @@ export default function SignUpForm() {
               margin="normal"
               required
               fullWidth
-              id="cname"
+              id="lang"
               label="Course Language"
-              name="cname"
-              autoFocus
+              name="lang"
+              // autoFocus
             />
 
             <TextField
@@ -115,10 +116,10 @@ export default function SignUpForm() {
               required
               fullWidth
               height="100px"
-              id="cname"
+              id="desc"
               label="Course Description"
-              name="cname"
-              autoFocus
+              name="desc"
+              // autoFocus
             />
 
             <TextField
@@ -126,10 +127,10 @@ export default function SignUpForm() {
               required
               fullWidth
               height="100px"
-              id="cname"
+              id="price"
               label="Price"
-              name="cname"
-              autoFocus
+              name="price"
+              // autoFocus
             />
 
             <Button

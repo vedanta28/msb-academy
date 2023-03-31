@@ -1,7 +1,9 @@
 import { Box, Button, Container, SvgIcon, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useNavigate } from "react-router-dom";
 
 function Error({ type }) {
+  const navigate = useNavigate();
   let data = "";
   let photoLink = `./error-${type}.png`;
 
@@ -48,7 +50,7 @@ function Error({ type }) {
               {data}
             </Typography>
             <Button
-              href="/"
+              onClick={() => navigate("/")}
               startIcon={
                 <SvgIcon fontSize="small">{<ArrowBackIcon />}</SvgIcon>
               }

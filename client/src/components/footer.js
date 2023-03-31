@@ -13,7 +13,9 @@ export default function Footer() {
     <Box
       sx={{
         width: "100%",
-        height: "30px",
+        height: "25px",
+        backgroundColor: "white",
+        py: 0.5
       }}
       component="footer"
       variant="outlined"
@@ -25,7 +27,7 @@ export default function Footer() {
             justifyContent: "left",
             display: "flex",
             flexDirection: "row",
-            my: 1,
+            pb: 0.5,
             borderTop: "none",
           }}
         >

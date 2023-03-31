@@ -1,23 +1,23 @@
-import "../stylesheets/CheckOut.css";
+import "../stylesheets/Courses.css";
 import { Typography } from "@mui/material";
-import CheckoutCard from "../components/CheckoutCard";
+import TotalCard from "../components/TotalCard";
+import CoursesCard from "../components/CourseCard";
 
-const course = true;
-
-function Courses({data, text}) {
+function Courses({ data, text, checkout }) {
   return (
-    <div className="CheckOut Courses">
+    <div className="Courses">
       <div className="Heading">
         <Typography variant="h4" sx={{ fontFamily: "Open Sans" }}>
           {text}
         </Typography>
       </div>
-      <div className="CheckOutBox">
+      <div className="CoursesBox">
         <div>
           {data.map((d) => (
-            <CheckoutCard key={d._id} Data={d} Type={course} />
+            <CoursesCard key={d._id} Data={d} Checkout={checkout} />
           ))}
         </div>
+        {checkout && <div>{TotalCard(data)}</div>}
       </div>
     </div>
   );

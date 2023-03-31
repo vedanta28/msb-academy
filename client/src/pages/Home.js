@@ -2,8 +2,10 @@ import * as React from "react";
 import "../stylesheets/Home.css";
 import Button from "@mui/material/Button";
 import { Box } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
+  const navigate = useNavigate();
   return (
     <div className="Home">
       <Box className="HomeDesktop" sx={{ display: { xs: "none", md: "flex" } }}>
@@ -46,7 +48,7 @@ function Home() {
           <Button
             variant="contained"
             sx={{ mt: 4, p: 1.5, width: "200px" }}
-            href="/courses"
+            onClick={() => navigate("/courses")}
           >
             Start Learning
           </Button>

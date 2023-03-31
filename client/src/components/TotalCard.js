@@ -11,7 +11,13 @@ import PaymentsIcon from "@mui/icons-material/Payments";
 function TotalCard(Data) {
   const Total = Data.reduce((acc, curr) => acc + curr.Price, 0);
   return (
-    <Card sx={{ minWidth: 100, minHeight: 100 }}>
+    <Card
+      sx={{
+        minWidth: 100,
+        minHeight: 100,
+        boxShadow: "5px 5px 10px 1px rgba(0,0,0,0.1)",
+      }}
+    >
       <CardContent sx={{ display: "flex", flexDirection: "column" }}>
         <Typography
           component="div"

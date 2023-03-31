@@ -1,5 +1,9 @@
-import CourseCard from "../components/DetailCard";
+import "../stylesheets/Course.css";
+import CourseDetails from "../components/CourseDetails";
 import VideoCard from "../components/VideoCard";
+import LessonAdder from "../components/LessonAdder";
+
+
 const data = {
   Picture: "./koustav.png",
   Language: "English",
@@ -13,6 +17,7 @@ const data = {
   TotalVideoLengh: "2h 30m",
   Price: "₹500",
 };
+
 const video = [
   {
     VideoName: "Introduction to Computer Networks",
@@ -22,67 +27,76 @@ const video = [
   },
   {
     VideoName: "Introduction to Computer Networks",
-    VideoSerial: "1",
-    VideoDate: "21 APR 2021",
+    VideoSerial: "2",
+    VideoDate: "23 APR 2021",
     VideoLength: "30m",
   },
   {
     VideoName: "Introduction to Computer Networks",
-    VideoSerial: "1",
-    VideoDate: "21 APR 2021",
+    VideoSerial: "3",
+    VideoDate: "25 APR 2021",
     VideoLength: "30m",
   },
   {
     VideoName: "Introduction to Computer Networks",
-    VideoSerial: "1",
-    VideoDate: "21 APR 2021",
+    VideoSerial: "4",
+    VideoDate: "27 APR 2021",
     VideoLength: "30m",
   },
   {
     VideoName: "Introduction to Computer Networks",
-    VideoSerial: "1",
-    VideoDate: "21 APR 2021",
+    VideoSerial: "5",
+    VideoDate: "29 APR 2021",
     VideoLength: "30m",
   },
   {
     VideoName: "Introduction to Computer Networks",
-    VideoSerial: "1",
-    VideoDate: "21 APR 2021",
+    VideoSerial: "6",
+    VideoDate: "01 MAY 2021",
     VideoLength: "30m",
   },
   {
     VideoName: "Introduction to Computer Networks",
-    VideoSerial: "1",
-    VideoDate: "21 APR 2021",
+    VideoSerial: "7",
+    VideoDate: "02 MAY 2021",
     VideoLength: "30m",
   },
   {
     VideoName: "Introduction to Computer Networks",
-    VideoSerial: "1",
-    VideoDate: "21 APR 2021",
+    VideoSerial: "8",
+    VideoDate: "03 MAY 2021",
     VideoLength: "30m",
   },
   {
     VideoName: "Introduction to Computer Networks",
-    VideoSerial: "1",
-    VideoDate: "21 APR 2021",
+    VideoSerial: "9",
+    VideoDate: "05 MAY 2021",
     VideoLength: "30m",
   },
   {
     VideoName: "Introduction to Computer Networks",
-    VideoSerial: "1",
-    VideoDate: "21 APR 2021",
+    VideoSerial: "10",
+    VideoDate: "07 MAY 2021",
     VideoLength: "30m",
-  }
+  },
 ];
 
-const Page = () => (
-  <div className="Course">
-    <div style={{ margin: "auto" }}>{CourseCard(data)}</div>
-    <div style={{ marginRight: "auto"}}>{video.map(VideoCard)}</div>
-  </div>
-);
+function Course() {
+  return (
+    <div className="Course">
+      <div className="DetailsContainer">{CourseDetails(data)}</div>
 
-Page.getLayout = (page) => <div>{page}</div>;
-
-export default Page;
+      <div className="VideoContainer">
+        <div>
+          {video.map((v) => (
+            <VideoCard key={v.VideoSerial} Data={v} />
+          ))}
+        </div>
+        <div>
+            <LessonAdder/>
+        </div>
+      </div>
+    </div>
+  );
+}
+export default Course;

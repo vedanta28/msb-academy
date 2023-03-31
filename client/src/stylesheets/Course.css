@@ -1,0 +1,14 @@
+.Course{
+    padding-top: 100px;
+}
+
+
+.VideoContainer{
+    display: flex;
+    justify-content: space-around;
+}
+
+.VideoCard{
+    margin-bottom: 20px;
+    width: 35%;
+}

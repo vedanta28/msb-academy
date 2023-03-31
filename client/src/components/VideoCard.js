@@ -1,20 +1,19 @@
 import { Stack, Typography, Card, CardContent } from "@mui/material";
 
-function VideoCard(Data) {
+function VideoCard({Data}) {
   const dateArray = Data.VideoDate.split(" ");
   let day = dateArray[0];
   let month = dateArray[1];
   return (
     <Card
+      className="VideoCard"
       elevation={0}
       sx={{
         backgroundColor: "white",
         borderRadius: "7px",
         height: "90px",
         width: "752px",
-        marginBottom: 1,
-        marginLeft: "auto",
-        marginRight: "auto"
+        boxShadow: "5px 5px 10px 1px rgba(0,0,0,0.1)"
       }}
     >
       <CardContent style={{ padding: "none" }}>
@@ -56,7 +55,7 @@ function VideoCard(Data) {
               color="#7B8A95"
               style={{ maxWidth: "640px", fontFamily: "Kanit, sans-serif", fontSize: "14px"}}
             >
-              Lesson {Data.VideoSerial} &nbsp; - &nbsp; {day} {month} &nbsp; - &nbsp; {Data.VideoLength}
+              {`Lesson ${Data.VideoSerial} \t | \t ${Data.VideoLength}`}
             </Typography>
           </Stack>
         </Stack>

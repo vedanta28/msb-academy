@@ -8,7 +8,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
-export default function SignUpForm() {
+export default function LessonAdder() {
   const [value, setValue] = React.useState(null);
 
   const handleSubmit = (event) => {
@@ -16,7 +16,6 @@ export default function SignUpForm() {
     const data = new FormData(event.currentTarget);
     console.log({
       email: data.get("email"),
-      password: data.get("password"),
     });
   };
 
@@ -26,9 +25,8 @@ export default function SignUpForm() {
       maxWidth="xs"
       sx={{
         backgroundColor: "white",
-        marginTop: "40px",
         borderRadius: "5px",
-        height: "840px",
+        height: "500px",
         paddingBottom: "20px",
         display: "flex",
         flexDirection: "column",
@@ -45,7 +43,7 @@ export default function SignUpForm() {
         }}
       >
         <Typography fontFamily="Open Sans" component="h1" variant="h5">
-          Sign Up
+          Add Lesson
         </Typography>
 
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 4 }}>
@@ -53,9 +51,9 @@ export default function SignUpForm() {
             margin="normal"
             required
             fullWidth
-            id="fname"
-            label="First Name"
-            name="fname"
+            id="ctitle"
+            label="Course Title"
+            name="ctitle"
             autoFocus
           />
 
@@ -63,14 +61,23 @@ export default function SignUpForm() {
             margin="normal"
             required
             fullWidth
-            id="lname"
-            label="Last Name"
-            name="lname"
+            id="duration"
+            label="Duration"
+            name="duration"
+          />
+
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="vlink"
+            label="Video Link"
+            name="vlink"
           />
 
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
-              label="Date of Birth"
+              label="Date of Launch"
               value={value}
               sx={{
                 mt: 1.5,
@@ -90,73 +97,13 @@ export default function SignUpForm() {
             />
           </LocalizationProvider>
 
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="phone"
-            label="Phone"
-            name="phone"
-          />
-
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="email"
-            label="Email Address"
-            type="email"
-            id="email"
-            autoComplete="email"
-          />
-
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="country"
-            label="Country"
-            id="country"
-          />
-
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="state"
-            label="State"
-            id="state"
-          />
-
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
-
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="confirmPassword"
-            label="Confirm Password"
-            type="password"
-            id="confirm-password"
-            autoComplete="current-password"
-          />
-
           <Button
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2, height: "50px" }}
           >
-            Sign Up
+            Add Lesson
           </Button>
         </Box>
       </Box>

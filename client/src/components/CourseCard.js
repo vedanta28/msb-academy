@@ -11,6 +11,7 @@ import {
 import Rating from "@mui/material/Rating";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
+import { useNavigate } from "react-router-dom";
 
 function CoursesCard({ Data, Checkout }) {
   const handleClick = () => {
@@ -20,7 +21,7 @@ function CoursesCard({ Data, Checkout }) {
   const handleDelete = () => {
     console.info("You clicked the delete icon.");
   };
-
+  const navigate = useNavigate();
   return (
     <Card
       sx={{
@@ -31,6 +32,7 @@ function CoursesCard({ Data, Checkout }) {
         marginBottom: "20px",
         marginLeft: "auto",
         marginRight: "auto",
+        boxShadow: "5px 5px 10px 1px rgba(0,0,0,0.1)"
       }}
       elevation={0}
     >
@@ -54,11 +56,15 @@ function CoursesCard({ Data, Checkout }) {
             <Typography
               component="div"
               variant="h1"
-              style={{
+              sx={{
                 maxWidth: "auto",
                 fontFamily: "Kanit, sans-serif",
                 fontSize: "20px",
+                ":hover": {
+                  cursor: "pointer"
+                }
               }}
+              onClick={ () => navigate(`/course/${Data._id}`)}
             >
               {Data.CourseName}
             </Typography>

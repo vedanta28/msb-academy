@@ -20,7 +20,7 @@ let settings = ["Profile", "CheckOut", "Log Out"];
 
 // User
 let user = true;
-if(user)
+if(!user)
 {
   pages.pop();
 }

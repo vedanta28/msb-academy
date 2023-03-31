@@ -2,6 +2,7 @@ import "../stylesheets/Courses.css";
 import { Typography } from "@mui/material";
 import TotalCard from "../components/TotalCard";
 import CoursesCard from "../components/CourseCard";
+import SearchBar from "../components/SearchBar";
 
 function Courses({ data, text, checkout }) {
   return (
@@ -10,6 +11,7 @@ function Courses({ data, text, checkout }) {
         <Typography variant="h4" sx={{ fontFamily: "Open Sans" }}>
           {text}
         </Typography>
+        <SearchBar/>
       </div>
       <div className="CoursesBox">
         <div>

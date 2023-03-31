@@ -41,6 +41,7 @@ export default function ProfileCard() {
             mb: 2,
             width: 80,
             border: "1px solid black",
+            backgroundSize: "contain"
           }}
         />
         <Typography gutterBottom variant="h5">

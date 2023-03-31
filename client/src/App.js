@@ -28,10 +28,14 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/courses" element={<Courses />} />
-            <Route path="/classroom">
-              <Route index element={user ? <Classroom /> : <NoUser />} />
-              <Route path=":id" element={user ? <Course /> : <NoUser />} />
-            </Route>
+            <Route
+              path="/classroom"
+              element={user ? <Classroom /> : <NoUser />}
+            />
+            <Route
+              path="/course/:id"
+              element={user ? <Course /> : <NoUser />}
+            />
             <Route path="/profile" element={user ? <Profile /> : <NoUser />} />
             <Route
               path="/checkout"

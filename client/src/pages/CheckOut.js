@@ -1,3 +1,5 @@
+import "../stylesheets/CheckOut.css"
+
 import {
   CardMedia,
   Button,

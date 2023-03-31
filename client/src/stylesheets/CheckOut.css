@@ -1,4 +1,3 @@
-/* 
 .Checkout{
     position: relative;
     height: auto;
@@ -7,10 +6,9 @@
     background-color: #EEEFF2;
     display: flex;
     padding-left: 100px;
-    /* justify-content: space-evenly; */
-    /* } */
+    justify-content: space-evenly;
+}
 
-/* 
 .TotalCard{
     position: fixed;
     right: 100px;
@@ -24,10 +22,10 @@
     background-color: #EEEFF2;
     display: flex;
     padding-left: 100px;
-    /* justify-content: space-evenly; */
-/* }
+    justify-content: space-evenly;
+ }
 
 .TotalCard{
     position: fixed;
     right: 100px;
-}  */
+} 

@@ -33,7 +33,7 @@ function App() {
               path="/classroom"
               element={user ? <Classroom /> : <NoUser />}
             />
-            <Route path="/newcourse" element={<CreateNewCourse />} />
+            {/* <Route path="/newcourse" element={<CreateNewCourse />} /> */}
             <Route
               path="/course/:id"
               element={user ? <Course /> : <NoUser />}
@@ -42,6 +42,10 @@ function App() {
             <Route
               path="/checkout"
               element={user ? <CheckOut /> : <NoUser />}
+            />
+            <Route
+              path="/create-course"
+              element={user ? <CreateNewCourse /> : <NoUser />}
             />
             <Route path="/signin" element={<SignIn />} />
             <Route path="*" element={<Navigate to="/" />} />

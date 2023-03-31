@@ -13,7 +13,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { useNavigate } from "react-router-dom";
 
 // Menu Items
-const pages = ["Courses", "Classroom"];
+const pages = ["Courses", "Classroom", "Create Course"];
 
 // User Settings
 const settings = ["Profile", "CheckOut", "Log Out"];
@@ -49,13 +49,13 @@ function NavBar() {
   {
     handleCloseUserMenu();
     handleCloseNavMenu();
-    
-    if (path === "/log Out") {
+
+    if (path === "/log Out")
       navigate("/");
-      return;
-    } else {
+    else if (path === "/create course")
+      navigate("/create-course")
+    else
       navigate(path);
-    }
   };
 
   return (
@@ -99,7 +99,7 @@ function NavBar() {
             {pages.map((page) => (
               <Button
                 key={page}
-                href={`/${page.toLowerCase()}`}
+                onClick={() => routeChange(`/${page.toLowerCase()}`)}
                 sx={{
                   my: 2,
                   color: "black",

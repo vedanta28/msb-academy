@@ -31,3 +31,19 @@
     position: fixed;
     right: 100px;
 }  */
+
+.TotalCard{
+    position: fixed;
+    right: 100px;
+}
+.CheckOut{
+    position: relative;
+    height: auto;
+    width: 100vw;
+    padding-top: 100px;
+    background-color: #EEEFF2;
+    display: flex;
+    padding-left: 100px;
+    justify-content: space-evenly;
+    /* background-image: url("../../public/background.png"); */
+}

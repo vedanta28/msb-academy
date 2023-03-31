@@ -34,4 +34,6 @@
     margin: "auto";
     margin-left: "100px";
     padding-top: 100px;
+    background-color: #EEEFF2;
+    /* background-image: url("../../public/background.png"); */
 }

@@ -30,6 +30,7 @@ import {
   function CourseCard(Data) {
     return (
       <Card
+      elevation={0}
         sx={{
           backgroundColor: "white",
           borderRadius: "7px",

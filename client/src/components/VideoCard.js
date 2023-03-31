@@ -20,6 +20,7 @@ function VideoCard(Data) {
   let month = dateArray[1];
   return (
     <Card
+      elevation={0}
       sx={{
         backgroundColor: "white",
         borderRadius: "7px",

@@ -1,145 +1,70 @@
-import {
-  CardMedia,
-  Button,
-  Box,
-  Container,
-  Stack,
-  Typography,
-  Card,
-  CardContent,
-  CardActions,
-  Unstable_Grid2 as Grid,
-} from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import PaymentsIcon from "@mui/icons-material/Payments";
+import CheckoutCard from "../components/CheckoutCard";
+import TotalCard from "../components/TotalCard";
+import "../stylesheets/CheckOut.css";
 
-const Data = [
+const data = [
   {
-    Picture: "./koustav.png",
-    Name: "Koustav Sen",
-    Price: 100,
-    Description: "This Course will teach you life",
+    Picture: "./sampleCourse.png",
+    Language: "English",
+    InstructorName: "Koustav Sen",
+    InstructorImage: "./koustav.png",
+    CourseName: "Complete Course on Computer Networks - Part I",
+    Description:
+      "In this course, Koustav will cover Computer Networks. All the important topics will be discussed in detail and would be helpful for aspirants preparing for the GATE exam.",
+    TotalVideos: "10",
+    StartDate: "21 Apr, 2021",
+    EndDate: "7 May, 2021",
+    TotalVideoLengh: "2h 30m",
+    Price: 500
   },
   {
-    Picture: "./koustav.png",
-    Name: "Cute Girl ",
-    Price: 100,
-    Description: "lorem ipsum dolor sit amet consectetur adipiscing elit ut aliquam purus sit amet luctus venenatis lectus magna fringilla urna porttitor rhoncus dolor purus non enim praesent elementum facilisis leo vel fringilla est ullamcorper eget nulla facilisi etiam dignissim diam quis"
+    Picture: "./sampleCourse.png",
+    Language: "English",
+    InstructorName: "Koustav Sen",
+    InstructorImage: "./koustav.png",
+    CourseName: "Complete Course on Computer Networks - Part II",
+    Description:
+      "In this course, Koustav will cover Computer Networks. All the important topics will be discussed in detail and would be helpful for aspirants preparing for the GATE exam.",
+    TotalVideos: "10",
+    StartDate: "21 Apr, 2021",
+    EndDate: "7 May, 2021",
+    TotalVideoLengh: "2h 30m",
+    Price: 500
   },
   {
-    Picture: "./koustav.png",
-    Name: "Koustav Sen",
-    Price: 400,
-    Description: "This Course will take your life",
+    Picture: "./sampleCourse.png",
+    Language: "English",
+    InstructorName: "Koustav Sen",
+    InstructorImage: "./koustav.png",
+    CourseName: "Complete Course on Computer Networks - Part III",
+    Description:
+      "In this course, Koustav will cover Computer Networks. All the important topics will be discussed in detail and would be helpful for aspirants preparing for the GATE exam.",
+    TotalVideos: "10",
+    StartDate: "21 Apr, 2021",
+    EndDate: "7 May, 2021",
+    TotalVideoLengh: "2h 30m",
+    Price: 500
   },
   {
-    Picture: "./koustav.png",
-    Name: "Koustav Sen",
-    Price: 100,
-    Description: "This Course will teach you life",
-  },
+    Picture: "./sampleCourse.png",
+    Language: "English",
+    InstructorName: "Koustav Sen",
+    InstructorImage: "./koustav.png",
+    CourseName: "Complete Course on Computer Networks - Part IV",
+    Description:
+      "In this course, Koustav will cover Computer Networks. All the important topics will be discussed in detail and would be helpful for aspirants preparing for the GATE exam.",
+    TotalVideos: "10",
+    StartDate: "21 Apr, 2021",
+    EndDate: "7 May, 2021",
+    TotalVideoLengh: "2h 30m",
+    Price: 500
+  }
 ];
 
-function TotalCard(Data) {
-  const Total = Data.reduce((acc, curr) => acc + curr.Price, 0);
-  return (
-    <Card sx={{ minWidth: 600, minHeight: 400 }}>
-      <CardContent sx={{ display: "flex", flexDirection: "column" }}>
-        <Typography variant="body2">Your Total is ₹{Total}</Typography>
-      </CardContent>
-
-      <CardActions>
-      <Container style={{ display: "flex" }}>
-          <Button
-            startIcon={<DeleteIcon />}
-            style={{ marginTop: "auto", marginRight: "auto", color: "orange" }}
-          >
-            Back To Browsing
-          </Button>
-        <Button
-          variant="Text"
-          startIcon={<PaymentsIcon />}
-          style={{ verticalAlign: "middle", color: "green" }}
-        >
-          Proceed to Pay
-        </Button>
-          
-        </Container>
-      </CardActions>
-      
-    </Card>
-  );
-}
-function MediaCard(Data) {
-  return (
-    <Card 
-    sx={{ backgroundColor:"lightpink" ,borderRadius:"20px",minWidth: 600, marginBottom: 1 }}>
-      <CardContent style={{ padding: "none" }}>
-        <Container style={{ display: "flex", padding: "none" }}>
-          <Stack>
-            <CardMedia
-              component="img"
-              image={Data.Picture}
-              alt={Data.Name}
-              style={{
-                borderRadius: "10px",
-                height: "100px",
-                width: "200px",
-                marginRight: "0px",
-                verticalAlign: "middle",
-              }}
-            />
-            <Typography variant="button"
-
-              sx={{ marginTop: "5px", marginBottom: "5px", marginLeft: "auto", marginRight: "auto" }}        >
-              {Data.Name}
-            </Typography>
-          </Stack>
-          <Stack 
-            sx={{margin:"auto"}}
-          >
-            <Typography
-              component="div"
-              variant="paragraph"
-              style={{ maxWidth: "400px",height:"100px", padding: "5px"}}
-            >
-              {Data.Description}
-            </Typography>
-            <Typography
-            variant="button"
-            style={{ margin: "auto" }}
-          >
-            Price: ₹{Data.Price}
-          </Typography>
-          </Stack>
-        </Container>
-
-
-      </CardContent>
-
-      <CardActions>
-        <Container style={{ display: "flex" }}>
-          <Button
-            startIcon={<DeleteIcon />}
-            style={{ marginTop: "auto", marginLeft: "auto", color: "red" }}
-          >
-            Remove
-          </Button>
-          
-        </Container>
-      </CardActions>
-    </Card>
-  );
-}
-
 const Page = () => (
-  <div className="Checkout">
-    <div>
-      {Data.map(MediaCard)}
-    </div>
-    <div className="TotalCard" >
-      {TotalCard(Data)}
-    </div>
+  <div className="CheckOut">
+    <div>{data.map(CheckoutCard)}</div>
+    <div>{TotalCard(data)}</div>
   </div>
 );
 

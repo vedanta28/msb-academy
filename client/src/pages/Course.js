@@ -16,34 +16,70 @@ const data = {
 const video = [
   {
     VideoName: "Introduction to Computer Networks",
-    VideoSeriel: "1",
-    VideoDate: "21 Apr 2021",
+    VideoSerial: "1",
+    VideoDate: "21 APR 2021",
     VideoLength: "30m",
   },
   {
     VideoName: "Introduction to Computer Networks",
-    VideoSeriel: "1",
-    VideoDate: "21 Apr 2021",
+    VideoSerial: "1",
+    VideoDate: "21 APR 2021",
     VideoLength: "30m",
   },
   {
     VideoName: "Introduction to Computer Networks",
-    VideoSeriel: "1",
-    VideoDate: "21 Apr 2021",
+    VideoSerial: "1",
+    VideoDate: "21 APR 2021",
     VideoLength: "30m",
   },
   {
     VideoName: "Introduction to Computer Networks",
-    VideoSeriel: "1",
-    VideoDate: "21 Apr 2021",
+    VideoSerial: "1",
+    VideoDate: "21 APR 2021",
     VideoLength: "30m",
   },
+  {
+    VideoName: "Introduction to Computer Networks",
+    VideoSerial: "1",
+    VideoDate: "21 APR 2021",
+    VideoLength: "30m",
+  },
+  {
+    VideoName: "Introduction to Computer Networks",
+    VideoSerial: "1",
+    VideoDate: "21 APR 2021",
+    VideoLength: "30m",
+  },
+  {
+    VideoName: "Introduction to Computer Networks",
+    VideoSerial: "1",
+    VideoDate: "21 APR 2021",
+    VideoLength: "30m",
+  },
+  {
+    VideoName: "Introduction to Computer Networks",
+    VideoSerial: "1",
+    VideoDate: "21 APR 2021",
+    VideoLength: "30m",
+  },
+  {
+    VideoName: "Introduction to Computer Networks",
+    VideoSerial: "1",
+    VideoDate: "21 APR 2021",
+    VideoLength: "30m",
+  },
+  {
+    VideoName: "Introduction to Computer Networks",
+    VideoSerial: "1",
+    VideoDate: "21 APR 2021",
+    VideoLength: "30m",
+  }
 ];
 
 const Page = () => (
   <div className="Course">
     <div style={{ margin: "auto" }}>{CourseCard(data)}</div>
-    <div style={{ margin: "auto" }}>{video.map(VideoCard)}</div>
+    <div style={{ marginRight: "auto"}}>{video.map(VideoCard)}</div>
   </div>
 );
 

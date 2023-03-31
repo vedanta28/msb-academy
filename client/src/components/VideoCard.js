@@ -1,17 +1,4 @@
-import {
-  CardMedia,
-  Button,
-  Container,
-  Stack,
-  Typography,
-  Card,
-  CardContent,
-} from "@mui/material";
-import ShareIcon from "@mui/icons-material/Share";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import YouTubeIcon from "@mui/icons-material/YouTube";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { Stack, Typography, Card, CardContent, colors } from "@mui/material";
 
 //   const data = {
 //     Picture: "./koustav.png",
@@ -29,46 +16,63 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 function VideoCard(Data) {
   const dateArray = Data.VideoDate.split(" ");
-  const day = dateArray[0];
-  const month = dateArray[1];
+  let day = dateArray[0];
+  let month = dateArray[1];
   return (
     <Card
       sx={{
         backgroundColor: "white",
         borderRadius: "7px",
-        height: "370px",
-        width: "1040px",
+        height: "90px",
+        width: "752px",
         marginBottom: 1,
+        marginLeft: "auto",
+        marginRight: "auto"
       }}
     >
       <CardContent style={{ padding: "none" }}>
-        <Container style={{ display: "flex", padding: "none" }}>
-          <Stack>
-            <Typography>{day}</Typography>
-            <Typography>{month}</Typography>
-          </Stack>
-          <Stack>
+        <Stack spacing={5} direction="row">
+          <Stack spacing={0.5}>
             <Typography
-              component="div"
+              variant="h1"
+              style={{
+                maxWidth: "327px",
+                fontFamily: "Kanit, sans-serif",
+                fontSize: "18px",
+                marginLeft: "auto",
+                marginRight: "auto"
+              }}
+            >
+              {month}
+            </Typography>
+            <Typography
               variant="button"
-              style={{ maxWidth: "400px", marginBottom: "10px" }}
+              style={{
+                maxWidth: "327px",
+                fontFamily: "Kanit, sans-serif",
+                fontSize: "24px",
+                marginLeft: "auto",
+                marginRight: "auto"
+              }}
+            >{day}</Typography>
+          </Stack>
+          <Stack spacing={2.5}>
+            <Typography
+              variant="h3"
+              color="#3A4853"
+              style={{ maxWidth: "640px", fontFamily: "Kanit, sans-serif", fontSize: "18px"}}
             >
               {Data.VideoName}
             </Typography>
             <Typography
-              component="div"
-              variant="h1"
-              style={{
-                maxWidth: "327px",
-                marginBottom: "20px",
-                fontFamily: "Kanit, sans-serif",
-                fontSize: "24px",
-              }}
+              component="p"
+              color="#7B8A95"
+              style={{ maxWidth: "640px", fontFamily: "Kanit, sans-serif", fontSize: "14px"}}
             >
-              Lesson {Data.CourseSeriel} . {day} {month} . {Data.VideoLength}
+              Lesson {Data.VideoSerial} &nbsp; - &nbsp; {day} {month} &nbsp; - &nbsp; {Data.VideoLength}
             </Typography>
           </Stack>
-        </Container>
+        </Stack>
       </CardContent>
     </Card>
   );

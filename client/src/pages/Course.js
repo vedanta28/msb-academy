@@ -5,7 +5,7 @@ import LessonAdder from "../components/LessonAdder";
 
 
 const data = {
-  Picture: "./koustav.png",
+  Picture: "/sampleCourse.png",
   Language: "English",
   InstuctorName: "Koustav Sen",
   CourseName: "Complete Course on Computer Networks - Part I",
@@ -15,7 +15,7 @@ const data = {
   StartDate: "21 Apr 2021",
   EndDate: "7 May 2021",
   TotalVideoLengh: "2h 30m",
-  Price: "₹500",
+  Price: 500,
 };
 
 const video = [

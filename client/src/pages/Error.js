@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 function Error({ type }) {
   const navigate = useNavigate();
   let data = "";
-  let photoLink = `./error-${type}.png`;
+  let photoLink = `/error-${type}.png`;
 
   if (type === "404") data = "Page Not Found";
   else if (type === "401") data = "Please Sign In to View The Content";

@@ -67,7 +67,7 @@ function NavBar() {
           {/* LOGO */}
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <img
-              src="./msb.svg"
+              src="/msb.svg"
               alt=""
               style={{ width: "60px", marginRight: "10px" }}
             />

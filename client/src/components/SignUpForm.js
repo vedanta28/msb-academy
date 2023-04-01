@@ -7,6 +7,27 @@ import Container from "@mui/material/Container";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import MenuItem from "@mui/material/MenuItem";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import FormControl from "@mui/material/FormControl";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputLabel from "@mui/material/InputLabel";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
+
+const roles = [
+  {
+    value: "Student",
+    label: "Student",
+  },
+  {
+    value: "Instructor",
+    label: "Instructor",
+  },
+];
 
 export default function SignUpForm() {
   const [value, setValue] = React.useState(null);
@@ -19,6 +40,13 @@ export default function SignUpForm() {
       password: data.get("password"),
     });
   };
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   return (
     <Container
@@ -28,7 +56,7 @@ export default function SignUpForm() {
         backgroundColor: "white",
         marginTop: "40px",
         borderRadius: "5px",
-        height: "840px",
+        height: "1100px",
         paddingBottom: "20px",
         display: "flex",
         flexDirection: "column",
@@ -111,6 +139,24 @@ export default function SignUpForm() {
           />
 
           <TextField
+            id="outlined-select-currency"
+            required
+            fullWidth
+            select
+            label="Join as"
+            defaultValue="Student"
+            sx={{
+              mt: 2.5,
+            }}
+          >
+            {roles.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+
+          <TextField
             margin="normal"
             required
             fullWidth
@@ -128,7 +174,7 @@ export default function SignUpForm() {
             id="state"
           />
 
-          <TextField
+          {/* <TextField
             margin="normal"
             required
             fullWidth
@@ -137,17 +183,56 @@ export default function SignUpForm() {
             type="password"
             id="password"
             autoComplete="current-password"
-          />
+          /> */}
 
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="confirmPassword"
-            label="Confirm Password"
-            type="password"
-            id="confirm-password"
-            autoComplete="current-password"
+          <FormControl sx={{ mt: 2 }} variant="outlined" required fullWidth>
+            <InputLabel htmlFor="password">Password</InputLabel>
+            <OutlinedInput
+              fullWidth
+              id="password"
+              type={showPassword ? "text" : "password"}
+              endAdornment={
+                <InputAdornment position="end" fullWidth>
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              label="Password"
+            />
+          </FormControl>
+
+          <FormControl sx={{ mt: 3 }} variant="outlined" required fullWidth>
+            <InputLabel htmlFor="confirm-password">Confirm Password</InputLabel>
+            <OutlinedInput
+              fullWidth
+              id="confirm-password"
+              type={showPassword ? "text" : "password"}
+              sx={{ width: "100%" }}
+              endAdornment={
+                <InputAdornment position="end" fullWidth>
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              label="Confirm Password"
+            />
+          </FormControl>
+          <FormControlLabel
+            sx={{ mt: 2 }}
+            control={<Checkbox />}
+            label="I agree to the terms and conditions"
           />
 
           <Button

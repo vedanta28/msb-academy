@@ -26,7 +26,7 @@ export default function LessonAdder() {
       sx={{
         backgroundColor: "white",
         borderRadius: "5px",
-        height: "500px",
+        height: "560px",
         paddingBottom: "20px",
         display: "flex",
         flexDirection: "column",

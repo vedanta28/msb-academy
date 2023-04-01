@@ -5,15 +5,13 @@ import {
   Card,
   CardActions,
   CardContent,
-  Divider,
   Typography,
 } from "@mui/material";
 
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import SchoolIcon from "@mui/icons-material/School";
 
 const user = {
-  avatar: "./koustav.png",
+  avatar: "/koustav.png",
   city: "Kolkata",
   country: "India",
   jobTitle: "Student",

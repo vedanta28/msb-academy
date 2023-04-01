@@ -88,9 +88,10 @@ function CoursesCard({ Data, Checkout }) {
               {Data.Description}
             </Typography>
             <Rating
-              name="half-rating"
-              defaultValue={2.5}
+              name="half-rating-read"
+              defaultValue={Data.Rating}
               precision={0.5}
+              readOnly
               sx={{ marginBottom: "auto" }}
             />
             <Stack direction="row" spacing="auto">

@@ -6,6 +6,13 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import FormControl from "@mui/material/FormControl";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputLabel from "@mui/material/InputLabel";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
 
 export default function SignInForm() {
   const handleSubmit = (event) => {
@@ -16,7 +23,13 @@ export default function SignInForm() {
       password: data.get("password"),
     });
   };
+  const [showPassword, setShowPassword] = React.useState(false);
 
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
   return (
     <Container
       component="main"
@@ -24,6 +37,7 @@ export default function SignInForm() {
       sx={{
         backgroundColor: "white",
         marginTop: "40px",
+        marginBottom: "124px",
         borderRadius: "5px",
         height: "440px",
         paddingBottom: "20px",
@@ -56,17 +70,30 @@ export default function SignInForm() {
             autoComplete="email"
             autoFocus
           />
-
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
+          <FormControl sx={{ mt: 1 }} variant="outlined" required fullWidth>
+            <InputLabel htmlFor="password">
+              Password
+            </InputLabel>
+            <OutlinedInput
+              fullWidth
+              id="password"
+              type={showPassword ? "text" : "password"}
+              sx={{ width: "100%" }}
+              endAdornment={
+                <InputAdornment position="end" fullWidth>
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              label="Password"
+            />
+          </FormControl>
 
           <Button
             type="submit"
@@ -83,8 +110,7 @@ export default function SignInForm() {
                 Forgot password?
               </Link>
             </Grid>
-            <Grid item>
-            </Grid>
+            <Grid item></Grid>
           </Grid>
         </Box>
       </Box>

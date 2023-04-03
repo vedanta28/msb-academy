@@ -22,7 +22,7 @@ require("./utils/connectDatabase").connect();
 
 // CODE BEGINS HERE
 const courseRouter = require("./routes/courseRouter");
-// const userRouter = require("./routes/userRouter");
+const userRouter = require("./routes/userRouter");
 
 const app = express();
 // Middlewares
@@ -51,7 +51,7 @@ app.use(xss());
 
 // Routes
 app.use("/api/courses", courseRouter);
-// app.use("/api/users", userRouter);
+app.use("/api/users", userRouter);
 
 const PORT = process.env.PORT || 6900;
 const server = app.listen(PORT, () => {

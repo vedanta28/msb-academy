@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const bcrypt=require("bcryptjs");
 const userSchema = new mongoose.Schema(
   {
     fname: {
@@ -43,6 +44,7 @@ const userSchema = new mongoose.Schema(
     emailId: {
       type: String,
       required: true,
+      unique: true,
       validate: {
         validator: function (v) {
           return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(v);
@@ -74,8 +76,8 @@ userSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
     this.password = await bcrypt.hash(this.password, 12);
     // delete password confirm field before saving
-    this.passwordChangedAt = Date.now();
-    this.passwordConfirm = undefined;
+    //this.passwordChangedAt = Date.now();
+    //this.passwordConfirm = undefined;
   }
   next();
 });

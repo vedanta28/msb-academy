@@ -23,10 +23,17 @@ const sendCookie = (res, token) => {
 
 exports.signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
-    name: req.body.name,
-    email: req.body.email,
+    fname: req.body.fname,
+    lname: req.body.lname,
+    state: req.body.state,
+    country: req.body.country,
+    phoneNo : req.body.phoneNo, 
+    emailId: req.body.emailId,
+    role: req.body.role,
+    dob: req.body.dob,
     password: req.body.password,
-    passwordConfirm: req.body.passwordConfirm,
+
+    //passwordConfirm: req.body.passwordConfirm,
   });
 
   const token = signToken(newUser._id);

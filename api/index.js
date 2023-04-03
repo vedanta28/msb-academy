@@ -22,8 +22,10 @@ require("./utils/connectDatabase").connect();
 
 // CODE BEGINS HERE
 const app = express();
+const courseRouter=require('./routes/courseRouter')
 
 // Middlewares
+
 
 // Sets security HTTP headers
 app.use(helmet());
@@ -47,6 +49,9 @@ app.use(mongoSanitize());
 // Data sanitisation against XSS attacks
 app.use(xss());
 
+// Routes
+app.use("/api/courses",courseRouter);
+
 const PORT = process.env.PORT || 6900;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
@@ -69,10 +74,10 @@ app.listen(PORT, () => {
 // startServer();
 
 // Unhandled Rejection for Failed Promises
-process.on("unhandledRejection", (err) => {
-  console.log("Unhandled Rejection. Shutting Down");
-  errorLog(err);
-  server.close(() => {
-    process.exit(1);
-  });
-});
+// process.on("unhandledRejection", (err) => {
+//   console.log("Unhandled Rejection. Shutting Down");
+//   errorLog(err);
+//   server.close(() => {
+//     process.exit(1);
+//   });
+// });

@@ -21,11 +21,10 @@ process.on("uncaughtException", (err) => {
 require("./utils/connectDatabase").connect();
 
 // CODE BEGINS HERE
+const courseRouter = require("./routes/courseRouter");
+
 const app = express();
-const courseRouter=require('./routes/courseRouter')
-
 // Middlewares
-
 
 // Sets security HTTP headers
 app.use(helmet());
@@ -50,34 +49,18 @@ app.use(mongoSanitize());
 app.use(xss());
 
 // Routes
-app.use("/api/courses",courseRouter);
+app.use("/api/courses", courseRouter);
 
 const PORT = process.env.PORT || 6900;
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-// function startServer() {
-//   const server = app.listen(PORT, () => {
-//     console.log(`Server is running on port ${PORT}`);
-//   });
-//   server.on('error', (err) => {
-//     if (err.code === 'EADDRINUSE') {
-//       // Port is already in use, choose another available port
-//       PORT++;
-//       startServer();
-//     } else {
-//       console.error(err);
-//     }
-//   });
-// }
-// startServer();
-
 // Unhandled Rejection for Failed Promises
-// process.on("unhandledRejection", (err) => {
-//   console.log("Unhandled Rejection. Shutting Down");
-//   errorLog(err);
-//   server.close(() => {
-//     process.exit(1);
-//   });
-// });
+process.on("unhandledRejection", (err) => {
+  console.log("Unhandled Rejection. Shutting Down");
+  errorLog(err);
+  server.close(() => {
+    process.exit(1);
+  });
+});

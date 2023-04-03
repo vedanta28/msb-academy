@@ -15,8 +15,6 @@ const paymentSchema = new moongoose.Schema({
             dob: Date
         }
     }
-},
-{collection: 'payments'}
-);
+});
 const Payment = moongoose.model('Payment', paymentSchema);
 module.exports = Payment;

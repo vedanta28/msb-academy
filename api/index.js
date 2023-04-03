@@ -22,6 +22,7 @@ require("./utils/connectDatabase").connect();
 
 // CODE BEGINS HERE
 const courseRouter = require("./routes/courseRouter");
+// const userRouter = require("./routes/userRouter");
 
 const app = express();
 // Middlewares
@@ -33,7 +34,7 @@ app.use(helmet());
 app.use(
   "/api",
   rateLimit({
-    max: 100,
+    max: 1000,
     windowMs: 60 * 60 * 1000,
     message: "Too many requests from this IP",
   })
@@ -50,6 +51,7 @@ app.use(xss());
 
 // Routes
 app.use("/api/courses", courseRouter);
+// app.use("/api/users", userRouter);
 
 const PORT = process.env.PORT || 6900;
 const server = app.listen(PORT, () => {

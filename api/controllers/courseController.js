@@ -4,7 +4,7 @@ const AppError = require("../utils/appError");
 
 // Get All Courses
 exports.getAllCourses = catchAsync(async (req, res, next) => {
-  const courses = await Course.find();
+  const courses = await Course.find().select("-videos");
   res.status(200).json({
     status: "success",
     length: courses.length,

@@ -1,5 +1,5 @@
-const moongose = require("mongoose");
-const userSchema = new moongose.Schema(
+const mongoose = require("mongoose");
+const userSchema = new mongoose.Schema(
   {
     fname: {
       type: String,
@@ -69,5 +69,5 @@ const userSchema = new moongose.Schema(
   },
   { collection: "Users" }
 );
-const User = moongose.model("User", userSchema);
+const User = mongoose.model("User", userSchema);
 module.exports = User;

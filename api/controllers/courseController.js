@@ -1,6 +1,7 @@
+const User = require("../models/userModel");
 const Course = require("../models/courseModel");
-const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
+const catchAsync = require("../utils/catchAsync");
 
 // Get All Courses
 exports.getAllCourses = catchAsync(async (req, res, next) => {
@@ -43,14 +44,13 @@ exports.updateCourse = catchAsync(async (req, res, next) => {
     return next(new AppError("No course found with that ID", 404));
   }
 
-  // // Only Instructor of The Course Can Update It
-
-  // const user = req.user;
-  // if (course.insrtuctorID.toString() !== user._id.toString()) {
-  //   return next(
-  //     new AppError("You are not authorized to update this course", 401)
-  //   );
-  // }
+  // Only Instructor of The Course Can Update It
+  const user = req.user;
+  if (course.insrtuctorID.toString() !== user._id.toString()) {
+    return next(
+      new AppError("You are not authorized to update this course", 401)
+    );
+  }
 
   // Push The New Video To The Videos Array
   const video = {
@@ -72,14 +72,14 @@ exports.updateCourse = catchAsync(async (req, res, next) => {
 
 // Delete A Course
 exports.deleteCourse = catchAsync(async (req, res, next) => {
+  
   // Only Instructor of The Course Can Delete It
-
-  // const user = req.user;
-  // if (course.insrtuctorID.toString() !== user._id.toString()) {
-  //   return next(
-  //     new AppError("You are not authorized to delete this course", 401)
-  //   );
-  // }
+  const user = req.user;
+  if (course.insrtuctorID.toString() !== user._id.toString()) {
+    return next(
+      new AppError("You are not authorized to delete this course", 401)
+    );
+  }
 
   // Delete The Course
   const course = await Course.findByIdAndDelete(req.params.id);

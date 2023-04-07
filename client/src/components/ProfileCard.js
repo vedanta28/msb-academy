@@ -24,69 +24,77 @@ const user = {
 export default function ProfileCard() {
   return (
     <Card className="ProfileCard">
-    <CardContent>
-      <Box
-        sx={{
-          alignItems: "center",
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <Avatar
-          src={user.avatar}
+      <CardContent>
+        <Box
           sx={{
-            height: 80,
-            mb: 2,
-            width: 80,
-            border: "1px solid black",
-            backgroundSize: "contain"
+            alignItems: "center",
+            display: "flex",
+            flexDirection: "column",
           }}
-        />
-        <Typography gutterBottom variant="h5">
-          {user.name}
-        </Typography>
+        >
+          <Avatar
+            src={user.avatar}
+            sx={{
+              height: 80,
+              mb: 2,
+              width: 80,
+              border: "1px solid black",
+              backgroundSize: "contain",
+            }}
+          />
+          <Typography gutterBottom variant="h5">
+            {user.name}
+          </Typography>
 
+          <Box sx={{ display: "flex", margin: "5px" }}>
+            <Typography color="text.secondary" variant="body2">
+              {user.jobTitle}
+            </Typography>
+          </Box>
 
-        <Box sx={{display: 'flex', margin:'5px'}}>
-        <Typography color="text.secondary" variant="body2" >
-          {user.jobTitle}
-        </Typography>
-        </Box>
+          <Box sx={{ display: "flex", margin: "5px" }}>
+            <Typography color="text.secondary" variant="body2">
+              {user.email}
+            </Typography>
+          </Box>
 
-        <Box sx={{display: 'flex', margin:'5px'}}>
-        <Typography color="text.secondary" variant="body2" >
-          {user.email}
-        </Typography>
-        </Box>
+          <Box sx={{ display: "flex", margin: "5px" }}>
+            <LocationOnIcon fontSize="small" />
+            <Typography color="text.secondary" variant="body2">
+              {user.city}, {user.country}
+            </Typography>
+          </Box>
 
-        <Box sx={{display: 'flex', margin:'5px'}}>
-        <LocationOnIcon fontSize="small" />
-        <Typography color="text.secondary" variant="body2">
-        {user.city}, {user.country}
-        </Typography>
-        </Box>
-
-        {/* <Box sx={{display: 'flex', margin:'5px'}}>
+          {/* <Box sx={{display: 'flex', margin:'5px'}}>
         <SchoolIcon fontSize="small" sx={{mr:1}}/>
         <Typography color="text.secondary" variant="body2" >
           {user.company}
         </Typography>
         </Box> */}
-
-      </Box>
-    </CardContent>
-    <hr style={{width: "90%", borderTop: "0.2px solid rgba(230,230,230)"}} />
-    <CardActions>
-      <Button fullWidth sx={{
-        backgroundColor: "white",
-        marginTop: "5px",
-        ":hover":{
-          backgroundColor: "white"
-        }
-      }} disableTouchRipple>
-        Upload picture
-      </Button>
-    </CardActions>
-  </Card>
-  )
-};
+        </Box>
+      </CardContent>
+      <hr
+        style={{ width: "90%", borderTop: "0.2px solid rgba(230,230,230)" }}
+      />
+      <CardActions>
+        <Button
+          fullWidth
+          sx={{
+            backgroundColor: "white",
+            marginTop: "5px",
+            ":hover": {
+              backgroundColor: "white",
+            },
+          }}
+          disableTouchRipple
+          onClick={() => {
+            document.getElementById("fileInput").click();
+          }}
+        >
+          Upload picture
+        </Button>
+        <input type="file" id="fileInput" style={{ display: "none" }} />
+      </CardActions>
+    </Card>
+  );
+}

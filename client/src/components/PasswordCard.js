@@ -27,13 +27,14 @@ export default function ProfileDetails()
         <CardHeader title="Password" />
         <CardContent sx={{ pt: 0 }}>
           <Box sx={{ m: -1.5 }}>
-            <Grid container spacing={3}>
+            <Grid stack spacing={3}>
               <Grid xs={12} md={6}>
                 <TextField
                   fullWidth
-                  label="Password"
+                  required
+                  label="Old Password"
                   type="password"
-                  name="password"
+                  name="oldpassword"
                   onChange={handleChange}
                 //   value=""
                 />
@@ -41,6 +42,18 @@ export default function ProfileDetails()
               <Grid xs={12} md={6}>
                 <TextField
                   fullWidth
+                  required
+                  label="New Password"
+                  type="password"
+                  name="newPassword"
+                  onChange={handleChange}
+                //   value=""
+                />
+              </Grid>
+              <Grid xs={12} md={6}>
+                <TextField
+                  fullWidth
+                  required
                   label="Confirm Password"
                   type="password"
                   name="confirmPassword"

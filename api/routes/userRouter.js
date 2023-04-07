@@ -1,11 +1,23 @@
 const express = require("express");
 const router = express.Router();
-const {updateMe, uploadPhoto, resizePhoto, updatePass} = require("../controllers/userController")
-const { signup, signin, forgotPassword, resetPassword, protect, logout } = require("../controllers/authController");
+const {
+  updateMe,
+  uploadPhoto,
+  resizePhoto,
+  updatePass,
+} = require("../controllers/userController");
+const {
+  signup,
+  signin,
+  forgotPassword,
+  resetPassword,
+  protect,
+  logout,
+} = require("../controllers/authController");
 
-router.post("/signup",signup);
-router.post("/signin",signin);
-router.get("/logout",logout);
+router.post("/signup", signup);
+router.post("/signin", signin);
+router.get("/logout", logout);
 router.put("/user-details", protect, updateMe);
 router.put("/user-pass", protect, updatePass);
 

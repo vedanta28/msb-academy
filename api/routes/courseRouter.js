@@ -1,10 +1,20 @@
 const express = require("express");
 const router = express.Router();
-const {getAllCourses, getCourse, updateCourse, deleteCourse, createCourse}= require("../controllers/courseController");
-const {protect, restricted} = require("../controllers/authController");
+const {
+  getAllCourses,
+  getCourse,
+  updateCourse,
+  deleteCourse,
+  createCourse,
+} = require("../controllers/courseController");
+const { protect, restricted } = require("../controllers/authController");
 
-router.route('/').get(getAllCourses).post(protect, restricted, createCourse); 
-router.route('/:id').get(protect, getCourse).put(protect, restricted, updateCourse).delete(protect, restricted, deleteCourse);
+router.route("/").get(getAllCourses).post(protect, restricted, createCourse);
+router
+  .route("/:id")
+  .get(protect, getCourse)
+  .put(protect, restricted, updateCourse)
+  .delete(protect, restricted, deleteCourse);
 
-router.route
-module.exports=router;
+router.route;
+module.exports = router;

@@ -19,11 +19,13 @@ const courseSchema = new mongoose.Schema({
   },
   language: {
     type: String,
-    default: 'English'
+    default: "English",
   },
   imageCover: {
     type: String,
-    default: "default.jpg",
+    default: function () {
+      return this._id + ".jpg";
+    },
   },
   duration: {
     type: Number, // in weeks

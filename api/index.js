@@ -4,6 +4,7 @@ const helmet = require("helmet");
 const xss = require("xss-clean");
 const rateLimit = require("express-rate-limit");
 const mongoSanitize = require("express-mongo-sanitize");
+const bcrypt=require("bcryptjs");
 
 // Code Modules
 // Load environment variables from .env file: Keep this the first requirement

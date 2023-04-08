@@ -71,32 +71,32 @@ exports.updateCourse = catchAsync(async (req, res, next) => {
 });
 
 // Delete A Course
-exports.deleteCourse = catchAsync(async (req, res, next) => {
+exports.deleteVideo = catchAsync(async (req, res, next) => {
   
   // Only Instructor of The Course Can Delete It
-  const user = req.user;
-  if (course.insrtuctorID.toString() !== user._id.toString()) {
-    return next(
-      new AppError("You are not authorized to delete this course", 401)
-    );
-  }
-
-  // Delete The Course
-  const course = await Course.findByIdAndDelete(req.params.id);
+  const course = await Course.findById(req.params.id);
   if (!course) {
     return next(new AppError("No course found with that ID", 404));
   }
 
-  // Delete The Course From All Users
-  const users = await User.find();
-  users.forEach(async (user) => {
-    if (user.courses.includes(course._id)) {
-      const index = user.courses.indexOf(course._id);
-      user.courses.splice(index, 1);
-      await user.save({ validateBeforeSave: false });
-    }
-  });
+  const video = course.videos.find((video) => video._id == req.body.vID);
+  if (!video) {
+    return next(new AppError("No video found with that ID", 404));
+  }
 
+  // Only Instructor of The Course Can Delete It
+  const user = req.user;
+  if (course.insrtuctorID.toString() !== user._id.toString()) {
+    return next(
+      new AppError("You are not authorized to delete material of this course", 401)
+    );
+  }
+
+  // Delete The Course
+  const index = course.videos.indexOf(video);
+  course.videos.splice(index, 1);
+  await course.save({ validateBeforeSave: false });
+  
   // Send The Response
   res.status(204).json({
     status: "success",

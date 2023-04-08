@@ -1,20 +1,20 @@
-const  moongoose = require('mongoose');
-const paymentSchema = new moongoose.Schema({
-    courseName: String,
+const  mongoose = require('mongoose');
+const paymentSchema = new mongoose.Schema({
+    courseList: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Course",
+      }
+    ],
     amount: Number,
     paymentDate: Date,
     paymentType: Boolean,
     paymentStatus: String,
-    student:{
-        type:{
-            studentID: String,
-            name: String,
-            image: String,
-            phoneNo: String,
-            emailId: String,
-            dob: Date
-        }
-    }
+    purchaseBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
 });
-const Payment = moongoose.model('Payment', paymentSchema);
+
+const Payment = mongoose.model('Payment', paymentSchema);
 module.exports = Payment;

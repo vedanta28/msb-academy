@@ -4,7 +4,6 @@ const helmet = require("helmet");
 const xss = require("xss-clean");
 const rateLimit = require("express-rate-limit");
 const mongoSanitize = require("express-mongo-sanitize");
-const bcrypt=require("bcryptjs");
 
 // Code Modules
 // Load environment variables from .env file: Keep this the first requirement
@@ -24,6 +23,7 @@ require("./utils/connectDatabase").connect();
 // CODE BEGINS HERE
 const courseRouter = require("./routes/courseRouter");
 const userRouter = require("./routes/userRouter");
+const paymentRouter = require("./routes/paymentRouter");
 
 const app = express();
 // Middlewares
@@ -42,7 +42,7 @@ app.use(
 );
 
 // Middleware to parse body into req.body
-app.use(express.json({ limit: "10kb" }));
+app.use(express.json());
 
 // Data sanitisation against NoSQL query injection -> "email" : { "$gt" : ""}, we need to prevent this
 app.use(mongoSanitize());
@@ -53,6 +53,7 @@ app.use(xss());
 // Routes
 app.use("/api/courses", courseRouter);
 app.use("/api/users", userRouter);
+app.use("/api/payments", paymentRouter);
 
 const PORT = process.env.PORT || 6900;
 const server = app.listen(PORT, () => {

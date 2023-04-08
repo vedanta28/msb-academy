@@ -1,20 +1,24 @@
-const  mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const paymentSchema = new mongoose.Schema({
-    courseList: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Course",
-      }
-    ],
-    amount: Number,
-    paymentDate: Date,
-    paymentType: Boolean,
-    paymentStatus: String,
-    purchaseBy: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
+  paymentID: {
+    type: String,
+    required: [true, "Payment ID is required"],
+  },
+
+  status: Boolean,
+
+  courseList: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Course",
+    },
+  ],
+
+  purchasedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
-const Payment = mongoose.model('Payment', paymentSchema);
+const Payment = mongoose.model("Payment", paymentSchema);
 module.exports = Payment;

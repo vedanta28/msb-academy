@@ -13,14 +13,6 @@ const courseSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
-  rating: {
-    type: Number,
-    default: 4.5,
-  },
-  language: {
-    type: String,
-    default: "English",
-  },
   imageCover: {
     type: String,
     default: function () {
@@ -46,6 +38,7 @@ const courseSchema = new mongoose.Schema({
   insrtuctorID: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
+    required: [true, "A Course must have an instructor"],
   },
 });
 const Course = mongoose.model("Course", courseSchema);

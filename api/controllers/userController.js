@@ -1,4 +1,5 @@
 const User = require("../models/userModel");
+const Course = require("../models/courseModel");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 
@@ -15,7 +16,7 @@ exports.updateDetails = catchAsync(async (req, res, next) => {
     runValidators: true,
   });
 
-  updatedUser.password = undefined; 
+  updatedUser.password = undefined;
   res.status(200).json({
     message: "User Updated",
     updatedUser,
@@ -26,10 +27,10 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   let updatedUser = req.user;
   const oldPassword = req.body.oldPassword;
   const newPassword = req.body.newPassword;
-  
+
   if (!(await updatedUser.correctPassword(oldPassword)))
     return next(new AppError("Incorrect Password", 401));
-  
+
   updatedUser.password = newPassword;
 
   updatedUser = await User.findByIdAndUpdate(req.user._id, updatedUser, {
@@ -41,5 +42,45 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   res.status(200).json({
     message: "Passoword Updated",
     updatedUser,
+  });
+});
+
+exports.addCourse = catchAsync(async (req, res, next) => {
+  const courseID = req.body.courseID;
+
+  if (!courseID || !(await Course.findById(courseID)))
+    return next(
+      new AppError("Course ID not provided or Course Does Not Exist", 404)
+    );
+
+  const user = req.user;
+  user.wishlist.push(courseID);
+  await user.save({ validateBeforeSave: false });
+
+  res.status(200).json({
+    message: "Course Added",
+    user,
+  });
+});
+
+exports.removeCourse = catchAsync(async (req, res, next) => {
+  const courseID = req.body.courseID;
+
+  if (!courseID || !(await Course.findById(courseID)))
+    return next(
+      new AppError("Course ID not provided or Course Does Not Exist", 404)
+    );
+
+  const user = req.user;
+
+  const index = user.wishlist.indexOf(courseID);
+  if (index > -1) {
+    user.wishlist.splice(index, 1);
+  }
+
+  await user.save({ validateBeforeSave: false });
+  res.status(200).json({
+    message: "Course Removed",
+    user,
   });
 });

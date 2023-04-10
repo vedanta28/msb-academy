@@ -3,7 +3,6 @@ const User = require("../models/userModel");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 
-
 // Sign Token and send it to client
 const signToken = (id) => {
   //jwt.sign({payload}, secret, {options})
@@ -11,7 +10,6 @@ const signToken = (id) => {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 };
-
 
 // Send Token to client in a cookie
 const sendCookie = (res, token) => {
@@ -22,7 +20,6 @@ const sendCookie = (res, token) => {
   if (process.env.NODE_ENV !== "development") options.secure = true;
   res.cookie("jwt", token, options);
 };
-
 
 // Sign Up New User
 exports.signup = catchAsync(async (req, res, next) => {
@@ -44,17 +41,17 @@ exports.signup = catchAsync(async (req, res, next) => {
   res.status(201).json({ status: "success", token, user: newUser });
 });
 
-
 // Login User
 exports.signin = catchAsync(async (req, res, next) => {
-  const { email, password } = req.body;
+  const { emailId, password } = req.body;
 
   // check if email and password exists
-  if (!email || !password)
+  if (!emailId || !password)
     return next(new AppError("Please provide email and password", 400));
 
   // check if user exists && password is correct
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ emailId });
+
   if (!user || !(await user.correctPassword(password)))
     return next(new AppError("Incorrect Email or Password", 401));
 
@@ -63,7 +60,6 @@ exports.signin = catchAsync(async (req, res, next) => {
   sendCookie(res, token);
   res.status(200).json({ status: "success", token });
 });
-
 
 // Check if user is logged in
 exports.protect = catchAsync(async (req, res, next) => {
@@ -88,23 +84,19 @@ exports.protect = catchAsync(async (req, res, next) => {
   if (!freshUser) {
     return next(new AppError("The User does not exist", 401));
   }
-
   req.user = freshUser;
   next();
 });
 
-
 // Check if user is Instructor
-exports.restricted = (...roles) => {
-  return catchAsync(async (req, res, next) => {
-    if (req.user.role != "Instructor")
+exports.restricted = catchAsync(async (req, res, next) => {
+  if (req.user.role != "Instructor") {
       return next(
         new AppError("You do not have permission to perform this action", 403)
       );
+    }
     next();
   });
-};
-
 
 // Logout User
 exports.logout = catchAsync(async (req, res, next) => {

@@ -38,6 +38,7 @@ exports.getCourse = catchAsync(async (req, res, next) => {
 exports.updateCourse = catchAsync(async (req, res, next) => {
   // Await The Required Course
   const course = await Course.findById(req.params.id);
+  console.log(course);
 
   // If No Course Found, Throw An Error
   if (!course) {
@@ -46,7 +47,7 @@ exports.updateCourse = catchAsync(async (req, res, next) => {
 
   // Only Instructor of The Course Can Update It
   const user = req.user;
-  if (course.insrtuctorID.toString() !== user._id.toString()) {
+  if (course.instructorID.toString() !== user._id.toString()) {
     return next(
       new AppError("You are not authorized to update this course", 401)
     );
@@ -58,6 +59,7 @@ exports.updateCourse = catchAsync(async (req, res, next) => {
     vName: req.body.vName,
     vLink: req.body.vLink,
   };
+  console.log(video);
   course.videos.push(video);
 
   // Save The Updated Course

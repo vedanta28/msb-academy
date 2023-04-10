@@ -18,6 +18,7 @@ const courseSchema = new mongoose.Schema({
     default: function () {
       return this._id + ".jpg";
     },
+    immutable: true,
   },
   duration: {
     type: Number, // in weeks
@@ -35,11 +36,15 @@ const courseSchema = new mongoose.Schema({
       },
     ],
   },
-  insrtuctorID: {
+  instructorID: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: [true, "A Course must have an instructor"],
   },
+  rating: {
+    type: Number,
+    default: 0,
+  }
 });
 const Course = mongoose.model("Course", courseSchema);
 module.exports = Course;

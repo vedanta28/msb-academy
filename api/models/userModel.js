@@ -59,8 +59,22 @@ const userSchema = new mongoose.Schema({
   },
   courseTaken: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Course",
+      course: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Course",
+      },
+      rating: {
+        type: Number,
+        min: 0,
+        max: 5,
+        default: 0,
+        validate: {
+          validator: function (v) {
+            return Number.isInteger(v * 2);
+          },
+          message: "Rating can only be incremented by 0.5",
+        },
+      },
     },
   ],
   wishlist: [
@@ -68,7 +82,7 @@ const userSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: "Course",
     },
-  ]
+  ],
 });
 
 userSchema.pre("save", async function (next) {

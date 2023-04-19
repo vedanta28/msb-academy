@@ -21,7 +21,7 @@ function Home() {
           <Button
             variant="contained"
             sx={{ mt: 4, p: 1.5, width: "200px" }}
-            href="/courses"
+            onClick={() => navigate("/courses")}
           >
             Start Learning
           </Button>

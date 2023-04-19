@@ -3,6 +3,7 @@ const Course = require("../models/courseModel");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 
+// Get User Details
 exports.updateDetails = catchAsync(async (req, res, next) => {
   let updatedUser = req.user;
   updatedUser.fname = req.body.fname || updatedUser.fname;
@@ -23,6 +24,7 @@ exports.updateDetails = catchAsync(async (req, res, next) => {
   });
 });
 
+// Update Password
 exports.updatePassword = catchAsync(async (req, res, next) => {
   let updatedUser = req.user;
   const oldPassword = req.body.oldPassword;
@@ -45,6 +47,7 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   });
 });
 
+// Add Course to Wishlist
 exports.addCourse = catchAsync(async (req, res, next) => {
   const courseID = req.body.courseID;
 
@@ -63,6 +66,7 @@ exports.addCourse = catchAsync(async (req, res, next) => {
   });
 });
 
+// Remove Course from Wishlist
 exports.removeCourse = catchAsync(async (req, res, next) => {
   const courseID = req.body.courseID;
 

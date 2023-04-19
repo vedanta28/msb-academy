@@ -11,7 +11,7 @@ import ProfileDetails from "../components/ProfileDetails";
 import PasswordCard from "../components/PasswordCard";
 
 const Page = () => (
-  <div className="Base Profile">
+  <div className="Profile">
     <Box
       component="main"
       sx={{

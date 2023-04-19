@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Box,
   Chip,
   CardMedia,
   Container,
@@ -14,6 +15,7 @@ import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import { useNavigate } from "react-router-dom";
 
 function CoursesCard({ Data, Checkout }) {
+  
   const handleClick = () => {
     console.info("You clicked the Chip.");
   };
@@ -21,6 +23,7 @@ function CoursesCard({ Data, Checkout }) {
   const handleDelete = () => {
     console.info("You clicked the delete icon.");
   };
+
   const navigate = useNavigate();
   return (
     <Card
@@ -35,6 +38,7 @@ function CoursesCard({ Data, Checkout }) {
         boxShadow: "5px 5px 10px 1px rgba(0,0,0,0.1)"
       }}
       elevation={0}
+      // className="course-card"
     >
       <CardContent style={{ padding: "none" }}>
         <Container style={{ display: "flex", padding: "none" }}>
@@ -52,7 +56,7 @@ function CoursesCard({ Data, Checkout }) {
               }}
             />
           </Stack>
-          <Stack spacing={1}>
+          <Stack spacing={1} sx={{width: "calc(100% - 330px)"}}>
             <Typography
               component="div"
               variant="h1"
@@ -66,12 +70,12 @@ function CoursesCard({ Data, Checkout }) {
               }}
               onClick={ () => navigate(`/course/${Data._id}`)}
             >
-              {Data.CourseName}
+              {Data.name}
             </Typography>
             <Stack direction="row" spacing={1}>
               <Chip
                 avatar={<Avatar alt="Natacha" src={Data.InstructorImage} />}
-                label={Data.InstructorName}
+                label={Data.InstructorID}
                 variant="filled"
               />
             </Stack>
@@ -85,16 +89,16 @@ function CoursesCard({ Data, Checkout }) {
                 color: "#3C4852",
               }}
             >
-              {Data.Description}
+              {Data.description}
             </Typography>
             <Rating
               name="half-rating-read"
-              defaultValue={Data.Rating}
+              defaultValue={Data.rating}
               precision={0.5}
               readOnly
               sx={{ marginBottom: "auto" }}
             />
-            <Stack direction="row" spacing="auto">
+            <Box spacing="auto" sx={{display: "flex", justifyContent: "space-between"}}>
               <Typography
                 component="div"
                 variant="h4"
@@ -108,7 +112,7 @@ function CoursesCard({ Data, Checkout }) {
                 }}
               >
                 <CurrencyRupeeIcon sx={{ fontSize: "16px" }} />
-                {Data.Price}
+                {Data.fees}
               </Typography>
 
               {Checkout && (
@@ -121,7 +125,7 @@ function CoursesCard({ Data, Checkout }) {
                   color="error"
                 />
               )}
-            </Stack>
+            </Box>
           </Stack>
         </Container>
       </CardContent>

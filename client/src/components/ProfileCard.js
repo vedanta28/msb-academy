@@ -1,3 +1,6 @@
+import { useContext, useState } from "react";
+import { UserContext } from "../context/UserContext";
+
 import {
   Avatar,
   Box,
@@ -10,8 +13,8 @@ import {
 
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 
-const user = {
-  avatar: "/koustav.png",
+const userDetails = {
+  image: "/koustav.png",
   city: "Kolkata",
   country: "India",
   jobTitle: "Student",
@@ -22,9 +25,12 @@ const user = {
 };
 
 export default function ProfileCard() {
+  const { user } = useContext(UserContext);
+  
   return (
     <Card className="ProfileCard">
       <CardContent>
+
         <Box
           sx={{
             alignItems: "center",
@@ -33,7 +39,7 @@ export default function ProfileCard() {
           }}
         >
           <Avatar
-            src={user.avatar}
+            src="/default.jpg"
             sx={{
               height: 80,
               mb: 2,
@@ -42,43 +48,39 @@ export default function ProfileCard() {
               backgroundSize: "contain",
             }}
           />
+
           <Typography gutterBottom variant="h5">
-            {user.name}
+            {userDetails.name}
           </Typography>
 
           <Box sx={{ display: "flex", margin: "5px" }}>
             <Typography color="text.secondary" variant="body2">
-              {user.jobTitle}
+              {userDetails.jobTitle}
             </Typography>
           </Box>
 
           <Box sx={{ display: "flex", margin: "5px" }}>
             <Typography color="text.secondary" variant="body2">
-              {user.email}
+              {userDetails.email}
             </Typography>
           </Box>
 
           <Box sx={{ display: "flex", margin: "5px" }}>
             <LocationOnIcon fontSize="small" />
             <Typography color="text.secondary" variant="body2">
-              {user.city}, {user.country}
+              {userDetails.city}, {userDetails.country}
             </Typography>
           </Box>
-
-          {/* <Box sx={{display: 'flex', margin:'5px'}}>
-        <SchoolIcon fontSize="small" sx={{mr:1}}/>
-        <Typography color="text.secondary" variant="body2" >
-          {user.company}
-        </Typography>
-        </Box> */}
         </Box>
       </CardContent>
       <hr
         style={{ width: "90%", borderTop: "0.2px solid rgba(230,230,230)" }}
       />
-      <CardActions>
+
+      <CardActions sx={{display: "flex", justifyContent: "space-evenly" }}>
+
+        {/* Upload Images  */}
         <Button
-          fullWidth
           sx={{
             backgroundColor: "white",
             marginTop: "5px",
@@ -87,11 +89,9 @@ export default function ProfileCard() {
             },
           }}
           disableTouchRipple
-          onClick={() => {
-            document.getElementById("fileInput").click();
-          }}
+        // onClick={handleSubmit}
         >
-          Upload picture
+          Upload Images
         </Button>
         <input type="file" id="fileInput" style={{ display: "none" }} />
       </CardActions>

@@ -12,7 +12,7 @@ function Error({ type }) {
   else data = "Oops! Something Went Wrong";
 
   return (
-    <div className="Base Error">
+    <div className="Error">
       <Box
         component="main"
         sx={{

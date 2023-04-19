@@ -1,8 +1,8 @@
 // third-party modules
 const express = require("express");
+const cors = require("cors");
 const helmet = require("helmet");
 const xss = require("xss-clean");
-const rateLimit = require("express-rate-limit");
 const mongoSanitize = require("express-mongo-sanitize");
 
 // Code Modules
@@ -28,18 +28,11 @@ const paymentRouter = require("./routes/paymentRouter");
 const app = express();
 // Middlewares
 
+// for making api requests from different domains
+app.use(cors());
+
 // Sets security HTTP headers
 app.use(helmet());
-
-// Limit requests from same IP to our api
-app.use(
-  "/api",
-  rateLimit({
-    max: 1000,
-    windowMs: 60 * 60 * 1000,
-    message: "Too many requests from this IP",
-  })
-);
 
 // Middleware to parse body into req.body
 app.use(express.json());

@@ -1,60 +1,67 @@
-import * as React from "react";
-import AppBar from "@mui/material/AppBar";
+import { useState, useContext, useEffect } from "react";
+import { UserContext } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+// Material UI
 import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import MenuIcon from "@mui/icons-material/Menu";
+import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import MenuItem from "@mui/material/MenuItem";
-import { useNavigate } from "react-router-dom";
 
 // Menu Items
-let pages = ["Courses", "Classroom", "Create Course"];
+let pages = ["Courses", "Classroom"];
 
 // User Settings
 let settings = ["Profile", "CheckOut", "Log Out"];
 
-// User
-let user = true;
-if(!user)
-{
-  pages.pop();
-}
-
 function NavBar() {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
 
+  // Menu States
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
-
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
 
+  const { dispatch, user } = useContext(UserContext);
   let navigate = useNavigate();
 
-  const routeChange = (path) => {
+  const routeChange = async (path) => {
     handleCloseUserMenu();
     handleCloseNavMenu();
-
-    if (path === "/log out") navigate("/");
-    else if (path === "/create course") navigate("/create-course");
+    if (path === "/log out") {
+      try {
+        const { status } = await axios.get("http://localhost:42690/api/users/logout");
+        if (status === 200) {
+          dispatch({ type: "LOGOUT" });
+          navigate("/");
+        }
+      }
+      catch (error) {
+        console.log(error);
+      }
+    }
     else navigate(path);
   };
+
+  let userImage = "/default.jpg";
 
   return (
     <AppBar
@@ -209,7 +216,7 @@ function NavBar() {
             // User is logged in
             <Box sx={{ flexGrow: 0 }}>
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, mr: 2 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="User" src={userImage} />
               </IconButton>
               <Menu
                 sx={{ mt: "45px" }}
@@ -242,7 +249,7 @@ function NavBar() {
             <Box sx={{ flexGrow: 0 }}>
               <Button
                 variant="outlined"
-                href="/signin"
+                onClick={() => routeChange("/signin")}
                 sx={{
                   color: "black",
                   border: "none",

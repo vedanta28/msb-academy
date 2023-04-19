@@ -1,25 +1,34 @@
-import "../stylesheets/Courses.css";
+import { useContext, useState, useEffect } from "react";
+import { CoursesContext } from "../context/CoursesContext";
+
 import { Typography } from "@mui/material";
-import TotalCard from "../components/TotalCard";
+import "../stylesheets/Courses.css";
+
 import CoursesCard from "../components/CourseCard";
 import SearchBar from "../components/SearchBar";
 
-function Courses({ data, text, checkout }) {
+function Courses() {
+  const { courses } = useContext(CoursesContext);
+  const [reqCourses, setReqCourses] = useState([]);
+
+  useEffect(() => {
+    setReqCourses(courses);
+  }, [])
+  
   return (
     <div className="Courses">
       <div className="Heading">
         <Typography variant="h4" sx={{ fontFamily: "Open Sans" }}>
-          {text}
+          All Courses
         </Typography>
-        <SearchBar/>
+        <SearchBar />
       </div>
       <div className="CoursesBox">
         <div>
-          {data.map((d) => (
-            <CoursesCard key={d._id} Data={d} Checkout={checkout} />
+          {reqCourses.map((d) => (
+            <CoursesCard key={d._id} Data={d} />
           ))}
         </div>
-        {checkout && <div>{TotalCard(data)}</div>}
       </div>
     </div>
   );

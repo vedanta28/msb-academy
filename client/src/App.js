@@ -1,105 +1,80 @@
-import "./stylesheets/App.css";
+// Description: This file contains the main App component which is the parent component of all other components.
+
+// importing react-router-dom, hooks and context
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import axios from "axios";
+import { UserContext } from "./context/UserContext";
+import { CoursesContext } from "./context/CoursesContext";
+
+// importing stylesheets
+import "./stylesheets/App.css";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+// importing Navbar-Container
 import NavContainer from "./components/NavContainer";
+
+// importing Pages
 import Home from "./pages/Home";
 import Courses from "./pages/Courses";
+import Classroom from "./pages/Classroom";
 import SignIn from "./pages/SignIn";
 import NewCourse from "./pages/NewCourse";
 import Course from "./pages/Course";
 import Profile from "./pages/Profile";
 import Footer from "./components/Footer";
 import Error from "./pages/Error";
+import Checkout from "./pages/Checkout";
 
 function App() {
-  const user = true;
+  
+  const { user } = useContext(UserContext);
+  const { dispatch } = useContext(CoursesContext);
 
-  const my_data = [
-    {
-      _id: "1",
-      Picture: "./sampleCourse.png",
-      Language: "English",
-      InstructorName: "Koustav Sen",
-      InstructorImage: "./koustav.png",
-      CourseName: "Complete Course on Computer Networks - Part I",
-      Description:
-        "In this course, Koustav will cover Computer Networks. All the important topics will be discussed in detail and would be helpful for aspirants preparing for the GATE exam.",
-      TotalVideos: "10",
-      StartDate: "21 Apr, 2021",
-      EndDate: "7 May, 2021",
-      TotalVideoLengh: "2h 30m",
-      Price: 500,
-      Rating: 4.5,
-    },
-    {
-      _id: "2",
-      Picture: "./sampleCourse.png",
-      Language: "English",
-      InstructorName: "Koustav Sen",
-      InstructorImage: "./koustav.png",
-      CourseName: "Complete Course on Computer Networks - Part II",
-      Description:
-        "In this course, Koustav will cover Computer Networks. All the important topics will be discussed in detail and would be helpful for aspirants preparing for the GATE exam.",
-      TotalVideos: "10",
-      StartDate: "21 Apr, 2021",
-      EndDate: "7 May, 2021",
-      TotalVideoLengh: "2h 30m",
-      Price: 500,
-      Rating: 4.5,
-    },
-    {
-      _id: "3",
-      Picture: "./sampleCourse.png",
-      Language: "English",
-      InstructorName: "Koustav Sen",
-      InstructorImage: "./koustav.png",
-      CourseName: "Complete Course on Computer Networks - Part III",
-      Description:
-        "In this course, Koustav will cover Computer Networks. All the important topics will be discussed in detail and would be helpful for aspirants preparing for the GATE exam.",
-      TotalVideos: "10",
-      StartDate: "21 Apr, 2021",
-      EndDate: "7 May, 2021",
-      TotalVideoLengh: "2h 30m",
-      Price: 500,
-      Rating: 4.5,
-    },
-    {
-      _id: "4",
-      Picture: "./sampleCourse.png",
-      Language: "English",
-      InstructorName: "Koustav Sen",
-      InstructorImage: "./koustav.png",
-      CourseName: "Complete Course on Computer Networks - Part IV",
-      Description:
-        "In this course, Koustav will cover Computer Networks. All the important topics will be discussed in detail and would be helpful for aspirants preparing for the GATE exam.",
-      TotalVideos: "10",
-      StartDate: "21 Apr, 2021",
-      EndDate: "7 May, 2021",
-      TotalVideoLengh: "2h 30m",
-      Price: 500,
-      Rating: 4.5,
-    },
-  ];
-
-  const text1 = "All Courses";
-  const text2 = "My Courses";
-  const text3 = "Check Out";
+  useEffect(() => {
+    dispatch({ type: "LOAD_START" });
+    axios.get("http://localhost:42690/api/courses")
+      .then((res) => {
+        dispatch({ type: "LOAD_SUCCESS", payload: res.data.courses });
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Failure to Load Courses");
+        dispatch({ type: "LOAD_FAILURE" });
+      });
+  },[]);
 
   return (
     <div className="App">
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <Router>
+
         <NavContainer />
+
         <div className="Sections">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route
               path="/courses"
-              element={<Courses data={my_data} text={text1} />}
+              element={<Courses />}
             />
             <Route
               path="/classroom"
               element={
                 user ? (
-                  <Courses data={my_data} text={text2} />
+                 <Classroom/>
                 ) : (
                   <Error type="401" />
                 )
@@ -108,7 +83,7 @@ function App() {
 
             <Route
               path="/checkout"
-              element={user ? <Courses data={my_data} text={text3} checkout={true} /> : <Error type="401" />}
+              element={user ? <Checkout /> : <Error type="401" />}
             />
 
             <Route

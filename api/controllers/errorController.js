@@ -1,4 +1,4 @@
-import errorlog from '../utils/errorlog';
+import errorlog from '../utils/errorLog';
 const AppError = require("../utils/appError");
 
 const handleCastError = (err) => {

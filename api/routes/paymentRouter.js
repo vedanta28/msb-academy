@@ -8,7 +8,7 @@ const {
 
 const { protect } = require("../controllers/authController");
 
-router.post("/order", orderPayment);
-router.post("/verify", verifyPayment);
+router.post("/order", protect, orderPayment);
+router.post("/verify", protect, verifyPayment);
 
 module.exports = router;

@@ -9,7 +9,7 @@ import React from "react";
 import PaymentsIcon from "@mui/icons-material/Payments";
 
 function TotalCard(Data) {
-  const Total = Data.reduce((acc, curr) => acc + curr.Price, 0);
+  const Total = Data.reduce((acc, curr) => acc + curr.fees, 0);
   return (
     <Card
       sx={{

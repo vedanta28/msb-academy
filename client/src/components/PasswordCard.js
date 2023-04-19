@@ -14,7 +14,6 @@ import {
 export default function ProfileDetails()
 {
   const handleChange = useCallback((event) => {
-   
   }, []);
 
   const handleSubmit = useCallback((event) => {
@@ -27,7 +26,7 @@ export default function ProfileDetails()
         <CardHeader title="Password" />
         <CardContent sx={{ pt: 0 }}>
           <Box sx={{ m: -1.5 }}>
-            <Grid stack spacing={3}>
+            <Grid container spacing={3}>
               <Grid xs={12} md={6}>
                 <TextField
                   fullWidth

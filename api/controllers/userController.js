@@ -88,3 +88,25 @@ exports.removeCourse = catchAsync(async (req, res, next) => {
     user,
   });
 });
+
+// Get Wishlist
+exports.getCheckout = catchAsync(async (req, res, next) => {
+  let t = await req.user.populate("wishlist");
+  const cart = t.wishlist;
+  res.status(200).json({
+    status: "success",
+    cart,
+  });
+  next();
+});
+
+// Get Classroom
+exports.getClassroom = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.user._id).populate('courseTaken.course');
+  const classroom = user.courseTaken;
+  res.status(200).json({
+    status: "success",
+    classroom,
+  });
+  next();
+});

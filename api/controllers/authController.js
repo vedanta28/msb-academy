@@ -40,7 +40,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   const token = signToken(newUser._id);
   newUser.password = undefined;
   sendCookie(res, token);
-  res.status(201).json({ status: "success", token, user: newUser });
+  res.status(201).json({ status: "success", token});
 });
 
 

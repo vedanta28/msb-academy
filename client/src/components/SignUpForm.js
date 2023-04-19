@@ -1,4 +1,11 @@
-import * as React from "react";
+import { useState, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import {UserContext} from "../context/UserContext";
+import axios from "axios";
+
+// importing toastify
+import { toast } from 'react-toastify';
+
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
@@ -30,20 +37,64 @@ const roles = [
 ];
 
 export default function SignUpForm() {
-  const [value, setValue] = React.useState(null);
+  const { dispatch, isFetching } = useContext(UserContext);
+  const [fname, setFname] = useState("");
+  const [lname, setLname] = useState("");
+  const [state, setState] = useState("");
+  const [country, setCountry] = useState("");
+  const [phoneNo, setPhoneNo] = useState("");
+  const [emailId, setEmailId] = useState("");
+  const [dob, setDob] = useState(null);
+  const [role, setRole] = useState("Student");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  // HANDLE SUBMIT
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    if (fname === "" || lname === "" || state === "" || country === "" || phoneNo === "" || emailId === "" || role === "" || dob === "" || password === "") {
+      console.log("Role" + role);
+      console.log("DOB" + dob);
+      console.log("Hi" + fname + lname + state + country + phoneNo + emailId + role + dob + password);
+      toast.error("Please fill all the fields");
+      return;
+    }
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
+    dispatch({ type: "LOGIN_START" });
+    try {
+      const {data} = await axios.post("http://localhost:42690/api/users/signup", {
+        fname, lname, state, country, phoneNo, emailId, role, dob, password
+      });
+
+      console.log(data);
+      let userData = {token: data.token, image: data.image};
+      dispatch({ type: "LOGIN_SUCCESS", payload: userData });
+      navigate("/");
+    } 
+    catch (error) {
+      dispatch({ type: "LOGIN_FAILURE" });
+      console.log(error.response);
+      if(error.response.status === 500)
+        toast.error("User already exists. Please login");
+    }
   };
-  const [showPassword, setShowPassword] = React.useState(false);
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   const data = new FormData(event.currentTarget);
+  //   console.log({
+  //     email: data.get("email"),
+  //     password: data.get("password"),
+  //   });
+  // };
 
+  // TOGGLE PASSWORD VISIBILITY
+  const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
@@ -85,6 +136,7 @@ export default function SignUpForm() {
             label="First Name"
             name="fname"
             autoFocus
+            onChange={(e) => setFname(e.target.value)}
           />
 
           <TextField
@@ -94,12 +146,14 @@ export default function SignUpForm() {
             id="lname"
             label="Last Name"
             name="lname"
+            autoFocus
+            onChange={(e) => setLname(e.target.value)}
           />
 
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               label="Date of Birth"
-              value={value}
+              value={dob}
               sx={{
                 mt: 1.5,
                 mb: 1,
@@ -107,7 +161,7 @@ export default function SignUpForm() {
               }}
               required
               onChange={(newValue) => {
-                setValue(newValue);
+                setDob(newValue);
               }}
               slotProps={{
                 textField: {
@@ -125,6 +179,8 @@ export default function SignUpForm() {
             id="phone"
             label="Phone"
             name="phone"
+            autoFocus
+            onChange={(e) => setPhoneNo(e.target.value)}
           />
 
           <TextField
@@ -136,15 +192,17 @@ export default function SignUpForm() {
             type="email"
             id="email"
             autoComplete="email"
+            onChange={(e) => setEmailId(e.target.value)}
           />
 
           <TextField
-            id="outlined-select-currency"
+            id="outlined-select-role"
             required
             fullWidth
             select
             label="Join as"
             defaultValue="Student"
+            onChange={(e) => {setRole(e.target.value); console.log(e)} }
             sx={{
               mt: 2.5,
             }}
@@ -163,6 +221,7 @@ export default function SignUpForm() {
             name="country"
             label="Country"
             id="country"
+            onChange={(e) => setCountry(e.target.value)}
           />
 
           <TextField
@@ -172,6 +231,7 @@ export default function SignUpForm() {
             name="state"
             label="State"
             id="state"
+            onChange={(e) => setState(e.target.value)}
           />
 
           {/* <TextField
@@ -204,6 +264,7 @@ export default function SignUpForm() {
                 </InputAdornment>
               }
               label="Password"
+              onChange={(e) => setPassword(e.target.value)}
             />
           </FormControl>
 
@@ -227,6 +288,7 @@ export default function SignUpForm() {
                 </InputAdornment>
               }
               label="Confirm Password"
+              onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </FormControl>
           <FormControlLabel
@@ -239,6 +301,7 @@ export default function SignUpForm() {
             type="submit"
             fullWidth
             variant="contained"
+            disabled={isFetching}
             sx={{ mt: 3, mb: 2, height: "50px" }}
           >
             Sign Up

@@ -20,7 +20,7 @@ const UserReducer = (state,action) => {
             }
         case "UPDATE_START": 
             return {
-                ...state,
+                ...state, 
                 isFetching: true
             }
         case "UPDATE_SUCCESS": 

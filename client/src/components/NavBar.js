@@ -1,6 +1,10 @@
 import { useState, useContext, useEffect } from "react";
 import { UserContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
+
+import storage from "../firebase";
+import { ref, getDownloadURL } from "firebase/storage";
+
 import axios from "axios";
 
 // Material UI
@@ -24,6 +28,8 @@ let settings = ["Profile", "CheckOut", "Log Out"];
 
 function NavBar() {
 
+  const [imageURL, setImageURL] = useState("/default.jpg");
+
   // Menu States
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -39,6 +45,7 @@ function NavBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
 
   const { dispatch, user } = useContext(UserContext);
   let navigate = useNavigate();
@@ -61,7 +68,16 @@ function NavBar() {
     else navigate(path);
   };
 
-  let userImage = "/default.jpg";
+  // For Image 
+  useEffect(() => {
+    if (user) {
+      getDownloadURL(ref(storage, `users/${user.image}`)).then((url) => {
+        setImageURL(url);
+      }).catch((err) => {
+        setImageURL("/default.jpg")
+      })
+    }
+  }, [])
 
   return (
     <AppBar
@@ -216,7 +232,7 @@ function NavBar() {
             // User is logged in
             <Box sx={{ flexGrow: 0 }}>
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, mr: 2 }}>
-                <Avatar alt="User" src={userImage} />
+                <Avatar alt="User" src={imageURL} />
               </IconButton>
               <Menu
                 sx={{ mt: "45px" }}

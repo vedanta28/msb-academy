@@ -20,7 +20,7 @@ function Checkout() {
         axios.get("http://localhost:42690/api/users/checkout",
             { headers: { "Authorization": `Bearer ${user.token}` } })
             .then((res) => {
-                setReqCourses(res.data.courses);
+                setReqCourses(res.data.cart);
             })
             .catch((err) => {
                 console.log(err);

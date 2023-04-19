@@ -6,6 +6,8 @@ const {
   updatePassword,
   addCourse,
   removeCourse,
+  getCheckout,
+  getClassroom
 } = require("../controllers/userController");
 
 const {
@@ -24,5 +26,8 @@ router.post("/remove-Course", protect, removeCourse);
 
 router.put("/user-details", protect, updateDetails);
 router.put("/user-password", protect, updatePassword);
+
+router.get("/checkout", protect, getCheckout);
+router.get("/classroom", protect, getClassroom);
 
 module.exports = router;

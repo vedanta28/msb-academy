@@ -19,7 +19,6 @@ function Classroom() {
     axios.get("http://localhost:42690/api/users/classroom",
       { headers: { "Authorization": `Bearer ${user.token}` } })
       .then((res) => {
-        console.log(res.data.classroom);
         setReqCourses(res.data.classroom);
       })
       .catch((err) => {

@@ -30,7 +30,7 @@ function CourseDetails({ Data, CourseID, Bought }) {
   // HANDLE IMAGE UPLOAD
   const [imageUpload, setImageUpload] = useState(null);
   const [imageURL, setImageURL] = useState("/defaultCover.png");
-  const [ratingValue, setRatingValue] = useState(0);
+  const [ratingValue, setRatingValue] = useState(Bought.rating*1);
 
   useEffect(() => {
     getDownloadURL(ref(storage, `courses/${CourseID}.jpg`))
@@ -40,7 +40,8 @@ function CourseDetails({ Data, CourseID, Bought }) {
       .catch((err) => {
         setImageURL("/defaultCover.png");
       });
-  }, []);
+    setRatingValue(() => Bought.rating*1);
+  }, [Bought.rating*1]);
 
   // To Save Image Upload
   const saveImage = () => {
@@ -176,7 +177,7 @@ function CourseDetails({ Data, CourseID, Bought }) {
 
                 {/* Button To Purchase */}
                 {
-                  (!Bought) &&
+                  !Bought.bought &&
                   <Button
                     variant="contained"
                     startIcon={<ShoppingCartIcon />}
@@ -209,8 +210,7 @@ function CourseDetails({ Data, CourseID, Bought }) {
                 </Button>
 
                 {
-                  Bought &&
-
+                  Bought.bought &&
                   <Rating
                     name="half-rating"
                     value={ratingValue}

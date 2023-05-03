@@ -16,6 +16,7 @@ function Course() {
   const [values, setValues] = useState({});
   const [videos, setVideos] = useState([]);
   const [purchase, setPurchase] = useState(false);
+  const [rating, setRating] = useState(0);
   let userID;
 
   useEffect(() => {
@@ -29,7 +30,6 @@ function Course() {
         const myVideos = val.videos;
         setValues((prevState) => ({ ...prevState, ...val }));
         setVideos((prevState) => ([...prevState, ...myVideos]));
-
       }).catch((err) => {
         toast.error("Failed to Load Course");
       })
@@ -37,8 +37,9 @@ function Course() {
     axios.post(`http://localhost:42690/api/users/myCourse`,
       { courseID }, { headers: { "Authorization": `Bearer ${user.token}` } })
       .then((res) => {
+        console.log(res.data);
         setPurchase( () => res.data.bought );
-
+        setRating( () => res.data.rating );
       }).catch((err) => {
         console.log(err);
       })
@@ -49,7 +50,7 @@ function Course() {
   return (
     <div className="Course">
       <div className="DetailsContainer">
-        < CourseDetails Data={data} CourseID={courseID} Bought={bought} />
+        < CourseDetails Data={data} CourseID={courseID} Bought={{bought, rating}} />
       </div>
 
       <div className="VideoContainer">

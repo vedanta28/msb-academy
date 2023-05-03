@@ -69,7 +69,6 @@ exports.signin = catchAsync(async (req, res, next) => {
 
 // Check if user is logged in
 exports.protect = catchAsync(async (req, res, next) => {
-  console.log(req);
   // Getting the token and check if it exists
   let token;
 
@@ -78,8 +77,6 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   // else if (req.headers.Authorization && req.headers.Authorization.startsWith("Bearer"))
   //   token = req.headers.Authorization.split(" ")[1];
-
-  console.log(token);
   if (!token)
     return next(
       new AppError("You are not logged in! Please log in to get access", 401)

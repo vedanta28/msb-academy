@@ -16,6 +16,7 @@ exports.getDetails = catchAsync(async (req, res, next) => {
 
 // Update User Details
 exports.updateDetails = catchAsync(async (req, res, next) => {
+  console.log(req);
   let updatedUser = req.user;
   updatedUser.fname = req.body.fname || updatedUser.fname;
   updatedUser.lname = req.body.lname || updatedUser.lname;

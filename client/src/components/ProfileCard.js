@@ -39,11 +39,11 @@ export default function ProfileCard() {
         headers: { Authorization: `Bearer ${user.token}` },
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         userDetails = res.data.fetchedUser;
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         toast.error("Failure to Load Profile");
       });
   }, []);

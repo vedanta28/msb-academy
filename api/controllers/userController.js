@@ -3,14 +3,28 @@ const Course = require("../models/courseModel");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 
-
-
 // Get User Details
 exports.getDetails = catchAsync(async (req, res, next) => {
   const fetchedUser = await User.findById(req.user._id);
   res.status(200).json({
     message: "Success",
     fetchedUser
+  });
+});
+
+// Get User Details
+exports.myCourse = catchAsync(async (req, res, next) => {
+  const fetchedUser = await User.findById(req.user._id);
+  let bought = false;
+
+  fetchedUser.courseTaken.forEach( e => {
+    if ( e.course === req.body.courseID)
+        bought = true
+  })
+
+  res.status(200).json({
+    message: "Success",
+    bought
   });
 });
 

@@ -6,7 +6,6 @@ const {
   getCourse,
   createCourse,
   addVideo,
-  deleteVideo,
 } = require("../controllers/courseController");
 
 const { protect, restricted } = require("../controllers/authController");

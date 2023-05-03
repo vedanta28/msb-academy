@@ -20,26 +20,17 @@ const courseSchema = new mongoose.Schema({
     },
     immutable: true,
   },
-  // startDate: {
-  //   type: Date,
-  //   required: [true, "Start Date is required"],
-  // },
-  // endDate: {
-  //   type: Date,
-  // },
-  duration: {
-    type: Number, // in weeks
-  },
   videos: {
     type: [
       {
         vID: String,
         vName: String,
         vLink: String,
+        vDuration: Number,
         vDate: {
           type: Date,
-          default: Date.now,
-        },
+          default: Date.now()
+        }
       },
     ],
   },
@@ -50,7 +41,6 @@ const courseSchema = new mongoose.Schema({
   },
   instructorName: {
     type: String,
-    required: [ true, 'A Course must have an Instructor' ]
   },
   rating: {
     type: Number,

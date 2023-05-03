@@ -20,6 +20,7 @@ import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 
+
 export default function SignInForm() 
 {
   const { dispatch, isFetching } = useContext(UserContext);
@@ -46,7 +47,8 @@ export default function SignInForm()
       console.log(data);
       let userData = {token: data.token, image: data.image, name: data.name};
       dispatch({ type: "LOGIN_SUCCESS", payload: userData });
-      navigate("/");
+      toast.success("Welcome");
+      window.location.replace("/");
     } 
     catch (error) {
       dispatch({ type: "LOGIN_FAILURE" });

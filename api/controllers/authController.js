@@ -3,7 +3,6 @@ const User = require("../models/userModel");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 
-
 // Sign Token and send it to client
 const signToken = (id) => {
   //jwt.sign({payload}, secret, {options})
@@ -11,7 +10,6 @@ const signToken = (id) => {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 };
-
 
 // Send Token to client in a cookie
 const sendCookie = (res, token) => {
@@ -22,7 +20,6 @@ const sendCookie = (res, token) => {
   if (process.env.NODE_ENV !== "development") options.secure = true;
   res.cookie("jwt", token, options);
 };
-
 
 // Sign Up New User
 exports.signup = catchAsync(async (req, res, next) => {
@@ -43,7 +40,6 @@ exports.signup = catchAsync(async (req, res, next) => {
   sendCookie(res, token);
   res.status(201).json({ status: "success", token});
 });
-
 
 // Login User
 exports.signin = catchAsync(async (req, res, next) => {
@@ -67,7 +63,6 @@ exports.signin = catchAsync(async (req, res, next) => {
   let userName = user.fname + " " + user.lname
   res.status(200).json({ status: "success", token, image: user.image, name: userName });
 });
-
 
 // Check if user is logged in
 exports.protect = catchAsync(async (req, res, next) => {
@@ -96,7 +91,6 @@ exports.protect = catchAsync(async (req, res, next) => {
   next();
 });
 
-
 // Check if user is Instructor
 exports.restricted = catchAsync(async (req, res, next) => {
   if (req.user.role != "Instructor") {
@@ -106,7 +100,6 @@ exports.restricted = catchAsync(async (req, res, next) => {
   }
   next();
 });
-
 
 // Logout User
 exports.logout = catchAsync(async (req, res, next) => {
@@ -120,3 +113,5 @@ exports.logout = catchAsync(async (req, res, next) => {
     token,
   });
 });
+
+// Route to Handle Password Change

@@ -21,11 +21,11 @@ import ShareIcon from "@mui/icons-material/Share";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 
-function CourseDetails({ Data, CourseID, Instructor }) {
+function CourseDetails({ Data, CourseID, Bought }) {
 
   // BRING IN USER
   const { user } = useContext(UserContext);
-  
+
   // HANDLE IMAGE UPLOAD
   const [imageUpload, setImageUpload] = useState(null);
   const [imageURL, setImageURL] = useState("/defaultCover.png");
@@ -36,7 +36,7 @@ function CourseDetails({ Data, CourseID, Instructor }) {
       setImageURL("/defaultCover.png");
     })
   }, []);
-  
+
   // To Save Image Upload
   const saveImage = () => {
     if (imageUpload == null)
@@ -72,7 +72,6 @@ function CourseDetails({ Data, CourseID, Instructor }) {
       elevation={0}
       sx={{
         borderRadius: "5px",
-        height: "360px",
         width: "1000px",
         mx: "auto",
         mb: 10,
@@ -99,57 +98,12 @@ function CourseDetails({ Data, CourseID, Instructor }) {
                 verticalAlign: "middle",
               }}
             />
-
-            {Instructor &&
-              <>
-                {/* Buttons to Upload */}
-                < Button
-                  component="label"
-                  sx={{
-                    backgroundColor: "white",
-                    marginTop: "5px",
-                    ":hover": {
-                      backgroundColor: "white",
-                    },
-                  }}
-                >
-                  Upload File
-                  <input
-                    type="file"
-                    onChange={(e) => {
-                      toast.info("Please Save Changes")
-                      setImageUpload(e.target.files[0])
-                    }
-                    }
-                    hidden
-                  />
-                </Button>
-
-                {/* Button to Save */}
-                <Button
-                  component="label"
-                  sx={{
-                    backgroundColor: "white",
-                    marginTop: "5px",
-                    ":hover": {
-                      backgroundColor: "white",
-                    },
-                  }}
-                  disableTouchRipple
-                  onClick={saveImage}
-                >
-                  Save Changes
-                </Button>
-              </>
-            }
-
           </Stack>
 
           {/* Right Column */}
-          <Stack spacing={3}>
+          <Stack spacing={4}>
 
-            <Stack spacing={15} direction="row">
-
+            <Stack direction="row" spacing={3} >
               {/* Inside Left Column */}
               <Stack>
 
@@ -176,17 +130,18 @@ function CourseDetails({ Data, CourseID, Instructor }) {
                     marginBottom: "10px",
                     fontFamily: "Kanit, sans-serif",
                     fontSize: "18px",
+                    mb: 5,
                     color: "#3C4852",
                   }}
                 >
-                  {Data.InstructorName}
+                  Instructor:  {Data.instructorName}
                 </Typography>
 
                 {/* Coursecription */}
                 <Typography
                   component="div"
                   variant="paragraph"
-                  style={{ maxWidth: "400px", marginBottom: "10px", textAlign: "justify" }}
+                  style={{ maxWidth: "400px", marginBottom: "10px", textAlign: "justify", mt: 5 }}
                 >
                   {Data.description}
                 </Typography>
@@ -194,10 +149,10 @@ function CourseDetails({ Data, CourseID, Instructor }) {
               </Stack>
 
               {/* Inside Right Column */}
-              <Stack spacing={1} sx={{ margin: "auto" }}>
-                
+              <Stack spacing={3} sx={{ margin: "auto" }}>
+
                 {/* Button To Purchase */}
-                { ( !Instructor )  &&
+                {(!Bought) &&
                   <Button
                     variant="contained"
                     startIcon={<ShoppingCartIcon />}
@@ -227,9 +182,57 @@ function CourseDetails({ Data, CourseID, Instructor }) {
                 >
                   Share
                 </Button>
+
+                {/* If Bought */}
+
+
               </Stack>
+
             </Stack>
-            
+
+            <Stack direction="row" spacing={3} >
+              {Data.instructorID === user.image.split('.')[0] &&
+                <>
+                  {/* Buttons to Upload */}
+                  < Button
+                    component="label"
+                    sx={{
+                      backgroundColor: "white",
+                      ":hover": {
+                        backgroundColor: "white",
+                      },
+                    }}
+                  >
+                    Upload File
+                    <input
+                      type="file"
+                      onChange={(e) => {
+                        toast.info("Please Save Changes")
+                        setImageUpload(e.target.files[0])
+                      }
+                      }
+                      hidden
+                    />
+                  </Button>
+
+                  {/* Button to Save */}
+                  <Button
+                    component="label"
+                    sx={{
+                      backgroundColor: "white",
+                      ":hover": {
+                        backgroundColor: "white",
+                      },
+                    }}
+                    disableTouchRipple
+                    onClick={saveImage}
+                  >
+                    Save Changes
+                  </Button>
+                </>
+              }
+            </Stack>
+
           </Stack>
 
         </Container>

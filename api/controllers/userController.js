@@ -19,8 +19,7 @@ exports.myCourse = catchAsync(async (req, res, next) => {
   let rating = 0;
 
   fetchedUser.courseTaken.forEach(e => {
-    if (e.course.equals(req.body.courseID))
-    {
+    if (e.course.equals(req.body.courseID)) {
       bought = true;
       rating = e.rating;
     }
@@ -34,7 +33,6 @@ exports.myCourse = catchAsync(async (req, res, next) => {
 
 // Update User Details
 exports.updateDetails = catchAsync(async (req, res, next) => {
-  console.log(req);
   let updatedUser = req.user;
   updatedUser.fname = req.body.fname || updatedUser.fname;
   updatedUser.lname = req.body.lname || updatedUser.lname;
@@ -147,40 +145,32 @@ exports.updateRating = catchAsync(async (req, res, next) => {
   const fetchedUser = await User.findById(req.user._id);
   const courseID = req.body.courseID;
   const rating = req.body.rating;
-  console.log(rating);
   fetchedUser.courseTaken.forEach(e => {
     if (e.course.equals(courseID))
       e.rating = rating;
   });
   await fetchedUser.save({ runValidators: true, new: true });
 
-let totalRating = 0;
-let numOfUsers = 0;
+  let totalRating = 0;
+  let numOfUsers = 0;
 
-for await (const doc of User.find()) {
-  for (let i = 0; i < doc.courseTaken.length; i++) {
-    if (doc.courseTaken[i].course == courseID && doc.courseTaken[i].rating != 0) {
-      totalRating += doc.courseTaken[i].rating;
-      numOfUsers++;
+  for await (const doc of User.find()) {
+    for (let i = 0; i < doc.courseTaken.length; i++) {
+      if (doc.courseTaken[i].course == courseID && doc.courseTaken[i].rating != 0) {
+        totalRating += doc.courseTaken[i].rating;
+        numOfUsers++;
+      }
     }
   }
-}
 
-let averageRating = totalRating / numOfUsers;
-console.log("Avg: " + averageRating);
-Course.findOneAndUpdate(
-  { _id: courseID },
-  { $set: { rating: averageRating } },
-  { new: true }
-).then((updatedUser) => {
-  if (updatedUser) {
-    console.log(`Done`);
-  } else {
-    console.log(`Not Done`);
-  }
-})
-  .catch((error) => {
-    console.error(error);
-  });
-
+  let averageRating = totalRating / numOfUsers;
+  Course.findOneAndUpdate(
+    { _id: courseID },
+    { $set: { rating: averageRating } },
+    { new: true }
+  )
+    .then(() => { })
+    .catch((error) => {
+      console.error(error);
+    });
 });

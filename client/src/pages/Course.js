@@ -37,7 +37,6 @@ function Course() {
     axios.post(`http://localhost:42690/api/users/myCourse`,
       { courseID }, { headers: { "Authorization": `Bearer ${user.token}` } })
       .then((res) => {
-        console.log(res.data);
         setPurchase( () => res.data.bought );
         setRating( () => res.data.rating );
       }).catch((err) => {

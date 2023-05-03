@@ -76,18 +76,16 @@ function CourseDetails({ Data, CourseID, Bought }) {
       });
   };
 
- 
   // HANDLE RATING CHANGES
   const handleRatingChange = (newValue) => {
 
-    console.log(newValue);
     setRatingValue(newValue);
     axios
       .put("http://localhost:42690/api/users/update-rating", { courseID: CourseID, rating: newValue }, {
         headers: { Authorization: `Bearer ${user.token}` }
       })
       .then((res) => {
-        console.log(res);
+        toast.success("Rating Updated");
       })
       .catch((err) => {
         toast.error("Failure to update rating");

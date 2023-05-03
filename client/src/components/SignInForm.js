@@ -44,7 +44,6 @@ export default function SignInForm()
         emailId, password, 
       });
 
-      console.log(data);
       let userData = {token: data.token, image: data.image, name: data.name};
       dispatch({ type: "LOGIN_SUCCESS", payload: userData });
       toast.success("Welcome");
@@ -52,7 +51,6 @@ export default function SignInForm()
     } 
     catch (error) {
       dispatch({ type: "LOGIN_FAILURE" });
-      console.log(error.response);
       if(error.response.status === 401)
         toast.error("Invalid Credentials");
     }

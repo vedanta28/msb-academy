@@ -22,7 +22,6 @@ function Classroom() {
         setReqCourses(res.data.classroom);
       })
       .catch((err) => {
-        console.log(err);
         toast.error("Failure to Load My Courses");
       });
   }, []);

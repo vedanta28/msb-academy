@@ -24,7 +24,6 @@ function Checkout() {
                 setReqCourses(res.data.cart);
             })
             .catch((err) => {
-                console.log(err);
                 toast.error("Failure to Load Checkout Cart");
             });
     }, [reload]);

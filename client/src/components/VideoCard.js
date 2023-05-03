@@ -6,7 +6,6 @@ function VideoCard({Data}) {
     const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
     if (newWindow) newWindow.opener = null
   }
-  console.log(Data.vID);
   let day = new Date(Data.vDate).toDateString().split(" ")[2];
   let month = new Date(Data.vDate).toDateString().split(" ")[1];
   return (

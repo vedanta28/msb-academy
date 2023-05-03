@@ -31,7 +31,6 @@ export default function ProfileDetails() {
         headers: { Authorization: `Bearer ${user.token}` },
       })
       .then((res) => {
-        console.log(res.data.fetchedUser);
         setUserDetails(
            (prevState) => ( { ...prevState, ...res.data.fetchedUser })
         );

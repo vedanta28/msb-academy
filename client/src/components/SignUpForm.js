@@ -54,9 +54,6 @@ export default function SignUpForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (fname === "" || lname === "" || state === "" || country === "" || phoneNo === "" || emailId === "" || role === "" || dob === "" || password === "") {
-      console.log("Role" + role);
-      console.log("DOB" + dob);
-      console.log("Hi" + fname + lname + state + country + phoneNo + emailId + role + dob + password);
       toast.error("Please fill all the fields");
       return;
     }
@@ -71,26 +68,16 @@ export default function SignUpForm() {
         fname, lname, state, country, phoneNo, emailId, role, dob, password
       });
 
-      console.log(data);
       let userData = {token: data.token, image: data.image};
       dispatch({ type: "LOGIN_SUCCESS", payload: userData });
       navigate("/");
     } 
     catch (error) {
       dispatch({ type: "LOGIN_FAILURE" });
-      console.log(error.response);
       if(error.response.status === 500)
         toast.error("User already exists. Please login");
     }
   };
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   console.log({
-  //     email: data.get("email"),
-  //     password: data.get("password"),
-  //   });
-  // };
 
   // TOGGLE PASSWORD VISIBILITY
   const [showPassword, setShowPassword] = useState(false);
@@ -202,7 +189,7 @@ export default function SignUpForm() {
             select
             label="Join as"
             defaultValue="Student"
-            onChange={(e) => {setRole(e.target.value); console.log(e)} }
+            onChange={(e) => {setRole(e.target.value)} }
             sx={{
               mt: 2.5,
             }}

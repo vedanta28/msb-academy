@@ -85,7 +85,6 @@ const userSchema = new mongoose.Schema({
   ],
 });
 
-
 // Pre Save Hook to hash password
 userSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
@@ -94,12 +93,10 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-
 // Instance Function to check if password is correct
 userSchema.methods.correctPassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
-
 
 const User = mongoose.model("User", userSchema);
 module.exports = User;

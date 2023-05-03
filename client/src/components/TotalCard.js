@@ -54,7 +54,6 @@ function TotalCard({ Data, val, fn }) {
           fn(!val);
         } catch (err) {
           toast.error("Transaction Failed");
-          console.log(err);
         }
       }
     };

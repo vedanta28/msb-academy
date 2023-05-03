@@ -15,7 +15,7 @@ function Course() {
   const courseID = pathname.split('/')[2];
   const [values, setValues] = useState({});
   const [videos, setVideos] = useState([]);
-  let purchase = false;
+  const [purchase, setPurchase] = useState(false);
   let userID;
 
   useEffect(() => {
@@ -37,7 +37,7 @@ function Course() {
     axios.post(`http://localhost:42690/api/users/myCourse`,
       { courseID }, { headers: { "Authorization": `Bearer ${user.token}` } })
       .then((res) => {
-        purchase = res.data.bought;
+        setPurchase( () => res.data.bought );
 
       }).catch((err) => {
         console.log(err);
@@ -45,8 +45,7 @@ function Course() {
   }, []);
 
   const data = { ...values, videos: null };
-  const bought = purchase || user.image.split('.')[0] === values.instructorID;
-
+  const bought = user.image.split('.')[0] === values.instructorID || purchase;
   return (
     <div className="Course">
       <div className="DetailsContainer">
@@ -54,11 +53,11 @@ function Course() {
       </div>
 
       <div className="VideoContainer">
-        {/*  */}
+        
         {bought &&
           <div>
             {videos.map((v) => (
-              <VideoCard key={v.VideoSerial} Data={v} />
+              <VideoCard key={v.vID} Data={v} />
             ))}
           </div>
         }

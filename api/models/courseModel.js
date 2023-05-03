@@ -23,7 +23,7 @@ const courseSchema = new mongoose.Schema({
   videos: {
     type: [
       {
-        vID: String,
+        vID: Number,
         vName: String,
         vLink: String,
         vDuration: Number,

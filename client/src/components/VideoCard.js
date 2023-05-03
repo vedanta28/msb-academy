@@ -1,9 +1,9 @@
 import { Stack, Typography, Card, CardContent } from "@mui/material";
 
 function VideoCard({Data}) {
-  const dateArray = Data.VideoDate.split(" ");
-  let day = dateArray[0];
-  let month = dateArray[1];
+  // const dateArray = Data.VideoDate.split(" ");
+  let day = 'avb';
+  let month = 'mar';
   return (
     <Card
       className="VideoCard"

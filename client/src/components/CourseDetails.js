@@ -22,10 +22,7 @@ import {
 import ShareIcon from "@mui/icons-material/Share";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
-function CourseDetails({ Data, CourseID, Instructor }) {
-
-  // IDENTIFY THE ID
-  const { id } = useParams();
+function CourseDetails({ Data, CourseID, Bought }) {
 
   // BRING IN USER
   const { user } = useContext(UserContext);
@@ -33,6 +30,8 @@ function CourseDetails({ Data, CourseID, Instructor }) {
   // HANDLE IMAGE UPLOAD
   const [imageUpload, setImageUpload] = useState(null);
   const [imageURL, setImageURL] = useState("/defaultCover.png");
+  const [ratingValue, setRatingValue] = useState(0);
+
   useEffect(() => {
     getDownloadURL(ref(storage, `courses/${CourseID}.jpg`))
       .then((url) => {
@@ -76,27 +75,23 @@ function CourseDetails({ Data, CourseID, Instructor }) {
         toast.error("Failed to Add");
       });
   };
-  // RATINGS
-  const [ratingValue, setRatingValue] = useState(2.5);
+
+ 
   // HANDLE RATING CHANGES
   const handleRatingChange = (newValue) => {
-    // do something with the new rating value
-    console.log("New rating value:", newValue);
-    console.log(`Rating for course ${id} changed to newValue`);
+
+    console.log(newValue);
     setRatingValue(newValue);
-    let courseID = id;
-    let rating = newValue;
     axios
-      .put("http://localhost:42690/api/users/update-rating", { courseID, rating }, {
+      .put("http://localhost:42690/api/users/update-rating", { courseID: CourseID, rating: newValue }, {
         headers: { Authorization: `Bearer ${user.token}` }
       })
       .then((res) => {
         console.log(res);
       })
       .catch((err) => {
-        toast.error("Failure to update User");
+        toast.error("Failure to update rating");
       });
-
   };
 
   return (

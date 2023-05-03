@@ -35,7 +35,6 @@ export default function ProfileDetails()
                   type="password"
                   name="oldpassword"
                   onChange={handleChange}
-                //   value=""
                 />
               </Grid>
               <Grid xs={12} md={6}>
@@ -46,7 +45,6 @@ export default function ProfileDetails()
                   type="password"
                   name="newPassword"
                   onChange={handleChange}
-                //   value=""
                 />
               </Grid>
               <Grid xs={12} md={6}>
@@ -57,7 +55,6 @@ export default function ProfileDetails()
                   type="password"
                   name="confirmPassword"
                   onChange={handleChange}
-                //   value=""
                 />
               </Grid>
             </Grid>

@@ -1,10 +1,7 @@
 import { useContext, useState, useEffect } from "react";
-import { UserContext } from "../context/UserContext";
-import axios from "axios";
-import storage from "../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { toast } from "react-toastify";;
-
+import { toast } from "react-toastify";
+import axios from "axios";
 import {
   Avatar,
   Box,
@@ -14,18 +11,23 @@ import {
   CardContent,
   Typography,
 } from "@mui/material";
-
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+
+import { UserContext } from "../context/UserContext";
+import storage from "../firebase";
 
 let userDetails = {};
 
 export default function ProfileCard() {
+
   const { user } = useContext(UserContext);
   const [imageUpload, setImageUpload] = useState(null);
   const [imageURL, setImageURL] = useState("");
 
   // On Rendering Profile.js
   useEffect(() => {
+
+    // FOR IMAGE
     getDownloadURL(ref(storage, `users/${user.image}`))
       .then((url) => {
         setImageURL(url);
@@ -34,18 +36,18 @@ export default function ProfileCard() {
         setImageURL("/default.jpg");
       });
 
+    // FOR DETAILS
     axios
       .get("http://localhost:42690/api/users/user-details", {
         headers: { Authorization: `Bearer ${user.token}` },
       })
       .then((res) => {
-        // console.log(res);
         userDetails = res.data.fetchedUser;
       })
       .catch((err) => {
-        // console.log(err);
         toast.error("Failure to Load Profile");
       });
+
   }, []);
 
   // To Save Image Upload
@@ -58,12 +60,14 @@ export default function ProfileCard() {
       getDownloadURL(res.ref)
         .then((url) => {
           setImageURL(url);
+          window.location.reload(false);
         })
         .catch((err) => {
           toast.error("Something Went Wrong");
           setImageURL("/default.jpg");
         });
-    });  };
+    });
+  };
 
   return (
     <Card className="ProfileCard">

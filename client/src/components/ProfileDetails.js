@@ -1,6 +1,5 @@
-import { useCallback, useState,useEffect,useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../context/UserContext";
-import { useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
@@ -22,12 +21,10 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 export default function ProfileDetails() {
   
-  const { user } = useContext(UserContext);
+  const { user, dispatch, isFetching } = useContext(UserContext);
   const [userDetails, setUserDetails] = useState({});
-  const { dispatch, isFetching } = useContext(UserContext);
-  const [dob, setDob] = useState(null);
-  const navigate = useNavigate();
 
+  // FETCH USER DETAILS
   useEffect(() => {
     axios
       .get("http://localhost:42690/api/users/user-details", {
@@ -44,36 +41,51 @@ export default function ProfileDetails() {
       });
   }, []);
 
+  // SET DATE OF BIRTH
   const [value, setValue] = useState(dayjs(userDetails.dob));
 
+  // HANDLE SUBMIT
   const handleSubmit = async (event) => {
+    
     event.preventDefault();
-    console.log(userDetails);
+    
     if (userDetails.fname === "" || userDetails.lname === "" || userDetails.state === "" || userDetails.country === "" || userDetails.phoneNo === "") {
-      toast.error("Please fill all the fields");
+      toast.error("No Changes Made");
       return;
     }
+    
     let { fname, lname, state, country, phoneNo } = userDetails;
+
+    // SEND REQUEST
+    dispatch({ type: "UPDATE_START" });    
     axios
-      .put("http://localhost:42690/api/users/user-details", { fname, lname, state, country, phoneNo}, {
+      .put("http://localhost:42690/api/users/user-details", { fname, lname, state, country, phoneNo }, {
         headers: { Authorization: `Bearer ${user.token}` }
       })
       .then((res) => {
-        console.log(res);
+        const payload = {token : user.token, image: user.image, name: fname + ' ' + lname };
+        dispatch({ type: "UPDATE_SUCCESS", payload: payload});
+        window.location.reload(false);
       })
       .catch((err) => {
-        console.log(err);
         toast.error("Failure to update User");
+        dispatch({ type: "UPDATE_FAILURE"})
       });
   };
 
   return (
     <form autoComplete="off" noValidate onSubmit={handleSubmit}>
       <Card className="ProfileDetails">
+        
         <CardHeader title="Details" />
+        
         <CardContent sx={{ pt: 0 }}>
+          
           <Box sx={{ m: -1.5 }}>
+
             <Grid container spacing={3}>
+              
+              {/* FIRST NAME */}
               <Grid xs={12} md={6}>
               <TextField
                 fullWidth
@@ -90,6 +102,7 @@ export default function ProfileDetails() {
               />
               </Grid>
 
+              {/* LAST NAME */}
               <Grid xs={12} md={6}>
               <TextField
                 fullWidth
@@ -106,6 +119,7 @@ export default function ProfileDetails() {
               />
               </Grid>
 
+              {/* PHONE NUMBER */}
               <Grid xs={12} md={6}>
                 <TextField
                   fullWidth
@@ -121,6 +135,7 @@ export default function ProfileDetails() {
                 />
               </Grid>
 
+              {/* DATE OF BIRTH */}
               <Grid xs={12} md={6}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
@@ -129,10 +144,8 @@ export default function ProfileDetails() {
                     sx={{
                       width: "100%",
                     }}
+                    disabled
                     required
-                    onChange={(newValue) => {
-                      setDob(newValue);
-                    }}
                     slotProps={{
                       textField: {
                         helperText: 'MM / DD / YYYY',
@@ -143,6 +156,7 @@ export default function ProfileDetails() {
                 </LocalizationProvider>
               </Grid>
 
+              {/* COUNTRY */}
               <Grid xs={12} md={6}>
                 <TextField
                   fullWidth
@@ -158,6 +172,7 @@ export default function ProfileDetails() {
                 />
               </Grid>
 
+              {/* STATE */}
               <Grid xs={12} md={6}>
                 <TextField
                   fullWidth
@@ -174,12 +189,17 @@ export default function ProfileDetails() {
               </Grid>
 
             </Grid>
+
           </Box>
+
         </CardContent>
+        
         <Divider />
+        
         <CardActions sx={{ justifyContent: "flex-end" }}>
           <Button type="submit" variant="contained" disabled={isFetching} sx={{ mt: 2}}>Save details</Button>
         </CardActions>
+      
       </Card>
     </form>
   );

@@ -64,7 +64,8 @@ exports.signin = catchAsync(async (req, res, next) => {
   // if everything ok, send token to client
   const token = signToken(user._id);
   sendCookie(res, token);
-  res.status(200).json({ status: "success", token, image: user.image, name: user.fname + " " + user.lname });
+  let userName = user.fname + " " + user.lname
+  res.status(200).json({ status: "success", token, image: user.image, name: userName });
 });
 
 

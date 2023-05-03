@@ -24,10 +24,7 @@ exports.updateDetails = catchAsync(async (req, res, next) => {
   updatedUser.country = req.body.country || updatedUser.country;
   updatedUser.phoneNo = req.body.phoneNo || updatedUser.phoneNo;
 
-  updatedUser = await User.findByIdAndUpdate(req.user._id, updatedUser, {
-    new: true,
-    runValidators: true,
-  });
+  await updatedUser.save({ runValidators: true, new: true });
 
   updatedUser.password = undefined;
   res.status(200).json({

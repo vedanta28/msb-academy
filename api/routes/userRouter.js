@@ -7,7 +7,8 @@ const {
   addCourse,
   removeCourse,
   getCheckout,
-  getClassroom
+  getClassroom,
+  getDetails
 } = require("../controllers/userController");
 
 const {
@@ -24,8 +25,9 @@ router.get("/logout", logout);
 router.post("/add-course", protect, addCourse);
 router.post("/remove-Course", protect, removeCourse);
 
-router.put("/user-details", protect, updateDetails);
-router.put("/user-password", protect, updatePassword);
+router.route("/user-details")
+.get(protect, getDetails)
+.put(protect, updateDetails);
 
 router.get("/checkout", protect, getCheckout);
 router.get("/classroom", protect, getClassroom);

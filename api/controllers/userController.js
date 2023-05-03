@@ -3,7 +3,18 @@ const Course = require("../models/courseModel");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 
+
+
 // Get User Details
+exports.getDetails = catchAsync(async (req, res, next) => {
+  const fetchedUser = await User.findById(req.user._id);
+  res.status(200).json({
+    message: "Success",
+    fetchedUser
+  });
+});
+
+// Update User Details
 exports.updateDetails = catchAsync(async (req, res, next) => {
   let updatedUser = req.user;
   updatedUser.fname = req.body.fname || updatedUser.fname;

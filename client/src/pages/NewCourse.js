@@ -26,7 +26,6 @@ const roles = [
 
 export default function NewCourseForm() {
   const { user } = useContext(UserContext);
-  const { dispatch, isFetching } = useContext(UserContext);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");

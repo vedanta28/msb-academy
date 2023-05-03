@@ -44,7 +44,7 @@ export default function SignInForm()
       });
 
       console.log(data);
-      let userData = {token: data.token, image: data.image};
+      let userData = {token: data.token, image: data.image, name: data.name};
       dispatch({ type: "LOGIN_SUCCESS", payload: userData });
       navigate("/");
     } 

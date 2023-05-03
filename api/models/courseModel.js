@@ -20,6 +20,13 @@ const courseSchema = new mongoose.Schema({
     },
     immutable: true,
   },
+  // startDate: {
+  //   type: Date,
+  //   required: [true, "Start Date is required"],
+  // },
+  // endDate: {
+  //   type: Date,
+  // },
   duration: {
     type: Number, // in weeks
   },

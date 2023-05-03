@@ -63,12 +63,13 @@ exports.signin = catchAsync(async (req, res, next) => {
   // if everything ok, send token to client
   const token = signToken(user._id);
   sendCookie(res, token);
-  res.status(200).json({ status: "success", token, image: user.image });
+  res.status(200).json({ status: "success", token, image: user.image, name: user.fname + " " + user.lname });
 });
 
 
 // Check if user is logged in
 exports.protect = catchAsync(async (req, res, next) => {
+  console.log(req);
   // Getting the token and check if it exists
   let token;
 
@@ -78,6 +79,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   // else if (req.headers.Authorization && req.headers.Authorization.startsWith("Bearer"))
   //   token = req.headers.Authorization.split(" ")[1];
 
+  console.log(token);
   if (!token)
     return next(
       new AppError("You are not logged in! Please log in to get access", 401)

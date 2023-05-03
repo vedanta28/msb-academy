@@ -8,7 +8,8 @@ const {
   removeCourse,
   getCheckout,
   getClassroom,
-  getDetails
+  getDetails,
+  updateRating
 } = require("../controllers/userController");
 
 const {
@@ -28,6 +29,8 @@ router.post("/remove-Course", protect, removeCourse);
 router.route("/user-details")
 .get(protect, getDetails)
 .put(protect, updateDetails);
+
+router.put("/update-rating", protect, updateRating);
 
 router.get("/checkout", protect, getCheckout);
 router.get("/classroom", protect, getClassroom);

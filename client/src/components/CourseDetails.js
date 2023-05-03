@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import storage from "../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 // MATERIAL UI
 import {
@@ -14,58 +15,89 @@ import {
   Typography,
   Card,
   CardContent,
+  Rating,
 } from "@mui/material";
 
 // ICONS
 import ShareIcon from "@mui/icons-material/Share";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
-
 function CourseDetails({ Data, CourseID, Instructor }) {
+
+  // IDENTIFY THE ID
+  const { id } = useParams();
 
   // BRING IN USER
   const { user } = useContext(UserContext);
-  
+
   // HANDLE IMAGE UPLOAD
   const [imageUpload, setImageUpload] = useState(null);
   const [imageURL, setImageURL] = useState("/defaultCover.png");
   useEffect(() => {
-    getDownloadURL(ref(storage, `courses/${CourseID}.jpg`)).then((url) => {
-      setImageURL(url);
-    }).catch((err) => {
-      setImageURL("/defaultCover.png");
-    })
+    getDownloadURL(ref(storage, `courses/${CourseID}.jpg`))
+      .then((url) => {
+        setImageURL(url);
+      })
+      .catch((err) => {
+        setImageURL("/defaultCover.png");
+      });
   }, []);
-  
+
   // To Save Image Upload
   const saveImage = () => {
-    if (imageUpload == null)
-      return;
+    if (imageUpload == null) return;
 
     toast.info("Processing Request");
     const imageRef = ref(storage, `courses/${CourseID}.jpg`);
     uploadBytes(imageRef, imageUpload).then((res) => {
-      getDownloadURL(res.ref).then((url) => {
-        setImageURL(url);
-      }).catch((err) => {
-        toast.error("Something Went Wrong");
-        setImageURL("/defaultCover.png");
-      })
-    })
-  }
+      getDownloadURL(res.ref)
+        .then((url) => {
+          setImageURL(url);
+        })
+        .catch((err) => {
+          toast.error("Something Went Wrong");
+          setImageURL("/defaultCover.png");
+        });
+    });
+  };
 
   // To Handle Buy Now
   const handleBuy = () => {
-    axios.post("http://localhost:42690/api/users/add-course",
-      { courseID: CourseID },
-      { headers: { "Authorization": `Bearer ${user.token}` } })
+    axios
+      .post(
+        "http://localhost:42690/api/users/add-course",
+        { courseID: CourseID },
+        { headers: { Authorization: `Bearer ${user.token}` } }
+      )
       .then((res) => {
         toast.success("Added To Cart");
       })
       .catch((err) => {
         toast.error("Failed to Add");
       });
-  }
+  };
+  // RATINGS
+  const [ratingValue, setRatingValue] = useState(2.5);
+  // HANDLE RATING CHANGES
+  const handleRatingChange = (newValue) => {
+    // do something with the new rating value
+    console.log("New rating value:", newValue);
+    console.log(`Rating for course ${id} changed to newValue`);
+    setRatingValue(newValue);
+    let courseID = id;
+    let rating = newValue;
+    axios
+      .put("http://localhost:42690/api/users/update-rating", { courseID, rating }, {
+        headers: { Authorization: `Bearer ${user.token}` }
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        toast.error("Failure to update User");
+      });
+
+  };
 
   return (
     <Card
@@ -76,13 +108,11 @@ function CourseDetails({ Data, CourseID, Instructor }) {
         width: "1000px",
         mx: "auto",
         mb: 10,
-        boxShadow: "5px 5px 10px 1px rgba(0,0,0,0.1)"
+        boxShadow: "5px 5px 10px 1px rgba(0,0,0,0.1)",
       }}
     >
-
       <CardContent>
         <Container style={{ display: "flex" }}>
-
           {/* Left Column */}
           <Stack>
             {/* Course Image */}
@@ -100,10 +130,10 @@ function CourseDetails({ Data, CourseID, Instructor }) {
               }}
             />
 
-            {Instructor &&
+            {Instructor && (
               <>
                 {/* Buttons to Upload */}
-                < Button
+                <Button
                   component="label"
                   sx={{
                     backgroundColor: "white",
@@ -117,10 +147,9 @@ function CourseDetails({ Data, CourseID, Instructor }) {
                   <input
                     type="file"
                     onChange={(e) => {
-                      toast.info("Please Save Changes")
-                      setImageUpload(e.target.files[0])
-                    }
-                    }
+                      toast.info("Please Save Changes");
+                      setImageUpload(e.target.files[0]);
+                    }}
                     hidden
                   />
                 </Button>
@@ -141,18 +170,14 @@ function CourseDetails({ Data, CourseID, Instructor }) {
                   Save Changes
                 </Button>
               </>
-            }
-
+            )}
           </Stack>
 
           {/* Right Column */}
           <Stack spacing={3}>
-
             <Stack spacing={15} direction="row">
-
               {/* Inside Left Column */}
               <Stack>
-
                 {/* Course Name */}
                 <Typography
                   component="div"
@@ -186,18 +211,20 @@ function CourseDetails({ Data, CourseID, Instructor }) {
                 <Typography
                   component="div"
                   variant="paragraph"
-                  style={{ maxWidth: "400px", marginBottom: "10px", textAlign: "justify" }}
+                  style={{
+                    maxWidth: "400px",
+                    marginBottom: "10px",
+                    textAlign: "justify",
+                  }}
                 >
                   {Data.description}
                 </Typography>
-
               </Stack>
 
               {/* Inside Right Column */}
               <Stack spacing={1} sx={{ margin: "auto" }}>
-                
                 {/* Button To Purchase */}
-                { ( !Instructor )  &&
+                {!Instructor && (
                   <Button
                     variant="contained"
                     startIcon={<ShoppingCartIcon />}
@@ -211,7 +238,7 @@ function CourseDetails({ Data, CourseID, Instructor }) {
                   >
                     Buy Now
                   </Button>
-                }
+                )}
 
                 {/* Button To Share */}
                 <Button
@@ -227,14 +254,24 @@ function CourseDetails({ Data, CourseID, Instructor }) {
                 >
                   Share
                 </Button>
+                <Rating
+                  name="half-rating"
+                  value={ratingValue}
+                  precision={0.5}
+                  style={{
+                    marginRight: "auto",
+                    marginLeft: "auto",
+                  }}
+                  onChange={(event, newValue) => {
+                    handleRatingChange(newValue);
+                  }}
+                />
               </Stack>
             </Stack>
-            
           </Stack>
-
         </Container>
       </CardContent>
-    </Card >
+    </Card>
   );
 }
 

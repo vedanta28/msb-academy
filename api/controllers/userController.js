@@ -3,14 +3,12 @@ const Course = require("../models/courseModel");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 
-
-
 // Get User Details
 exports.getDetails = catchAsync(async (req, res, next) => {
   const fetchedUser = await User.findById(req.user._id);
   res.status(200).json({
     message: "Success",
-    fetchedUser
+    fetchedUser,
   });
 });
 
@@ -58,7 +56,6 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 
 // Add Course to Wishlist
 exports.addCourse = catchAsync(async (req, res, next) => {
-
   const courseID = req.body.courseID;
 
   if (!courseID || !(await Course.findById(courseID)))
@@ -67,9 +64,8 @@ exports.addCourse = catchAsync(async (req, res, next) => {
     );
 
   const user = req.user;
-  
-  if ( !user.wishlist.includes(courseID) )
-  {
+
+  if (!user.wishlist.includes(courseID)) {
     user.wishlist.push(courseID);
     await user.save({ validateBeforeSave: false });
   }
@@ -78,7 +74,6 @@ exports.addCourse = catchAsync(async (req, res, next) => {
     message: "Course Added",
     user,
   });
-
 });
 
 // Remove Course from Wishlist
@@ -117,11 +112,52 @@ exports.getCheckout = catchAsync(async (req, res, next) => {
 
 // Get Classroom
 exports.getClassroom = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.user._id).populate('courseTaken.course');
+  const user = await User.findById(req.user._id).populate("courseTaken.course");
   const classroom = user.courseTaken;
   res.status(200).json({
     status: "success",
     classroom,
   });
   next();
+});
+
+// Update Rating
+exports.updateRating = catchAsync(async (req, res, next) => {
+  const courseID = req.body.courseID;
+  const rating = req.body.rating;
+
+  const user = req.user;
+
+  console.log(user);
+  console.log(courseID);
+  console.log(rating);
+
+  User.findOneAndUpdate(
+    { _id: user._id, "courseTaken.course": courseID },
+    { $set: { "courseTaken.$.rating": rating } },
+    { new: true }
+  )
+    .then((updatedUser) => {
+      if (updatedUser) {
+        console.log(`Done`);
+        return;
+      }
+      console.log(
+        `Not Done`
+      );
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+
+  // const index = user.courseTaken.findIndex((el) => el.course == courseID);
+  // if (index > -1) {
+  //   user.courseTaken[index].rating = rating;
+  // }
+
+  // await user.save({ validateBeforeSave: false });
+  // res.status(200).json({
+  //   message: "Rating Updated",
+  //   user,
+  // });
 });

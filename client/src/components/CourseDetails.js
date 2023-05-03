@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import storage from "../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import axios from "axios";
-import { useParams } from "react-router-dom";
 
 // MATERIAL UI
 import {

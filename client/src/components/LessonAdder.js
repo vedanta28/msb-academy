@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { UserContext } from "../context/UserContext";
@@ -12,32 +12,21 @@ import Container from "@mui/material/Container";
 export default function LessonAdder({ CourseID }) {
   const { user } = useContext(UserContext);
 
+  const [videoName, setVideoName] = useState("");
+  const [videoLink, setVideoLink] = useState("");
+  const [videoDuration, setVideoDuration] = useState(0);
+
   const handleSubmit = async (event) => {
-
     event.preventDefault();
-    
-    let newVideoID=0;
-    const data = new FormData(event.currentTarget);
-    console.log(data);
-
-    await axios.get(`http://localhost:42690/api/courses/${CourseID}/`, {
-      headers: { Authorization: `Bearer ${user.token}` }
-    })
-      .then((res) => {
-        // console.log(res.data);
-        newVideoID=res.data.course.videos.length+1;
-      }
-      )
-      .catch((err) => {
-        toast.error("Failure to Load Course");
-      });
-    
     await axios
-      .post(`http://localhost:42690/api/courses/${CourseID}`, { vID: newVideoID, ...data }, {
+      .post(`http://localhost:42690/api/courses/${CourseID}`, { videoName, videoLink, videoDuration }, {
         headers: { Authorization: `Bearer ${user.token}` }
       })
       .then((res) => {
-        console.log(res);
+        setVideoLink("");
+        setVideoDuration("");
+        setVideoName("");
+        toast.success("Video Added Successfully")
       })
       .catch((err) => {
         toast.error("Failure to add video");
@@ -79,6 +68,8 @@ export default function LessonAdder({ CourseID }) {
             id="ctitle"
             label="Course Title"
             name="vName"
+            value={videoName}
+            onChange={(e => setVideoName( () => e.target.value))}
             autoFocus
           />
 
@@ -89,6 +80,8 @@ export default function LessonAdder({ CourseID }) {
             id="vlink"
             label="Video Link"
             name="vlink"
+            value={videoLink}
+            onChange={(e => setVideoLink( () => e.target.value))}
           />
 
           <TextField
@@ -99,6 +92,8 @@ export default function LessonAdder({ CourseID }) {
             type="number"
             label="Video Duration"
             name="vDuration"
+            value={videoDuration}
+            onChange={(e => setVideoDuration( () => e.target.value))}
           />
 
           <Button

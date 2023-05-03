@@ -58,7 +58,7 @@ function Course() {
         {bought &&
           <div>
             {videos.map((v) => (
-              <VideoCard key={v.vID} Data={v} />
+              <VideoCard key={v._id} Data={v} />
             ))}
           </div>
         }

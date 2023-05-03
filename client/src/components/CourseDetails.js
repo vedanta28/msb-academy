@@ -263,6 +263,9 @@ function CourseDetails({ Data, CourseID, Instructor }) {
                     marginLeft: "auto",
                   }}
                   onChange={(event, newValue) => {
+                    if (newValue === null) {
+                      newValue = ratingValue;
+                    }
                     handleRatingChange(newValue);
                   }}
                 />

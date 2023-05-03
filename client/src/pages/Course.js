@@ -2,21 +2,11 @@ import "../stylesheets/Course.css";
 import CourseDetails from "../components/CourseDetails";
 import VideoCard from "../components/VideoCard";
 import LessonAdder from "../components/LessonAdder";
-
-
-const data = {
-  Picture: "/sampleCourse.png",
-  Language: "English",
-  InstuctorName: "Koustav Sen",
-  CourseName: "Complete Course on Computer Networks - Part I",
-  Description:
-    "In this course, Koustav Sen will cover Computer Networks. All the important topics will be discussed in detail and would be helpful for aspirants preparing for the GATE exam.",
-  TotalVideos: "10",
-  StartDate: "21 Apr 2021",
-  EndDate: "7 May 2021",
-  TotalVideoLengh: "2h 30m",
-  Price: 500,
-};
+import { useLocation } from 'react-router-dom';
+import { useState, useContext, useEffect } from "react";
+import { UserContext } from "../context/UserContext";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const video = [
   {
@@ -82,9 +72,36 @@ const video = [
 ];
 
 function Course() {
+
+  let { pathname } = useLocation();
+  const { user } = useContext(UserContext);
+  const courseID = pathname.split('/')[2];
+  const [values, setValues] = useState({});
+  let userID;
+
+  useEffect(() => {
+    
+    if (user && user.image)
+      userID = user.image.split('.')[0];
+
+    axios.get(`http://localhost:42690/api/courses/${courseID}`,
+      { headers: { "Authorization": `Bearer ${user.token}` } }).then((res) => {
+        const val = res.data.course;
+        setValues((prevState) => ({ ...prevState, ...val }));
+
+      }).catch((err) => {
+        toast.error("Failed to Load Course");
+      })
+  }, []);
+
+  let instructor = values.instructorID === userID;
+  const data = {...values, videos: null};
+
   return (
     <div className="Course">
-      <div className="DetailsContainer">{CourseDetails(data)}</div>
+      <div className="DetailsContainer">
+        < CourseDetails Data={data} CourseID={courseID} Instructor={instructor} />
+      </div>
 
       <div className="VideoContainer">
         <div>
@@ -92,11 +109,14 @@ function Course() {
             <VideoCard key={v.VideoSerial} Data={v} />
           ))}
         </div>
-        <div>
-            <LessonAdder/>
-        </div>
+        {instructor &&
+          <div>
+            <LessonAdder />
+          </div>
+        }
       </div>
     </div>
   );
 }
+
 export default Course;

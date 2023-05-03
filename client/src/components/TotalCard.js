@@ -5,11 +5,65 @@ import {
   CardContent,
   CardActions,
 } from "@mui/material";
-import React from "react";
-import PaymentsIcon from "@mui/icons-material/Payments";
 
-function TotalCard(Data) {
+import PaymentsIcon from "@mui/icons-material/Payments";
+import { useContext } from "react";
+
+import axios from "axios";
+
+import { UserContext } from "../context/UserContext";
+import { toast } from "react-toastify";
+
+function TotalCard({ Data, val, fn }) {
+
   const Total = Data.reduce((acc, curr) => acc + curr.fees, 0);
+  const { user } = useContext(UserContext);
+
+  const handlePayment = async () => {
+    const courses = [];
+    Data.forEach(e => {
+      courses.push(e._id);
+    });
+
+    // Create An Order
+    const { data } = await axios.post("http://localhost:42690/api/payments/order",
+      { courses },
+      { headers: { "Authorization": `Bearer ${user.token}` } });
+
+    // Failed To Generate Order  
+    if (!data) {
+      toast.error("Failed to Process Payment");
+      return;
+    }
+
+    // Get the Order Response
+    const res = data.response;
+
+    // Generate the Options For Payment Portal
+    const options = {
+      key: "rzp_test_MrTc2mD19J95OQ",
+      amount: res.amount,
+      currency: res.currency,
+      order_id: res.id,
+      name: "MSB Academy",
+      image: "/msb.svg",
+      handler: async (response) => {
+        try {
+          await axios.post("http://localhost:42690/api/payments/verify", { response }, { headers: { "Authorization": `Bearer ${user.token}` } });
+          toast.success("Payment Successful");
+          fn(!val);
+        } catch (err) {
+          toast.error("Transaction Failed");
+          console.log(err);
+        }
+      }
+    };
+
+    // Open Payment Portal
+    const rzp1 = new window.Razorpay(options);
+    rzp1.open();
+  }
+
   return (
     <Card
       sx={{
@@ -19,6 +73,7 @@ function TotalCard(Data) {
       }}
     >
       <CardContent sx={{ display: "flex", flexDirection: "column" }}>
+
         <Typography
           component="div"
           variant="h4"
@@ -33,6 +88,7 @@ function TotalCard(Data) {
         >
           Total:
         </Typography>
+
         <Typography
           component="div"
           variant="h4"
@@ -47,6 +103,7 @@ function TotalCard(Data) {
         >
           ₹{Total}
         </Typography>
+
       </CardContent>
 
       <CardActions>
@@ -54,10 +111,12 @@ function TotalCard(Data) {
           variant="Text"
           startIcon={<PaymentsIcon />}
           style={{ verticalAlign: "middle", color: "green" }}
+          onClick={handlePayment}
         >
           Proceed to Pay
         </Button>
       </CardActions>
+
     </Card>
   );
 }

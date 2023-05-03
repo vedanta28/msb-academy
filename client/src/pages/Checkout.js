@@ -12,6 +12,7 @@ import CoursesCard from "../components/CourseCard";
 function Checkout() {
 
     const { user } = useContext(UserContext);
+    const [reload, setReload] = useState(0);
     const [reqCourses, setReqCourses] = useState([]);
 
     useEffect(() => {
@@ -26,7 +27,7 @@ function Checkout() {
                 console.log(err);
                 toast.error("Failure to Load Checkout Cart");
             });
-    },[]);
+    }, [reload]);
 
     return (
         <div className="Courses">
@@ -43,10 +44,10 @@ function Checkout() {
                         <>
                             <div>
                                 {reqCourses.map((d) => (
-                                    <CoursesCard key={d._id} Data={d} Checkout={true} />
+                                    <CoursesCard key={d._id} Data={d} Checkout={true} val={reload} fn={setReload} />
                                 ))}
                             </div>
-                            <div>{TotalCard(reqCourses)}</div>
+                            <div>{< TotalCard Data={reqCourses} val={reload} fn={setReload} />}</div>
 
                         </>
                     )

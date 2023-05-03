@@ -41,6 +41,10 @@ const courseSchema = new mongoose.Schema({
     ref: "User",
     required: [true, "A Course must have an instructor"],
   },
+  instructorName: {
+    type: String,
+    required: [ true, 'A Course must have an Instructor' ]
+  },
   rating: {
     type: Number,
     default: 0,

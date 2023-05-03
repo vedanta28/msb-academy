@@ -49,6 +49,7 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 
 // Add Course to Wishlist
 exports.addCourse = catchAsync(async (req, res, next) => {
+
   const courseID = req.body.courseID;
 
   if (!courseID || !(await Course.findById(courseID)))
@@ -57,13 +58,18 @@ exports.addCourse = catchAsync(async (req, res, next) => {
     );
 
   const user = req.user;
-  user.wishlist.push(courseID);
-  await user.save({ validateBeforeSave: false });
+  
+  if ( !user.wishlist.includes(courseID) )
+  {
+    user.wishlist.push(courseID);
+    await user.save({ validateBeforeSave: false });
+  }
 
   res.status(200).json({
     message: "Course Added",
     user,
   });
+
 });
 
 // Remove Course from Wishlist

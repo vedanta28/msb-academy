@@ -3,7 +3,7 @@ import { UserContext } from "../context/UserContext";
 
 import storage from "../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { toast } from "react-toastify"
+import { toast } from "react-toastify";
 
 import {
   Avatar,
@@ -58,7 +58,6 @@ export default function ProfileCard() {
         setImageURL("/default.jpg");
       })
     })
-
   }
 
   return (

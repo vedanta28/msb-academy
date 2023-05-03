@@ -1,3 +1,11 @@
+import { useContext, useState, useEffect } from "react";
+import { UserContext } from "../context/UserContext";
+import { toast } from "react-toastify";
+import storage from "../firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import axios from "axios";
+
+// MATERIAL UI
 import {
   CardMedia,
   Button,
@@ -8,52 +16,144 @@ import {
   CardContent,
 } from "@mui/material";
 
+// ICONS
 import ShareIcon from "@mui/icons-material/Share";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import YouTubeIcon from "@mui/icons-material/YouTube";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
-function CourseDetails(Data) {
+
+function CourseDetails({ Data, CourseID, Instructor }) {
+
+  // BRING IN USER
+  const { user } = useContext(UserContext);
+  
+  // HANDLE IMAGE UPLOAD
+  const [imageUpload, setImageUpload] = useState(null);
+  const [imageURL, setImageURL] = useState("/defaultCover.png");
+  useEffect(() => {
+    getDownloadURL(ref(storage, `courses/${CourseID}.jpg`)).then((url) => {
+      setImageURL(url);
+    }).catch((err) => {
+      setImageURL("/defaultCover.png");
+    })
+  }, []);
+  
+  // To Save Image Upload
+  const saveImage = () => {
+    if (imageUpload == null)
+      return;
+
+    toast.info("Processing Request");
+    const imageRef = ref(storage, `courses/${CourseID}.jpg`);
+    uploadBytes(imageRef, imageUpload).then((res) => {
+      getDownloadURL(res.ref).then((url) => {
+        setImageURL(url);
+      }).catch((err) => {
+        toast.error("Something Went Wrong");
+        setImageURL("/defaultCover.png");
+      })
+    })
+  }
+
+  // To Handle Buy Now
+  const handleBuy = () => {
+    axios.post("http://localhost:42690/api/users/add-course",
+      { courseID: CourseID },
+      { headers: { "Authorization": `Bearer ${user.token}` } })
+      .then((res) => {
+        toast.success("Added To Cart");
+      })
+      .catch((err) => {
+        toast.error("Failed to Add");
+      });
+  }
+
   return (
     <Card
       elevation={0}
       sx={{
-        backgroundColor: "white",
-        borderRadius: "7px",
-        height: "370px",
-        width: "1100px",
+        borderRadius: "5px",
+        height: "360px",
+        width: "1000px",
         mx: "auto",
-        marginBottom: 10,
+        mb: 10,
         boxShadow: "5px 5px 10px 1px rgba(0,0,0,0.1)"
       }}
     >
-      <CardContent style={{ padding: "none" }}>
-        <Container style={{ display: "flex", padding: "none" }}>
+
+      <CardContent>
+        <Container style={{ display: "flex" }}>
+
+          {/* Left Column */}
           <Stack>
+            {/* Course Image */}
             <CardMedia
               component="img"
-              image={`${Data.Picture}`}
-              alt={Data.CourseName}
+              image={`${imageURL}`}
+              alt={Data.name}
               style={{
                 borderRadius: "10px",
-                height: "183px",
-                width: "326px",
+                height: "220px",
+                width: "330px",
                 marginRight: "30px",
+                marginBottom: "10px",
                 verticalAlign: "middle",
               }}
             />
-          </Stack>
-          <Stack spacing={3}>
-            <Stack spacing={11} direction="row">
-              <Stack>
-                <Typography
-                  component="div"
-                  variant="button"
-                  style={{ maxWidth: "400px", marginBottom: "10px" }}
+
+            {Instructor &&
+              <>
+                {/* Buttons to Upload */}
+                < Button
+                  component="label"
+                  sx={{
+                    backgroundColor: "white",
+                    marginTop: "5px",
+                    ":hover": {
+                      backgroundColor: "white",
+                    },
+                  }}
                 >
-                  {Data.Language}
-                </Typography>
+                  Upload File
+                  <input
+                    type="file"
+                    onChange={(e) => {
+                      toast.info("Please Save Changes")
+                      setImageUpload(e.target.files[0])
+                    }
+                    }
+                    hidden
+                  />
+                </Button>
+
+                {/* Button to Save */}
+                <Button
+                  component="label"
+                  sx={{
+                    backgroundColor: "white",
+                    marginTop: "5px",
+                    ":hover": {
+                      backgroundColor: "white",
+                    },
+                  }}
+                  disableTouchRipple
+                  onClick={saveImage}
+                >
+                  Save Changes
+                </Button>
+              </>
+            }
+
+          </Stack>
+
+          {/* Right Column */}
+          <Stack spacing={3}>
+
+            <Stack spacing={15} direction="row">
+
+              {/* Inside Left Column */}
+              <Stack>
+
+                {/* Course Name */}
                 <Typography
                   component="div"
                   variant="h1"
@@ -64,8 +164,10 @@ function CourseDetails(Data) {
                     fontSize: "24px",
                   }}
                 >
-                  {Data.CourseName}
+                  {Data.name}
                 </Typography>
+
+                {/* Instructor Name */}
                 <Typography
                   component="div"
                   variant="h4"
@@ -77,41 +179,41 @@ function CourseDetails(Data) {
                     color: "#3C4852",
                   }}
                 >
-                  {Data.InstuctorName}
+                  {Data.InstructorName}
                 </Typography>
+
+                {/* Coursecription */}
                 <Typography
                   component="div"
                   variant="paragraph"
-                  style={{ maxWidth: "400px", marginBottom: "10px" }}
+                  style={{ maxWidth: "400px", marginBottom: "10px", textAlign: "justify" }}
                 >
-                  {Data.Description}
+                  {Data.description}
                 </Typography>
+
               </Stack>
+
+              {/* Inside Right Column */}
               <Stack spacing={1} sx={{ margin: "auto" }}>
-                <Button
-                  variant="contained"
-                  style={{
-                    color: "white",
-                    backgroundColor: "#0ABD80",
-                    height: "48px",
-                    width: "176px",
-                    marginTop: "auto",
-                  }}
-                >
-                  Get Subcription
-                </Button>
-                <Button
-                  variant="contained"
-                  startIcon={<ShoppingCartIcon />}
-                  style={{
-                    color: "white",
-                    backgroundColor: "#027EFF",
-                    height: "48px",
-                    width: "176px",
-                  }}
-                >
-                  Buy Now
-                </Button>
+                
+                {/* Button To Purchase */}
+                { ( !Instructor )  &&
+                  <Button
+                    variant="contained"
+                    startIcon={<ShoppingCartIcon />}
+                    style={{
+                      color: "white",
+                      backgroundColor: "#027EFF",
+                      height: "48px",
+                      width: "176px",
+                    }}
+                    onClick={handleBuy}
+                  >
+                    Buy Now
+                  </Button>
+                }
+
+                {/* Button To Share */}
                 <Button
                   variant="contained"
                   startIcon={<ShareIcon />}
@@ -127,36 +229,12 @@ function CourseDetails(Data) {
                 </Button>
               </Stack>
             </Stack>
-            <Stack direction="row">
-              <CalendarMonthIcon fontSize="large" color="disabled" />
-              <Typography variant="caption" maxWidth="80px" marginRight={10}>
-                {Data.StartDate} - {Data.EndDate}
-              </Typography>
-              <YouTubeIcon fontSize="large" color="disabled" />
-              <Typography
-                variant="caption"
-                maxWidth="100px"
-                marginTop="auto"
-                marginBottom="auto"
-                marginRight={10}
-              >
-                {Data.TotalVideos} lessons
-              </Typography>
-              <AccessTimeIcon fontSize="large" color="disabled" />
-              <Typography
-                variant="caption"
-                maxWidth="60px"
-                marginLeft="4px"
-                marginTop="auto"
-                marginBottom="auto"
-              >
-                {Data.TotalVideoLengh}
-              </Typography>
-            </Stack>
+            
           </Stack>
+
         </Container>
       </CardContent>
-    </Card>
+    </Card >
   );
 }
 

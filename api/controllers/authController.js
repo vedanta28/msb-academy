@@ -3,6 +3,7 @@ const User = require("../models/userModel");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 
+
 // Sign Token and send it to client
 const signToken = (id) => {
   //jwt.sign({payload}, secret, {options})
@@ -74,9 +75,6 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   if (req.headers.authorization && req.headers.authorization.startsWith("Bearer"))
     token = req.headers.authorization.split(" ")[1];
-
-  // else if (req.headers.Authorization && req.headers.Authorization.startsWith("Bearer"))
-  //   token = req.headers.Authorization.split(" ")[1];
 
   if (!token)
     return next(

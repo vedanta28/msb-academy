@@ -4,19 +4,17 @@ const catchAsync = require("../utils/catchAsync");
 const crypto = require("crypto");
 const Payment = require("../models/paymentModel");
 const Course = require("../models/courseModel");
+const mongoose = require("mongoose");
 
 // order payment
 exports.orderPayment = catchAsync(async (req, res, next) => {
   // calculate the amount to be paid by the user
-  let amount = 0;
 
+  let amount = 0;
   const courses = req.body.courses;
-  if (courses) {
-    courses.forEach(async (id) => {
-      const courseFees = await Course.findById(id).select("fees");
-      amount += courseFees;
-    });
-  } else amount = 600;
+
+  const records = await Course.find({ '_id': { $in: courses } }).select("fees");
+  records.forEach( e => amount += e.fees )
 
   let instance = new Razorpay({
     key_id: process.env.RAZORPAY_KEY,
@@ -30,7 +28,6 @@ exports.orderPayment = catchAsync(async (req, res, next) => {
   };
 
   const response = await instance.orders.create(options);
-
   if (!response) return next(new AppError("Payment Failed", 500));
 
   res.status(200).json({
@@ -41,8 +38,9 @@ exports.orderPayment = catchAsync(async (req, res, next) => {
 
 // verify payment
 exports.verifyPayment = catchAsync(async (req, res, next) => {
+
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
-    req.body;
+    req.body.response;
 
   const secret = process.env.RAZORPAY_SECRET;
   const sign = razorpay_order_id + "|" + razorpay_payment_id;
@@ -52,7 +50,9 @@ exports.verifyPayment = catchAsync(async (req, res, next) => {
     .update(sign.toString())
     .digest("hex");
 
-  const purchasedCourses = [];
+  // To Add to Payment Model
+  let purchasedCourses = [];
+
   if (expectedSign === razorpay_signature) {
     // add the course to the user's course list
     const user = req.user;
@@ -60,12 +60,13 @@ exports.verifyPayment = catchAsync(async (req, res, next) => {
 
     for (let i = 0; i < size; i++) {
       const course = user.wishlist[i];
-      user.courseTaken.push(course);
+      user.courseTaken.push({course});
       purchasedCourses.push(course);
     }
 
     user.wishlist = [];
     await user.save({ validateBeforeSave: false });
+
     const newPayment = await Payment.create({
       paymentID: razorpay_payment_id,
       status: true,
@@ -79,12 +80,15 @@ exports.verifyPayment = catchAsync(async (req, res, next) => {
       newPayment,
     });
   } else {
+
+    const user = req.user;
     await Payment.create({
       paymentID: razorpay_payment_id,
       status: false,
       coursesList: purchasedCourses,
       purchasedBy: user._id,
     });
+
     return next(new AppError("Payment Failed", 500));
   }
 });

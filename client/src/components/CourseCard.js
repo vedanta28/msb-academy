@@ -8,23 +8,60 @@ import {
   Typography,
   Card,
   CardContent,
+  Rating,
 } from "@mui/material";
-import Rating from "@mui/material/Rating";
+
 import DeleteIcon from "@mui/icons-material/Delete";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import { useNavigate } from "react-router-dom";
 
-function CoursesCard({ Data, Checkout }) {
-  
-  const handleClick = () => {
-    console.info("You clicked the Chip.");
-  };
+import storage from "../firebase";
+import { ref, getDownloadURL } from "firebase/storage";
 
+import { useState, useEffect, useContext } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { UserContext } from "../context/UserContext";
+
+
+function CoursesCard({ Data, Checkout, val, fn }) {
+
+  const { user } = useContext(UserContext);
+  const [imageURL, setImageURL] = useState("/defaultCover.png");
+  const [insImageURL, setInsImageURL] = useState("/default.jpg"); 
+
+  // To Load Images
+  useEffect(() => {
+      getDownloadURL(ref(storage, `courses/${Data.imageCover}`)).then((url) => {
+        setImageURL(url);
+      }).catch((err) => {
+        setImageURL("/defaultCover.png")
+      })
+
+      getDownloadURL(ref(storage, `users/${Data.instructorID}.jpg`)).then((url) => {
+        setInsImageURL(url);
+      }).catch((err) => {
+        setInsImageURL("/default.jpg")
+      })
+
+  }, [])
+ 
+  // To Remove Course From Checkout
   const handleDelete = () => {
-    console.info("You clicked the delete icon.");
+    axios.post("http://localhost:42690/api/users/remove-course",
+    { courseID: Data._id },
+    { headers: { "Authorization": `Bearer ${user.token}` } })
+    .then((res) => {
+      toast.success("Removed From Cart");
+      fn(!val);
+    })
+    .catch((err) => {
+      toast.error("Failed to Remove");
+    });
   };
-
+  
   const navigate = useNavigate();
+  
   return (
     <Card
       sx={{
@@ -45,8 +82,8 @@ function CoursesCard({ Data, Checkout }) {
           <Stack>
             <CardMedia
               component="img"
-              image={Data.Picture}
-              alt={Data.CourseName}
+              image={imageURL}
+              alt={Data.name}
               style={{
                 borderRadius: "3px",
                 height: "183px",
@@ -74,8 +111,8 @@ function CoursesCard({ Data, Checkout }) {
             </Typography>
             <Stack direction="row" spacing={1}>
               <Chip
-                avatar={<Avatar alt="Natacha" src={Data.InstructorImage} />}
-                label={Data.InstructorID}
+                avatar={<Avatar alt="Natacha" src={insImageURL} />}
+                label={Data.instructorName || "Instructor 007"}
                 variant="filled"
               />
             </Stack>
@@ -118,9 +155,8 @@ function CoursesCard({ Data, Checkout }) {
               {Checkout && (
                 <Chip
                   label="Remove"
-                  onClick={handleClick}
-                  onDelete={handleDelete}
                   deleteIcon={<DeleteIcon />}
+                  onClick={handleDelete}
                   variant="outlined"
                   color="error"
                 />

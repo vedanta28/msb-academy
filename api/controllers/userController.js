@@ -8,7 +8,7 @@ exports.getDetails = catchAsync(async (req, res, next) => {
   const fetchedUser = await User.findById(req.user._id);
   res.status(200).json({
     message: "Success",
-    fetchedUser
+    fetchedUser,
   });
 });
 
@@ -72,7 +72,6 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 
 // Add Course to Wishlist
 exports.addCourse = catchAsync(async (req, res, next) => {
-
   const courseID = req.body.courseID;
 
   if (!courseID || !(await Course.findById(courseID)))
@@ -81,9 +80,8 @@ exports.addCourse = catchAsync(async (req, res, next) => {
     );
 
   const user = req.user;
-  
-  if ( !user.wishlist.includes(courseID) )
-  {
+
+  if (!user.wishlist.includes(courseID)) {
     user.wishlist.push(courseID);
     await user.save({ validateBeforeSave: false });
   }
@@ -92,7 +90,6 @@ exports.addCourse = catchAsync(async (req, res, next) => {
     message: "Course Added",
     user,
   });
-
 });
 
 // Remove Course from Wishlist
@@ -131,11 +128,61 @@ exports.getCheckout = catchAsync(async (req, res, next) => {
 
 // Get Classroom
 exports.getClassroom = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.user._id).populate('courseTaken.course');
+  const user = await User.findById(req.user._id).populate("courseTaken.course");
   const classroom = user.courseTaken;
   res.status(200).json({
     status: "success",
     classroom,
   });
   next();
+});
+
+// Update Rating
+exports.updateRating = catchAsync(async (req, res, next) => {
+  const courseID = req.body.courseID;
+  const rating = req.body.rating;
+  const user = req.user;
+
+  await User.findOneAndUpdate(
+    { _id: user._id, "courseTaken.course": courseID },
+    { $set: { "courseTaken.$.rating": rating } },
+    { new: true }
+  )
+    .then((updatedUser) => {
+      if (updatedUser) {
+        console.log(`Done`);
+      } else {
+        console.log(`Not Done`);
+      }
+      
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+    let totalRating = 0;
+    let numOfUsers = 0;
+    for await (const doc of User.find()) {
+      for (let i = 0; i < doc.courseTaken.length; i++) {
+        if (doc.courseTaken[i].course == courseID && doc.courseTaken[i].rating != 0) {
+          totalRating += doc.courseTaken[i].rating;
+          numOfUsers++;
+        }
+      }
+    }
+    let averageRating = totalRating/numOfUsers;
+    console.log("Avg" + averageRating);
+    Course.findOneAndUpdate(
+      { _id: courseID },
+      { $set: { rating: averageRating } },
+      { new: true }
+    ).then((updatedUser) => {
+      if (updatedUser) {
+        console.log(`Done`);
+      } else {
+        console.log(`Not Done`);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 });

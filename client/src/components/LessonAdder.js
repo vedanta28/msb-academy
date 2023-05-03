@@ -1,4 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { UserContext } from "../context/UserContext";
 
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -6,17 +9,39 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 
+export default function LessonAdder({ CourseID }) {
+  const { user } = useContext(UserContext);
 
-export default function LessonAdder() {
-  const [value, setValue] = useState(null);
+  const handleSubmit = async (event) => {
 
-  const handleSubmit = (event) => {
     event.preventDefault();
-
+    
+    let newVideoID=0;
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-    });
+    console.log(data);
+
+    await axios.get(`http://localhost:42690/api/courses/${CourseID}/`, {
+      headers: { Authorization: `Bearer ${user.token}` }
+    })
+      .then((res) => {
+        // console.log(res.data);
+        newVideoID=res.data.course.videos.length+1;
+      }
+      )
+      .catch((err) => {
+        toast.error("Failure to Load Course");
+      });
+    
+    await axios
+      .post(`http://localhost:42690/api/courses/${CourseID}`, { vID: newVideoID, ...data }, {
+        headers: { Authorization: `Bearer ${user.token}` }
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        toast.error("Failure to add video");
+      });
   };
 
   return (
@@ -53,7 +78,7 @@ export default function LessonAdder() {
             fullWidth
             id="ctitle"
             label="Course Title"
-            name="ctitle"
+            name="vName"
             autoFocus
           />
 

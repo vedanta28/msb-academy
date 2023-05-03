@@ -63,7 +63,7 @@ function Course() {
         }
         {user.image.split('.')[0] === values.instructorID &&
           <div>
-            <LessonAdder />
+            <LessonAdder CourseID={courseID}/>
           </div>
         }
       </div>

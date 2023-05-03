@@ -14,6 +14,6 @@ router.route("/").get(getAllCourses).post(protect, restricted, createCourse);
 router
   .route("/:id")
   .get(protect, getCourse)
-  .put(protect, restricted, addVideo);
+  .post(protect, restricted, addVideo);
 
 module.exports = router;

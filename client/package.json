@@ -5,10 +5,10 @@
   "dependencies": {
     "@cloudinary/react": "^1.11.2",
     "@cloudinary/url-gen": "^1.9.2",
-    "@emotion/react": "^11.10.6",
-    "@emotion/styled": "^11.10.6",
+    "@emotion/react": "^11.10.8",
+    "@emotion/styled": "^11.10.8",
     "@mui/icons-material": "^5.11.11",
-    "@mui/material": "^5.11.15",
+    "@mui/material": "^5.12.3",
     "@mui/styles": "^5.11.13",
     "@mui/x-date-pickers": "^6.0.3",
     "@testing-library/jest-dom": "^5.16.5",

@@ -64,7 +64,7 @@ exports.signin = catchAsync(async (req, res, next) => {
   // if everything ok, send token to client
   const token = signToken(user._id);
   sendCookie(res, token);
-  res.status(200).json({ status: "success", token, image: user.image });
+  res.status(200).json({ status: "success", token, image: user.image, name: user.fname + " " + user.lname });
 });
 
 
@@ -76,6 +76,8 @@ exports.protect = catchAsync(async (req, res, next) => {
   if (req.headers.authorization && req.headers.authorization.startsWith("Bearer"))
     token = req.headers.authorization.split(" ")[1];
 
+  // else if (req.headers.Authorization && req.headers.Authorization.startsWith("Bearer"))
+  //   token = req.headers.Authorization.split(" ")[1];
   if (!token)
     return next(
       new AppError("You are not logged in! Please log in to get access", 401)

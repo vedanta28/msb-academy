@@ -70,6 +70,18 @@ function App() {
               path="/courses"
               element={<Courses />}
             />
+
+            <Route
+              path="/NewCourse"
+              element={
+                user ? (
+                 <NewCourse/>
+                ) : (
+                  <Error type="401" />
+                )
+              }
+            />
+
             <Route
               path="/classroom"
               element={

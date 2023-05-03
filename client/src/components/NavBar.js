@@ -21,13 +21,12 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 
 // Menu Items
-let pages = ["Courses", "Classroom"];
+let pages = ["Courses", "Classroom", "Add New Course"];
 
 // User Settings
 let settings = ["Profile", "CheckOut", "Log Out"];
 
 function NavBar() {
-
   const [imageURL, setImageURL] = useState("/default.jpg");
 
   // Menu States
@@ -46,7 +45,6 @@ function NavBar() {
     setAnchorElUser(null);
   };
 
-
   const { dispatch, user } = useContext(UserContext);
   let navigate = useNavigate();
 
@@ -55,29 +53,36 @@ function NavBar() {
     handleCloseNavMenu();
     if (path === "/log out") {
       try {
-        const { status } = await axios.get("http://localhost:42690/api/users/logout");
+        const { status } = await axios.get(
+          "http://localhost:42690/api/users/logout"
+        );
         if (status === 200) {
           dispatch({ type: "LOGOUT" });
           navigate("/");
         }
-      }
-      catch (error) {
+      } catch (error) {
         console.log(error);
       }
+    } else {
+      if (path === "/add new course") {
+        path = "/NewCourse";
+      }
+      navigate(path);
     }
-    else navigate(path);
   };
 
-  // For Image 
+  // For Image
   useEffect(() => {
     if (user) {
-      getDownloadURL(ref(storage, `users/${user.image}`)).then((url) => {
-        setImageURL(url);
-      }).catch((err) => {
-        setImageURL("/default.jpg")
-      })
+      getDownloadURL(ref(storage, `users/${user.image}`))
+        .then((url) => {
+          setImageURL(url);
+        })
+        .catch((err) => {
+          setImageURL("/default.jpg");
+        });
     }
-  }, [])
+  }, []);
 
   return (
     <AppBar

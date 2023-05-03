@@ -26,6 +26,10 @@ exports.getCourse = catchAsync(async (req, res, next) => {
 
 // Add A New Course
 exports.createCourse = catchAsync(async (req, res, next) => {
+  console.log(req);
+  console.log(req.body);
+  req.body.instructorID = req.user._id;
+  console.log(req.body);
   const newCourse = await Course.create(req.body);
   res.status(201).json({
     status: "success",

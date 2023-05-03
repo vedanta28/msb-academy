@@ -52,11 +52,13 @@ exports.addVideo = catchAsync(async (req, res, next) => {
     );
   }
 
+  console.log(req.body);
   // Push The New Video To The Videos Array
   const video = {
     vID: req.body.vID,
     vName: req.body.vName,
     vLink: req.body.vLink,
+    vDuration: req.body.vDuration,
   };
   course.videos.push(video);
 

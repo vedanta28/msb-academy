@@ -2,8 +2,13 @@ import { Stack, Typography, Card, CardContent } from "@mui/material";
 
 function VideoCard({Data}) {
   // const dateArray = Data.VideoDate.split(" ");
-  let day = 'avb';
-  let month = 'mar';
+  const openInNewTab = (url) => {
+    const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+    if (newWindow) newWindow.opener = null
+  }
+  console.log(Data.vID);
+  let day = new Date(Data.vDate).toDateString().split(" ")[2];
+  let month = new Date(Data.vDate).toDateString().split(" ")[1];
   return (
     <Card
       className="VideoCard"
@@ -15,6 +20,7 @@ function VideoCard({Data}) {
         width: "752px",
         boxShadow: "5px 5px 10px 1px rgba(0,0,0,0.1)"
       }}
+      onClick={() => openInNewTab(`${Data.vLink}`)}
     >
       <CardContent style={{ padding: "none" }}>
         <Stack spacing={5} direction="row">
@@ -48,14 +54,14 @@ function VideoCard({Data}) {
               color="#3A4853"
               style={{ maxWidth: "640px", fontFamily: "Kanit, sans-serif", fontSize: "18px"}}
             >
-              {Data.VideoName}
+              {Data.vName}
             </Typography>
             <Typography
               component="p"
               color="#7B8A95"
               style={{ maxWidth: "640px", fontFamily: "Kanit, sans-serif", fontSize: "14px"}}
             >
-              {`Lesson ${Data.VideoSerial} \t | \t ${Data.VideoLength}`}
+              {`Lesson ${Data.vID} \t | \t ${Data.vDuration} Minutes`}
             </Typography>
           </Stack>
         </Stack>

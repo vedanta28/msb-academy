@@ -35,10 +35,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     validate: {
       validator: function (v) {
-        return /\d{10}/.test(v); // return /d{10}/.test(v);
+        return /^[0-9]{10}$/.test(v);
       },
       message: (props) =>
-        `${props.value} is not a valid phone number. Must be 10 digits long.`,
+        `${props.value} is not a valid 10-digit phone number!`,
     },
     required: [true, "Phone number is required"],
   },
@@ -46,9 +46,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
+    lowercase: true,
+    trim: true,
     validate: {
       validator: function (v) {
-        return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(v);
+        return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v);
       },
       message: (props) => `${props.value} is not a valid email address!`,
     },

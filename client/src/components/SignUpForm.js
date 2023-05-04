@@ -74,7 +74,11 @@ export default function SignUpForm() {
     } 
     catch (error) {
       dispatch({ type: "LOGIN_FAILURE" });
-      if(error.response.status === 500)
+      if (error.response.data.includes("is not a valid 10-digit phone number"))
+        toast.error("Please enter a valid phone number");
+      else if (error.response.data.includes("is not a valid email"))
+        toast.error("Please enter a valid email");
+      else if (error.response.status === 500)
         toast.error("User already exists. Please login");
     }
   };

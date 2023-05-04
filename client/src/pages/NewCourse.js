@@ -88,10 +88,8 @@ export default function NewCourseForm() {
               fullWidth
               label="Instructor Name"
               name="name"
-              defaultValue={`${user.name}`}
-              // autoFocus
+              value={ !user.name ? "MSB Instructor" : `${user.name}` }
             />
-
       
             <TextField
               margin="normal"

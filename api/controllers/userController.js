@@ -49,29 +49,6 @@ exports.updateDetails = catchAsync(async (req, res, next) => {
   });
 });
 
-// Update Password
-exports.updatePassword = catchAsync(async (req, res, next) => {
-  let updatedUser = req.user;
-  const oldPassword = req.body.oldPassword;
-  const newPassword = req.body.newPassword;
-
-  if (!(await updatedUser.correctPassword(oldPassword)))
-    return next(new AppError("Incorrect Password", 401));
-
-  updatedUser.password = newPassword;
-
-  updatedUser = await User.findByIdAndUpdate(req.user._id, updatedUser, {
-    new: true,
-    runValidators: true,
-  });
-
-  updatedUser.password = undefined;
-  res.status(200).json({
-    message: "Passoword Updated",
-    updatedUser,
-  });
-});
-
 // Add Course to Wishlist
 exports.addCourse = catchAsync(async (req, res, next) => {
   const courseID = req.body.courseID;

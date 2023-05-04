@@ -3,7 +3,6 @@ const router = express.Router();
 
 const {
   updateDetails,
-  updatePassword,
   addCourse,
   removeCourse,
   getCheckout,

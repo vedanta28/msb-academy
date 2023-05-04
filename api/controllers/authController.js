@@ -37,7 +37,13 @@ exports.signup = catchAsync(async (req, res, next) => {
   const token = signToken(newUser._id);
   newUser.password = undefined;
   sendCookie(res, token);
-  res.status(201).json({ status: "success", token});
+  let toSend = {
+    status: "success",
+    token,
+    name: newUser.fname + " " + newUser.lname,
+    image: newUser.image,
+  }
+  res.status(201).json(toSend);
 });
 
 // Login User

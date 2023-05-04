@@ -20,14 +20,13 @@ import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 
-// Menu Items
-let pages = ["Courses", "Classroom", "Add New Course"];
-
+// let pages = ["Courses", "Classroom", "Add New Course"];
 // User Settings
 let settings = ["Profile", "CheckOut", "Log Out"];
 
 function NavBar() {
   const [imageURL, setImageURL] = useState("/default.jpg");
+  const [pages, setPages] = useState(["Courses", "Classroom"]);
 
   // Menu States
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -74,12 +73,24 @@ function NavBar() {
   // For Image
   useEffect(() => {
     if (user) {
+
       getDownloadURL(ref(storage, `users/${user.image}`))
         .then((url) => {
           setImageURL(url);
         })
         .catch((err) => {
           setImageURL("/default.jpg");
+        });
+
+      axios.get("http://localhost:42690/api/users/user-details",
+        { headers: { "Authorization": `Bearer ${user.token}` } })
+        .then((res) => {
+          if (res.data.fetchedUser.role === "Instructor") {
+            setPages(["Courses", "Classroom", "Add New Course"]);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
         });
     }
   }, []);

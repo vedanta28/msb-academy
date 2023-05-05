@@ -1,7 +1,6 @@
 import { Stack, Typography, Card, CardContent } from "@mui/material";
 
-function VideoCard({Data}) {
-  // const dateArray = Data.VideoDate.split(" ");
+function VideoCard({ Data }) {
   const openInNewTab = (url) => {
     const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
     if (newWindow) newWindow.opener = null
@@ -51,14 +50,14 @@ function VideoCard({Data}) {
             <Typography
               variant="h3"
               color="#3A4853"
-              style={{ maxWidth: "640px", fontFamily: "Kanit, sans-serif", fontSize: "18px"}}
+              style={{ maxWidth: "640px", fontFamily: "Kanit, sans-serif", fontSize: "18px" }}
             >
               {Data.vName}
             </Typography>
             <Typography
               component="p"
               color="#7B8A95"
-              style={{ maxWidth: "640px", fontFamily: "Kanit, sans-serif", fontSize: "14px"}}
+              style={{ maxWidth: "640px", fontFamily: "Kanit, sans-serif", fontSize: "14px" }}
             >
               {`Lesson ${Data.vID} \t | \t ${Data.vDuration} Minutes`}
             </Typography>

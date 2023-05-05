@@ -33,6 +33,7 @@ exports.myCourse = catchAsync(async (req, res, next) => {
 
 // Update User Details
 exports.updateDetails = catchAsync(async (req, res, next) => {
+
   let updatedUser = req.user;
   updatedUser.fname = req.body.fname || updatedUser.fname;
   updatedUser.lname = req.body.lname || updatedUser.lname;
@@ -41,8 +42,6 @@ exports.updateDetails = catchAsync(async (req, res, next) => {
   updatedUser.phoneNo = req.body.phoneNo || updatedUser.phoneNo;
 
   await updatedUser.save({ runValidators: true, new: true });
-
-  updatedUser.password = undefined;
   res.status(200).json({
     message: "User Updated",
     updatedUser,
@@ -59,16 +58,18 @@ exports.addCourse = catchAsync(async (req, res, next) => {
     );
 
   const user = req.user;
+  let message = "";
 
-  if (!user.wishlist.includes(courseID)) {
+  if (user.courseTaken.includes(courseID)) {
+    message = "Already Bought";
+  } else if (user.wishlist.includes(courseID)) {
+    message = "Already Added";
+  } else {
+    message = "Added To Cart";
     user.wishlist.push(courseID);
     await user.save({ validateBeforeSave: false });
   }
-
-  res.status(200).json({
-    message: "Course Added",
-    user,
-  });
+  res.status(200).json({ message });
 });
 
 // Remove Course from Wishlist
@@ -126,6 +127,7 @@ exports.updateRating = catchAsync(async (req, res, next) => {
     if (e.course.equals(courseID))
       e.rating = rating;
   });
+
   await fetchedUser.save({ runValidators: true, new: true });
 
   let totalRating = 0;

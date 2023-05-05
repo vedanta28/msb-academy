@@ -1,7 +1,5 @@
-import * as React from "react";
-import Container from "@mui/material/Container";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import { Container, Box, Typography } from "@mui/material";
+
 import FacebookIcon from "@mui/icons-material/Facebook";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import TwitterIcon from "@mui/icons-material/Twitter";

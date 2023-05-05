@@ -1,50 +1,47 @@
+import { Box, Typography, Container, Avatar, AppBar, Toolbar, IconButton, MenuItem, Menu, Button } from "@mui/material";
 import { useState, useContext, useEffect } from "react";
-import { UserContext } from "../context/UserContext";
-import { useNavigate } from "react-router-dom";
-
-import storage from "../firebase";
 import { ref, getDownloadURL } from "firebase/storage";
-
+import { useNavigate } from "react-router-dom";
+import MenuIcon from "@mui/icons-material/Menu";
 import axios from "axios";
 
-// Material UI
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import MenuIcon from "@mui/icons-material/Menu";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
+// Importing Firebase Settings
+import storage from "../firebase";
 
-// let pages = ["Courses", "Classroom", "Add New Course"];
-// User Settings
+// Importing contexts
+import { UserContext } from "../context/UserContext";
+import { ReloaderContext } from "../context/Reloader";
+
 let settings = ["Profile", "CheckOut", "Log Out"];
 
 function NavBar() {
+
   const [imageURL, setImageURL] = useState("/default.jpg");
   const [pages, setPages] = useState(["Courses", "Classroom"]);
 
   // Menu States
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
+
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
+  
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
+  
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
 
   const { dispatch, user } = useContext(UserContext);
+  const { reload } = useContext(ReloaderContext);
+  
   let navigate = useNavigate();
 
   const routeChange = async (path) => {
@@ -64,7 +61,7 @@ function NavBar() {
       }
     } else {
       if (path === "/add new course") {
-        path = "/NewCourse";
+        path = "/new-course";
       }
       navigate(path);
     }
@@ -93,17 +90,23 @@ function NavBar() {
           console.log(err);
         });
     }
-  }, []);
+
+  }, [user, reload]);
 
   return (
+
     <AppBar
       position="sticky"
       sx={{ background: "transparent", color: "black", boxShadow: "none" }}
     >
+    
       <Container maxWidth="xl">
+    
         <Toolbar disableGutters>
           {/* ----------------------------------LARGE SCREEN START--------------------------------- */}
+          
           {/* LOGO */}
+    
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <img
               src="/msb.svg"
@@ -116,7 +119,6 @@ function NavBar() {
             variant="h5"
             noWrap
             component="a"
-            // href="/"
             onClick={() => routeChange("/")}
             sx={{
               mr: 2,
@@ -217,7 +219,7 @@ function NavBar() {
           >
             <img
               src="./msb.svg"
-              alt=""
+              alt="MSB"
               style={{ width: "60px", marginRight: "10px" }}
             />
 
@@ -227,12 +229,10 @@ function NavBar() {
               component="a"
               href="/"
               sx={{
-                mr: 2,
-                mt: 2,
-                ml: 2,
+                m: 2,
+                fontWeight: 700,
                 display: { xs: "flex", md: "none" },
                 fontFamily: "Open Sans",
-                fontWeight: 700,
                 letterSpacing: ".3rem",
                 color: "black",
                 textDecoration: "none",
@@ -240,6 +240,7 @@ function NavBar() {
             >
               MSB
             </Typography>
+
           </Box>
 
           {/* ----------------------------------SMALL SCREEN END----------------------------------- */}

@@ -1,41 +1,48 @@
+import { TextField, Box, Typography, Container, Button } from "@mui/material";
 import { useState, useContext } from "react";
-import { UserContext } from "../context/UserContext";
-
-import axios from "axios";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
 import { toast } from "react-toastify";
+import axios from "axios";
+
+// import context
+import { UserContext } from "../context/UserContext";
 
 export default function NewCourseForm() {
 
   const { user } = useContext(UserContext);
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({ name: "", description: "", fees: "" });
+ 
+  const handleChange = (e) => {
+    setFormData((prevState) => ({ ...prevState, [e.target.name]: e.target.value }));
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (name === "" || description === "" || price === "") {
+    setLoading(true);
+    const { name, description, fees } = formData;
+    if (name === "" || description === "" || fees === "") {
       toast.error("Please fill all the fields");
       return;
     }
+
     axios
-      .post("http://localhost:42690/api/courses/", { name, description, price, instructorName : user.name}, {
+      .post("http://localhost:42690/api/courses/", { name, description, fees }, {
         headers: { Authorization: `Bearer ${user.token}` }
       })
-      .then((res) => {
+      .then(() => {
         toast.success("Course Created");
+        setFormData({ name: "", description: "", fees: "" });
+        setLoading(false);
       })
       .catch((err) => {
         if(err.response.status === 403)
-          toast.error("Only Instructors can Upload Course");
+        toast.error("Only Instructors can Upload Course");
         else  
-          toast.error("Something Went Wrong");
+        toast.info("Something Went Wrong");
+        setLoading(false);
       });
+      
   };
 
   return (
@@ -50,16 +57,16 @@ export default function NewCourseForm() {
         component="main"
         maxWidth="xs"
         sx={{
-          backgroundColor: "white",
-          marginTop: "40px",
-          borderRadius: "5px",
-          height: "550px",
-          paddingTop: "10px",
-          paddingBottom: "10px",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "center",
           alignItems: "center",
+          justifyContent: "center",
+          height: "500px",
+          marginTop: "40px",
+          borderRadius: "5px",
+          paddingTop: "10px",
+          paddingBottom: "10px",
+          backgroundColor: "white",
           boxShadow: "5px 5px 10px 1px rgba(0,0,0,0.1)",
         }}
       >
@@ -80,57 +87,48 @@ export default function NewCourseForm() {
             noValidate
             sx={{ mt: 4 }}
           >
-            <TextField
-              disabled
-              id="outlined-disabled"
-              margin="normal"
-              required
-              fullWidth
-              label="Instructor Name"
-              name="name"
-              value={ !user.name ? "MSB Instructor" : `${user.name}` }
-            />
       
+          {/* Course Name */}
             <TextField
               margin="normal"
+              name="name"
               required
               fullWidth
-              id="cname"
-              label="Course Name"
-              name="cname"
               autoFocus
-              onChange={(e) => setName(e.target.value)}
+              label="Course Name"
+              value={(formData && formData.name) ? formData.name : ""}
+              onChange={handleChange}
             />
 
+            {/* Course Description */}
             <TextField
               margin="normal"
+              name="description"
               required
               fullWidth
-              height="100px"
-              id="desc"
+              value={(formData && formData.description) ? formData.description : ""}
               label="Course Description"
-              name="desc"
-              // autoFocus
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={handleChange}
             />
 
+            {/* Course Price */}
             <TextField
               margin="normal"
+              name="fees"
               required
               fullWidth
-              height="100px"
-              id="price"
               label="Price"
-              name="price"
               type="number"
-              // autoFocus
-              onChange={(e) => setPrice(e.target.value)}
+              value={(formData && formData.fees) ? formData.fees : ""}
+              onChange={handleChange}
             />
 
             <Button
               type="submit"
               fullWidth
               variant="contained"
+              disabled={loading}
+              onSubmit={handleSubmit}
               sx={{ mt: 3, mb: 2, height: "50px" }}
             >
               Add New Course
@@ -139,5 +137,5 @@ export default function NewCourseForm() {
         </Box>
       </Container>
     </Box>
-  );
+  ); 
 }

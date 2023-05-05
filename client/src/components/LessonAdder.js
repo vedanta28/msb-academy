@@ -1,34 +1,42 @@
+import { Button, TextField, Box, Typography, Container } from "@mui/material";
 import { useState, useContext } from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
-import { UserContext } from "../context/UserContext";
+import axios from "axios";
 
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
+// Importing Context
+import { UserContext } from "../context/UserContext";
+import { ReloaderContext } from "../context/Reloader";
 
 export default function LessonAdder({ CourseID }) {
-  const { user } = useContext(UserContext);
 
-  const [videoName, setVideoName] = useState("");
-  const [videoLink, setVideoLink] = useState("");
-  const [videoDuration, setVideoDuration] = useState(0);
+  const { user } = useContext(UserContext);
+  const { dispatch } = useContext(ReloaderContext);
+  const [formData, setFormData] = useState({ videoName: "", videoLink: "", videoDuration: 0 });
+
+  const handleChange = (e) => {
+    setFormData((prevState) => ({ ...prevState, [e.target.name]: e.target.value }));
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const { videoName, videoLink, videoDuration } = formData;
+
+    if (videoName === "" || videoLink === "" || videoDuration === "") {
+      toast.error("Please fill all the fields");
+      return;
+    }
+
     await axios
-      .post(`http://localhost:42690/api/courses/${CourseID}`, { videoName, videoLink, videoDuration }, {
-        headers: { Authorization: `Bearer ${user.token}` }
-      })
-      .then((res) => {
-        setVideoLink("");
-        setVideoDuration("");
-        setVideoName("");
+      .post(`http://localhost:42690/api/courses/${CourseID}`,
+        { videoName, videoLink, videoDuration }, {
+          headers: { Authorization: `Bearer ${user.token}` }
+        })
+      .then(() => {
+        setFormData({ videoName: "", videoLink: "", videoDuration: 0 });
+        dispatch({ type: "RELOAD" });
         toast.success("Video Added Successfully")
       })
-      .catch((err) => {
+      .catch(() => {
         toast.error("Failure to add video");
       });
   };
@@ -38,14 +46,15 @@ export default function LessonAdder({ CourseID }) {
       component="main"
       maxWidth="xs"
       sx={{
-        backgroundColor: "white",
-        borderRadius: "5px",
-        height: "460px",
-        paddingBottom: "20px",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
+        height: "460px",
+        borderRadius: "5px",
+        paddingBottom: "20px",
+        mb: 10,
+        backgroundColor: "white",
         boxShadow: "5px 5px 10px 1px rgba(0,0,0,0.1)",
       }}
     >
@@ -65,35 +74,31 @@ export default function LessonAdder({ CourseID }) {
             margin="normal"
             required
             fullWidth
-            id="ctitle"
+            name="videoName"
             label="Course Title"
-            name="vName"
-            value={videoName}
-            onChange={(e => setVideoName( () => e.target.value))}
-            autoFocus
+            value={formData && formData.videoName ? formData.videoName : ""}
+            onChange={handleChange}
           />
 
           <TextField
             margin="normal"
             required
             fullWidth
-            id="vlink"
+            name="videoLink"
             label="Video Link"
-            name="vlink"
-            value={videoLink}
-            onChange={(e => setVideoLink( () => e.target.value))}
+            value={formData && formData.videoLink ? formData.videoLink : ""}
+            onChange={handleChange}
           />
 
           <TextField
             margin="normal"
             required
             fullWidth
-            id="vDuration"
+            name="videoDuration"
             type="number"
+            value={formData && formData.videoDuration ? formData.videoDuration : ""}
             label="Video Duration"
-            name="vDuration"
-            value={videoDuration}
-            onChange={(e => setVideoDuration( () => e.target.value))}
+            onChange={handleChange}
           />
 
           <Button

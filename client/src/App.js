@@ -1,52 +1,38 @@
-// Description: This file contains the main App component which is the parent component of all other components.
-
-// importing react-router-dom, hooks and context
+// Importing react-router-dom, hooks and context
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useContext, useEffect } from "react";
-import axios from "axios";
-import { UserContext } from "./context/UserContext";
-import { CoursesContext } from "./context/CoursesContext";
-
-// importing stylesheets
-import "./stylesheets/App.css";
-import { ToastContainer, toast } from 'react-toastify';
+import { useContext } from "react";
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// importing Navbar-Container
-import NavContainer from "./components/NavContainer";
+// Importing context
+import { UserContext } from "./context/UserContext";
 
-// importing Pages
+// Importing stylesheets
+import "./stylesheets/App.css";
+
+// Importing Components
+import NavContainer from "./components/NavContainer";
+import Footer from "./components/Footer";
+
+// Importing Pages
 import Home from "./pages/Home";
-import Courses from "./pages/Courses";
-import Classroom from "./pages/Classroom";
+import Error from "./pages/Error";
 import SignIn from "./pages/SignIn";
-import NewCourse from "./pages/NewCourse";
 import Course from "./pages/Course";
 import Profile from "./pages/Profile";
-import Footer from "./components/Footer";
-import Error from "./pages/Error";
+import Courses from "./pages/Courses";
 import Checkout from "./pages/Checkout";
+import NewCourse from "./pages/NewCourse";
+import Classroom from "./pages/Classroom";
 
 function App() {
-  
-  const { user } = useContext(UserContext);
-  const { dispatch } = useContext(CoursesContext);
 
-  useEffect(() => {
-    dispatch({ type: "LOAD_START" });
-    axios.get("http://localhost:42690/api/courses")
-      .then((res) => {
-        dispatch({ type: "LOAD_SUCCESS", payload: res.data.courses });
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error("Failure to Load Courses");
-        dispatch({ type: "LOAD_FAILURE" });
-      });
-  },[]);
+  const { user } = useContext(UserContext);
 
   return (
     <div className="App">
+
+      {/* Toast Container */}
       <ToastContainer
         position="top-right"
         autoClose={1500}
@@ -59,38 +45,39 @@ function App() {
         pauseOnHover
         theme="light"
       />
-      <Router>
 
+      <Router>
         <NavContainer />
 
+        {/* Sections */}
         <div className="Sections">
+
           <Routes>
-            <Route path="/" element={<Home />} />
+
+            <Route
+              path="/"
+              element={<Home />}
+            />
+
             <Route
               path="/courses"
               element={<Courses />}
             />
 
             <Route
-              path="/NewCourse"
-              element={
-                user ? (
-                 <NewCourse/>
-                ) : (
-                  <Error type="401" />
-                )
-              }
+              path="/signin"
+              element={<SignIn />}
+            />
+
+            {/* Protected Routes */}
+            <Route
+              path="/new-course"
+              element={user ? (<NewCourse />) : (<Error type="401" />)}
             />
 
             <Route
               path="/classroom"
-              element={
-                user ? (
-                 <Classroom/>
-                ) : (
-                  <Error type="401" />
-                )
-              }
+              element={user ? (<Classroom />) : (<Error type="401" />)}
             />
 
             <Route
@@ -109,17 +96,17 @@ function App() {
             />
 
             <Route
-              path="/create-course"
-              element={user ? <NewCourse /> : <Error type="401" />}
+              path="*"
+              element={<Error type="404" />}
             />
 
-            <Route path="/signin" element={<SignIn />} />
-            <Route path="/error" element={<Error type="500" />} />
-            <Route path="*" element={<Error type="404" />} />
           </Routes>
+
         </div>
+
         <Footer />
       </Router>
+
     </div>
   );
 }

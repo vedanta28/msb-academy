@@ -25,11 +25,7 @@ const courseSchema = new mongoose.Schema({
       {
         vID: Number,
         vName: String,
-        vLink: 
-        {
-          type: String,
-          unique: true,
-        },
+        vLink: String,
         vDuration: Number,
         vDate: {
           type: Date,

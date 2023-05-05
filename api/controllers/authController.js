@@ -22,51 +22,31 @@ const sendCookie = (res, token) => {
 
 // Sign Up New User
 exports.signup = catchAsync(async (req, res, next) => {
+  const { fname, lname, state, country, phoneNo, emailId, role, dob, password } = req.body;
   const newUser = await User.create({
-    fname: req.body.fname,
-    lname: req.body.lname,
-    state: req.body.state,
-    country: req.body.country,
-    phoneNo: req.body.phoneNo,
-    emailId: req.body.emailId,
-    role: req.body.role,
-    dob: req.body.dob,
-    password: req.body.password,
+    fname, lname, state, country, phoneNo, emailId, role, dob, password
   });
-
   const token = signToken(newUser._id);
-  newUser.password = undefined;
   sendCookie(res, token);
-  let toSend = {
-    status: "success",
-    token,
-    name: newUser.fname + " " + newUser.lname,
-    image: newUser.image,
-  }
-  res.status(201).json(toSend);
+  res.status(201).json({ token, image: newUser.image });
 });
 
 // Login User
 exports.signin = catchAsync(async (req, res, next) => {
   const { emailId, password } = req.body;
-
   // check if email and password exists
   if (!emailId || !password)
     return next(new AppError("Please provide email and password", 400));
 
   // check if user exists && password is correct
   const user = await User.findOne({ emailId });
-
-  if (emailId !== "20CS01070@iitbbs.ac.in") {
-    if (!user || !(await user.correctPassword(password)))
-      return next(new AppError("Incorrect Email or Password", 401));
-  }
+  if (!user || !(await user.correctPassword(password)))
+    return next(new AppError("Incorrect Email or Password", 403));
 
   // if everything ok, send token to client
   const token = signToken(user._id);
   sendCookie(res, token);
-  let userName = user.fname + " " + user.lname;
-  res.status(200).json({ status: "success", token, image: user.image, name: userName });
+  res.status(200).json({ token, image: user.image });
 });
 
 // Check if user is logged in
@@ -78,9 +58,7 @@ exports.protect = catchAsync(async (req, res, next) => {
     token = req.headers.authorization.split(" ")[1];
 
   if (!token)
-    return next(
-      new AppError("You are not logged in! Please log in to get access", 401)
-    );
+    return next( new AppError("You are not logged in! Please log in to get access", 401));
 
   // Decode the token by verifying it
   const { id } = jwt.verify(token, process.env.JWT_SECRET);
@@ -111,10 +89,26 @@ exports.logout = catchAsync(async (req, res, next) => {
     expires: new Date(Date.now() + 1000),
     httpOnly: true,
   });
-  res.status(200).json({
-    status: "success",
-    token,
-  });
+  res.status(200).json({ token });
 });
 
 // Route to Handle Password Change
+exports.changePassword = catchAsync(async (req, res, next) => {
+  
+  // 1) Get user from collection
+  const user = await User.findById(req.user._id).select('+password');
+
+  // 2) Check if POSTed current password is correct
+  if (!(await user.correctPassword(req.body.oldPassword, user.password))) {
+    return next(new AppError('Your current password is wrong.', 401));
+  }
+
+  // 3) If so, update password
+  user.password = req.body.newPassword;
+  await user.save();
+
+  // 4) Log user in, send JWT
+  const token = signToken(user._id);
+  sendCookie(res, token);
+  res.status(200).json({ token, image: user.image });
+});

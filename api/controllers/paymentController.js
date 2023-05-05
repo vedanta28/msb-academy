@@ -67,12 +67,21 @@ exports.verifyPayment = catchAsync(async (req, res, next) => {
     user.wishlist = [];
     await user.save({ validateBeforeSave: false });
 
+    const purchase = {
+      paymentID: razorpay_payment_id,
+      status: true,
+      coursesList: purchasedCourses,
+      purchasedBy: user._id,
+    }
+
     const newPayment = await Payment.create({
       paymentID: razorpay_payment_id,
       status: true,
       coursesList: purchasedCourses,
       purchasedBy: user._id,
     });
+
+    console.log(purchase);
 
     res.status(200).json({
       message: "Payment Verified",

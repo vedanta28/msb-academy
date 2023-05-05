@@ -1,11 +1,15 @@
 import { useState, useContext, useEffect } from "react";
-import { UserContext } from "../context/UserContext";
-import axios from "axios";
-
 import { Typography } from "@mui/material";
 import { toast } from "react-toastify";
+import axios from "axios";
+
+// importing context
+import { UserContext } from "../context/UserContext";
+
+// importing stylesheets
 import "../stylesheets/Courses.css";
 
+// importing components
 import CoursesCard from "../components/CourseCard";
 import SearchBar from "../components/SearchBar";
 
@@ -18,11 +22,11 @@ function Classroom() {
     // route for classroom courses 
     axios.get("http://localhost:42690/api/users/classroom",
       { headers: { "Authorization": `Bearer ${user.token}` } })
-      .then((res) => {
-        setReqCourses(res.data.classroom);
+      .then(({ data }) => {
+        setReqCourses(() => data.classroom);
       })
-      .catch((err) => {
-        toast.error("Failure to Load My Courses");
+      .catch(() => {
+        toast.error("Failed to Load My Courses");
       });
   }, []);
 

@@ -1,13 +1,17 @@
-import "../stylesheets/SignIn.css"
 import { useState } from "react";
-import ToggleButton from "@mui/material/ToggleButton";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import { ToggleButton, ToggleButtonGroup } from "@mui/material";
+
+// Importing stylesheets
+import "../stylesheets/SignIn.css"
+
+// Importing components
 import SignInForm from "../components/SignInForm";
 import SignUpForm from "../components/SignUpForm";
 
 function SignIn() {
   const [sign, setSign] = useState("0");
 
+  // Handle change
   const handleChange = (event, newSign) => {
     setSign(newSign);
   };
@@ -31,9 +35,9 @@ function SignIn() {
       </ToggleButtonGroup>
       {
         sign === "0" ? (
-            <SignInForm className="SignInForm" />
+          <SignInForm className="SignInForm" />
         ) : (
-            <SignUpForm className="SignUpForm" />
+          <SignUpForm className="SignUpForm" />
         )
       }
     </div>

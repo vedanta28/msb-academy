@@ -1,50 +1,47 @@
-import { useContext, useState, useEffect } from "react";
-import { UserContext } from "../context/UserContext";
-import { toast } from "react-toastify";
-import storage from "../firebase";
+import { CardMedia, Button, Container, Stack, Typography, Card, CardContent, Rating } from "@mui/material";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import ShareIcon from "@mui/icons-material/Share";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { useContext, useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import axios from "axios";
 
-// MATERIAL UI
-import {
-  CardMedia,
-  Button,
-  Container,
-  Stack,
-  Typography,
-  Card,
-  CardContent,
-  Rating,
-} from "@mui/material";
+// Importing Firebase Settings
+import storage from "../firebase";
 
-// ICONS
-import ShareIcon from "@mui/icons-material/Share";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+// Importing Context
+import { UserContext } from "../context/UserContext";
+import { ReloaderContext } from "../context/Reloader";
 
 function CourseDetails({ Data, CourseID, Bought }) {
 
   // BRING IN USER
+  const rating = Bought.rating * 1;
   const { user } = useContext(UserContext);
+  const { reload, dispatch } = useContext(ReloaderContext);
 
   // HANDLE IMAGE UPLOAD
   const [imageUpload, setImageUpload] = useState(null);
   const [imageURL, setImageURL] = useState("/defaultCover.png");
-  const [ratingValue, setRatingValue] = useState(Bought.rating*1);
+  const [loading, setLoading] = useState(false);
+  const [ratingValue, setRatingValue] = useState(rating);
 
   useEffect(() => {
     getDownloadURL(ref(storage, `courses/${CourseID}.jpg`))
       .then((url) => {
-        setImageURL(url);
+        setImageURL(() => url);
       })
-      .catch((err) => {
+      .catch(() => {
         setImageURL("/defaultCover.png");
       });
-    setRatingValue(() => Bought.rating*1);
-  }, [Bought.rating*1]);
+    setRatingValue(() => Bought.rating * 1);
+  }, [rating, reload]);
 
   // To Save Image Upload
   const saveImage = () => {
-    if (imageUpload == null) return;
+    
+    if (imageUpload == null) 
+      return;
 
     toast.info("Processing Request");
     const imageRef = ref(storage, `courses/${CourseID}.jpg`);
@@ -52,12 +49,13 @@ function CourseDetails({ Data, CourseID, Bought }) {
       getDownloadURL(res.ref)
         .then((url) => {
           setImageURL(url);
+          dispatch({ type: "RELOAD" });
         })
-        .catch((err) => {
+        .catch(() => {
           toast.error("Something Went Wrong");
-          setImageURL("/defaultCover.png");
         });
     });
+    setLoading(false);
   };
 
   // To Handle Buy Now
@@ -68,27 +66,44 @@ function CourseDetails({ Data, CourseID, Bought }) {
         { courseID: CourseID },
         { headers: { Authorization: `Bearer ${user.token}` } }
       )
-      .then((res) => {
-        toast.success("Added To Cart");
+      .then(({data}) => {
+        
+        if(data.message.includes("Already Bought"))
+          toast.info("Already Bought")
+        else if(data.message.includes("Already Added"))
+          toast.info("Already Added");
+        else
+          toast.success("Added To Cart");
       })
-      .catch((err) => {
+      .catch(() => {
         toast.error("Failed to Add");
       });
   };
 
+  // Handle Image Change
+  const handleImageChange = (e) => {
+    toast.info("Please Save Changes");
+    setImageUpload(() => e.target.files[0]);
+    setLoading(true);
+  };
+
   // HANDLE RATING CHANGES
-  const handleRatingChange = (newValue) => {
+  const handleRatingChange = (event,newValue) => {
+
+    if (!newValue || newValue === ratingValue)
+      return;
 
     setRatingValue(newValue);
     axios
-      .put("http://localhost:42690/api/users/update-rating", { courseID: CourseID, rating: newValue }, {
-        headers: { Authorization: `Bearer ${user.token}` }
-      })
-      .then((res) => {
+      .post("http://localhost:42690/api/users/update-rating", 
+      { courseID: CourseID, rating: newValue }, 
+      {  headers: { Authorization: `Bearer ${user.token}` }})
+      .then(() => {
         toast.success("Rating Updated");
+        dispatch({ type: "RELOAD" });
       })
-      .catch((err) => {
-        toast.error("Failure to update rating");
+      .catch(() => {
+        toast.error("Failed to update rating");
       });
   };
 
@@ -190,7 +205,6 @@ function CourseDetails({ Data, CourseID, Bought }) {
                   </Button>
                 }
 
-
                 {/* Button To Share */}
                 <Button
                   variant="contained"
@@ -216,12 +230,7 @@ function CourseDetails({ Data, CourseID, Bought }) {
                       marginRight: "auto",
                       marginLeft: "auto",
                     }}
-                    onChange={(event, newValue) => {
-                      if (newValue === null) {
-                        newValue = ratingValue;
-                      }
-                      handleRatingChange(newValue);
-                    }}
+                    onChange={handleRatingChange}
                   />
                 }
               </Stack>
@@ -234,6 +243,7 @@ function CourseDetails({ Data, CourseID, Bought }) {
                   {/* Buttons to Upload */}
                   < Button
                     component="label"
+                    disabled={loading}
                     sx={{
                       backgroundColor: "white",
                       ":hover": {
@@ -244,11 +254,7 @@ function CourseDetails({ Data, CourseID, Bought }) {
                     Upload File
                     <input
                       type="file"
-                      onChange={(e) => {
-                        toast.info("Please Save Changes")
-                        setImageUpload(e.target.files[0])
-                      }
-                      }
+                      onChange={handleImageChange}
                       hidden
                     />
                   </Button>

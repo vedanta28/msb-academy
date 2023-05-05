@@ -1,20 +1,29 @@
-import { useContext, useState, useEffect } from "react";
-import { CoursesContext } from "../context/CoursesContext";
-
+import { useState, useEffect } from "react";
 import { Typography } from "@mui/material";
+import { toast } from "react-toastify";
+import axios from "axios";
+
+// importing stylesheets
 import "../stylesheets/Courses.css";
 
+// importing components
 import CoursesCard from "../components/CourseCard";
 import SearchBar from "../components/SearchBar";
 
 function Courses() {
-  const { courses } = useContext(CoursesContext);
+
   const [reqCourses, setReqCourses] = useState([]);
 
   useEffect(() => {
-    setReqCourses(courses);
-  }, [])
-  
+    axios.get('http://localhost:42690/api/courses')
+      .then(({ data }) => {
+        setReqCourses(() => data.courses);
+      })
+      .catch(() => {
+        toast.error("Failure to Load Courses");
+      });
+  }, []);
+
   return (
     <div className="Courses">
       <div className="Heading">

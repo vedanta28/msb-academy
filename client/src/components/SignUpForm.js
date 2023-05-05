@@ -1,29 +1,23 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import {UserContext} from "../context/UserContext";
 import axios from "axios";
 
-// importing toastify
+// Importing toastify
 import { toast } from 'react-toastify';
 
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
+//  Importing material-ui components 
+import {
+  Button, TextField, Box, Typography, Container, MenuItem, FormControl, InputLabel,
+  OutlinedInput, InputAdornment, IconButton, Checkbox, FormControlLabel
+} from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import MenuItem from "@mui/material/MenuItem";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import FormControl from "@mui/material/FormControl";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import InputAdornment from "@mui/material/InputAdornment";
-import IconButton from "@mui/material/IconButton";
-import Checkbox from "@mui/material/Checkbox";
-import FormControlLabel from "@mui/material/FormControlLabel";
+
+// Importing contexts
+import { UserContext } from "../context/UserContext";
 
 const roles = [
   {
@@ -37,76 +31,88 @@ const roles = [
 ];
 
 export default function SignUpForm() {
+
   const { dispatch, isFetching } = useContext(UserContext);
-  const [fname, setFname] = useState("");
-  const [lname, setLname] = useState("");
-  const [state, setState] = useState("");
-  const [country, setCountry] = useState("");
-  const [phoneNo, setPhoneNo] = useState("");
-  const [emailId, setEmailId] = useState("");
-  const [dob, setDob] = useState(null);
+
+  const [formData, setFormData] = useState({
+    fname: "", lname: "", state: "", country: "", phoneNo: "", emailId: "", password: "", confirmPassword: ""
+  });
+
   const [role, setRole] = useState("Student");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [dob, setDob] = useState(null);
   const navigate = useNavigate();
 
-  // HANDLE SUBMIT
+  // Handle Change
+  const handleChange = (event) => {
+    setFormData((prevState) => ({ ...prevState, [event.target.name]: event.target.value }));
+  };
+
+  // Handle Submit
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (fname === "" || lname === "" || state === "" || country === "" || phoneNo === "" || emailId === "" || role === "" || dob === "" || password === "") {
+
+    const { fname, lname, state, country, phoneNo, emailId, password, confirmPassword } = formData;
+
+    if (fname === "" || lname === "" || state === "" || country === "" ||
+      phoneNo === "" || emailId === "" || role === "" || dob === "" || password === "") {
       toast.error("Please fill all the fields");
       return;
     }
+
     if (password !== confirmPassword) {
       toast.error("Passwords do not match");
       return;
     }
 
+    if (password.length < 8) {
+      toast.error("Passwords should be atleast 8 characters long");
+      return;
+    }
+
     dispatch({ type: "LOGIN_START" });
     try {
-      const {data} = await axios.post("http://localhost:42690/api/users/signup", {
+      const { data } = await axios.post("http://localhost:42690/api/users/signup", {
         fname, lname, state, country, phoneNo, emailId, role, dob, password
       });
 
-      let userData = {token: data.token, image: data.image};
-      dispatch({ type: "LOGIN_SUCCESS", payload: userData });
+      dispatch({ type: "LOGIN_SUCCESS", payload: { token: data.token, image: data.image } });
       navigate("/");
-    } 
-    catch (error) {
+    }
+
+    catch ({ response }) {
       dispatch({ type: "LOGIN_FAILURE" });
-      if (error.response.data.includes("is not a valid 10-digit phone number"))
+      if (response.data.includes("is not a valid 10-digit phone number"))
         toast.error("Please enter a valid phone number");
-      else if (error.response.data.includes("is not a valid email"))
+      else if (response.data.includes("is not a valid email"))
         toast.error("Please enter a valid email");
-      else if (error.response.status === 500)
+      else if (response.status === 500)
         toast.error("User already exists. Please login");
     }
   };
 
-  // TOGGLE PASSWORD VISIBILITY
+  // Toggle password visibility
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
+  const handleMouseDownPassword = (e) => e.preventDefault();
 
   return (
     <Container
       component="main"
       maxWidth="xs"
       sx={{
-        backgroundColor: "white",
-        marginTop: "40px",
-        borderRadius: "5px",
-        height: "1100px",
-        paddingBottom: "20px",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
+        height: "1100px",
+        marginTop: "40px",
+        borderRadius: "5px",
+        paddingBottom: "20px",
+        backgroundColor: "white",
         boxShadow: "5px 5px 10px 1px rgba(0,0,0,0.1)",
       }}
     >
+
       <Box
         sx={{
           display: "flex",
@@ -114,33 +120,36 @@ export default function SignUpForm() {
           alignItems: "center",
         }}
       >
+
+        {/* Heading */}
         <Typography fontFamily="Open Sans" component="h1" variant="h5">
           Sign Up
         </Typography>
 
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 4 }}>
+
+          {/* First Name */}
           <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="fname"
-            label="First Name"
             name="fname"
-            autoFocus
-            onChange={(e) => setFname(e.target.value)}
-          />
-
-          <TextField
-            margin="normal"
             required
             fullWidth
-            id="lname"
-            label="Last Name"
-            name="lname"
             autoFocus
-            onChange={(e) => setLname(e.target.value)}
+            margin="normal"
+            label="First Name"
+            onChange={handleChange}
           />
 
+          {/* Last Name */}
+          <TextField
+            name="lname"
+            required
+            fullWidth
+            margin="normal"
+            label="Last Name"
+            onChange={handleChange}
+          />
+
+          {/* Date of Birth */}
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               label="Date of Birth"
@@ -163,37 +172,37 @@ export default function SignUpForm() {
             />
           </LocalizationProvider>
 
+          {/* Phone */}
           <TextField
-            margin="normal"
+            name="phoneNo"
             required
             fullWidth
-            id="phone"
             label="Phone"
-            name="phone"
-            autoFocus
-            onChange={(e) => setPhoneNo(e.target.value)}
+            margin="normal"
+            onChange={handleChange}
           />
 
+          {/* Email */}
           <TextField
-            margin="normal"
+            name="emailId"
             required
             fullWidth
-            name="email"
-            label="Email Address"
             type="email"
-            id="email"
-            autoComplete="email"
-            onChange={(e) => setEmailId(e.target.value)}
+            margin="normal"
+            label="Email Address"
+            onChange={handleChange}
           />
 
+          {/* Role */}
           <TextField
+            name="role"
             id="outlined-select-role"
             required
             fullWidth
             select
             label="Join as"
             defaultValue="Student"
-            onChange={(e) => {setRole(e.target.value)} }
+            onChange={e => setRole(e.target.value)}
             sx={{
               mt: 2.5,
             }}
@@ -205,45 +214,34 @@ export default function SignUpForm() {
             ))}
           </TextField>
 
+          {/* Country */}
           <TextField
-            margin="normal"
-            required
-            fullWidth
             name="country"
+            required
+            fullWidth
+            margin="normal"
             label="Country"
-            id="country"
-            onChange={(e) => setCountry(e.target.value)}
+            onChange={handleChange}
           />
 
+          {/* State */}
           <TextField
-            margin="normal"
+            name="state"
             required
             fullWidth
-            name="state"
             label="State"
-            id="state"
-            onChange={(e) => setState(e.target.value)}
+            margin="normal"
+            onChange={handleChange}
           />
 
-          {/* <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          /> */}
-
-          <FormControl sx={{ mt: 2 }} variant="outlined" required fullWidth>
+          {/* Password */}
+          <FormControl sx={{ mt: 2 }} variant="outlined" fullWidth>
             <InputLabel htmlFor="password">Password</InputLabel>
             <OutlinedInput
-              fullWidth
-              id="password"
+              name="password"
               type={showPassword ? "text" : "password"}
               endAdornment={
-                <InputAdornment position="end" fullWidth>
+                <InputAdornment position="end">
                   <IconButton
                     aria-label="toggle password visibility"
                     onClick={handleClickShowPassword}
@@ -255,19 +253,19 @@ export default function SignUpForm() {
                 </InputAdornment>
               }
               label="Password"
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handleChange}
             />
           </FormControl>
 
-          <FormControl sx={{ mt: 3 }} variant="outlined" required fullWidth>
-            <InputLabel htmlFor="confirm-password">Confirm Password</InputLabel>
+          {/* Confirm Password */}
+          <FormControl sx={{ mt: 3 }} variant="outlined" fullWidth>
+            <InputLabel htmlFor="confirmPassword">Confirm Password</InputLabel>
             <OutlinedInput
-              fullWidth
-              id="confirm-password"
+              name="confirmPassword"
               type={showPassword ? "text" : "password"}
               sx={{ width: "100%" }}
               endAdornment={
-                <InputAdornment position="end" fullWidth>
+                <InputAdornment position="end">
                   <IconButton
                     aria-label="toggle password visibility"
                     onClick={handleClickShowPassword}
@@ -279,24 +277,29 @@ export default function SignUpForm() {
                 </InputAdornment>
               }
               label="Confirm Password"
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              onChange={handleChange}
             />
           </FormControl>
+
+          {/* CheckBox */}
           <FormControlLabel
             sx={{ mt: 2 }}
             control={<Checkbox />}
             label="I agree to the terms and conditions"
           />
 
+          {/* Submit Button */}
           <Button
             type="submit"
             fullWidth
             variant="contained"
             disabled={isFetching}
             sx={{ mt: 3, mb: 2, height: "50px" }}
+            onClick={handleSubmit}
           >
             Sign Up
           </Button>
+
         </Box>
       </Box>
     </Container>

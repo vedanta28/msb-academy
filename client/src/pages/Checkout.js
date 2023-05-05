@@ -1,18 +1,23 @@
 import { useState, useContext, useEffect } from "react";
-import { UserContext } from "../context/UserContext";
-import axios from "axios";
-
 import { Typography } from "@mui/material";
 import { toast } from "react-toastify";
+import axios from "axios";
+
+// importing context
+import { UserContext } from "../context/UserContext";
+import { ReloaderContext } from "../context/Reloader";
+
+// importing stylesheets
 import "../stylesheets/Courses.css";
 
+// importing components
 import TotalCard from "../components/TotalCard";
 import CoursesCard from "../components/CourseCard";
 
 function Checkout() {
 
     const { user } = useContext(UserContext);
-    const [reload, setReload] = useState(0);
+    const { reload } = useContext(ReloaderContext);
     const [reqCourses, setReqCourses] = useState([]);
 
     useEffect(() => {
@@ -23,7 +28,7 @@ function Checkout() {
             .then((res) => {
                 setReqCourses(res.data.cart);
             })
-            .catch((err) => {
+            .catch(() => {
                 toast.error("Failure to Load Checkout Cart");
             });
     }, [reload]);
@@ -43,11 +48,10 @@ function Checkout() {
                         <>
                             <div>
                                 {reqCourses.map((d) => (
-                                    <CoursesCard key={d._id} Data={d} Checkout={true} val={reload} fn={setReload} />
+                                    <CoursesCard key={d._id} Data={d} Checkout={true} />
                                 ))}
                             </div>
-                            <div>{< TotalCard Data={reqCourses} val={reload} fn={setReload} />}</div>
-
+                            <div>{< TotalCard Data={reqCourses} />}</div>
                         </>
                     )
                 }

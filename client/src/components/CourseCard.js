@@ -1,73 +1,65 @@
-import {
-  Avatar,
-  Box,
-  Chip,
-  CardMedia,
-  Container,
-  Stack,
-  Typography,
-  Card,
-  CardContent,
-  Rating,
-} from "@mui/material";
-
-import DeleteIcon from "@mui/icons-material/Delete";
+import { Avatar, Box, Chip, CardMedia, Container, Stack, Typography, Card, CardContent, Rating } from "@mui/material";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
-import { useNavigate } from "react-router-dom";
+// import DeleteIcon from "@mui/icons-material/Delete";
+import DeleteIcon from '@mui/icons-material/Delete';
 
-import storage from "../firebase";
-import { ref, getDownloadURL } from "firebase/storage";
 
 import { useState, useEffect, useContext } from "react";
-import axios from "axios";
+import { ref, getDownloadURL } from "firebase/storage";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import axios from "axios";
+
+// Importing Firebase Settings
+import storage from "../firebase";
+
+// Importing context
 import { UserContext } from "../context/UserContext";
+import { ReloaderContext } from "../context/Reloader";
 
-
-function CoursesCard({ Data, Checkout, val, fn }) {
+function CoursesCard({ Data, Checkout }) {
 
   const { user } = useContext(UserContext);
+  const { dispatch } = useContext(ReloaderContext);
   const [imageURL, setImageURL] = useState("/defaultCover.png");
-  const [insImageURL, setInsImageURL] = useState("/default.jpg"); 
+  const [insImageURL, setInsImageURL] = useState("/default.jpg");
 
   // To Load Images
   useEffect(() => {
-      getDownloadURL(ref(storage, `courses/${Data.imageCover}`)).then((url) => {
-        setImageURL(url);
-      }).catch((err) => {
-        setImageURL("/defaultCover.png")
-      })
-
-      getDownloadURL(ref(storage, `users/${Data.instructorID}.jpg`)).then((url) => {
-        setInsImageURL(url);
-      }).catch((err) => {
-        setInsImageURL("/default.jpg")
-      })
-
+    getDownloadURL(ref(storage, `courses/${Data.imageCover}`)).then((url) => {
+      setImageURL(url);
+    }).catch(() => {
+      setImageURL("/defaultCover.png")
+    })
+    getDownloadURL(ref(storage, `users/${Data.instructorID}.jpg`)).then((url) => {
+      setInsImageURL(url);
+    }).catch(() => {
+      setInsImageURL("/default.jpg")
+    })
   }, [])
- 
+
   // To Remove Course From Checkout
   const handleDelete = () => {
-    axios.post("http://localhost:42690/api/users/remove-course",
-    { courseID: Data._id },
-    { headers: { "Authorization": `Bearer ${user.token}` } })
-    .then((res) => {
-      toast.success("Removed From Cart");
-      fn(!val);
-    })
-    .catch((err) => {
-      toast.error("Failed to Remove");
-    });
+    axios
+      .post("http://localhost:42690/api/users/remove-course",
+        { courseID: Data._id },
+        { headers: { "Authorization": `Bearer ${user.token}` } })
+      .then(() => {
+        toast.success("Removed From Cart");
+        dispatch({ type: "RELOAD" });
+      })
+      .catch(() => {
+        toast.error("Failed to Remove");
+      });
   };
-  
+
   const navigate = useNavigate();
-  
+
   return (
     <Card
       sx={{
         backgroundColor: "white",
         borderRadius: "7px",
-        height: "215px",
         width: "1050px",
         marginBottom: "20px",
         marginLeft: "auto",
@@ -75,7 +67,6 @@ function CoursesCard({ Data, Checkout, val, fn }) {
         boxShadow: "5px 5px 10px 1px rgba(0,0,0,0.1)"
       }}
       elevation={0}
-      // className="course-card"
     >
       <CardContent style={{ padding: "none" }}>
         <Container style={{ display: "flex", padding: "none" }}>
@@ -93,7 +84,10 @@ function CoursesCard({ Data, Checkout, val, fn }) {
               }}
             />
           </Stack>
-          <Stack spacing={1} sx={{width: "calc(100% - 330px)"}}>
+
+          <Stack spacing={1} sx={{ width: "calc(100% - 330px)" }}>
+
+            {/* Course Name */}
             <Typography
               component="div"
               variant="h1"
@@ -105,17 +99,23 @@ function CoursesCard({ Data, Checkout, val, fn }) {
                   cursor: "pointer"
                 }
               }}
-              onClick={ () => navigate(`/course/${Data._id}`)}
+              onClick={() => navigate(`/course/${Data._id}`)}
             >
               {Data.name}
             </Typography>
+
+            {/* Instructor Details */}
             <Stack direction="row" spacing={1}>
-              <Chip
-                avatar={<Avatar alt="Natacha" src={insImageURL} />}
-                label={Data.instructorName || "Instructor 007"}
-                variant="filled"
-              />
+              {(Data && Data.instructorName) &&
+                <Chip
+                  avatar={<Avatar alt="Natacha" src={insImageURL} />}
+                  label={Data.instructorName}
+                  variant="filled"
+                />
+              }
             </Stack>
+
+            {/* Description */}
             <Typography
               component="div"
               variant="caption"
@@ -128,6 +128,8 @@ function CoursesCard({ Data, Checkout, val, fn }) {
             >
               {Data.description}
             </Typography>
+
+            {/* Rating */}
             <Rating
               name="half-rating-read"
               defaultValue={Data.rating}
@@ -135,7 +137,11 @@ function CoursesCard({ Data, Checkout, val, fn }) {
               readOnly
               sx={{ marginBottom: "auto" }}
             />
-            <Box spacing="auto" sx={{display: "flex", justifyContent: "space-between"}}>
+
+            {/* Others */}
+            <Box spacing="auto" sx={{ display: "flex", justifyContent: "space-between" }}>
+
+              {/* Fees */}
               <Typography
                 component="div"
                 variant="h4"
@@ -152,11 +158,12 @@ function CoursesCard({ Data, Checkout, val, fn }) {
                 {Data.fees}
               </Typography>
 
+              {/* Remove Icon */}
               {Checkout && (
                 <Chip
                   label="Remove"
-                  deleteIcon={<DeleteIcon />}
                   onClick={handleDelete}
+                  deleteIcon={<DeleteIcon />}
                   variant="outlined"
                   color="error"
                 />

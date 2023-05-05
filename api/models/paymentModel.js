@@ -7,7 +7,7 @@ const paymentSchema = new mongoose.Schema({
 
   status: Boolean,
 
-  courseList: [
+  coursesList: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Course",

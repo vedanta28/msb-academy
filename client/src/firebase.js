@@ -1,9 +1,8 @@
-// Import the functions you need from the SDKs you need
+// Import the functionsfrom the SDKs
 import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyB3lSYXQmHqLC7tofKwVVZv5lWETW3JAR4",
   authDomain: "msb-academy-5e348.firebaseapp.com",

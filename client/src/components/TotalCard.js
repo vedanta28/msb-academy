@@ -1,25 +1,21 @@
-import {
-  Button,
-  Typography,
-  Card,
-  CardContent,
-  CardActions,
-} from "@mui/material";
-
+import { Button, Typography, Card, CardContent, CardActions,} from "@mui/material";
 import PaymentsIcon from "@mui/icons-material/Payments";
+import { toast } from "react-toastify";
 import { useContext } from "react";
-
 import axios from "axios";
 
+// Importing context
 import { UserContext } from "../context/UserContext";
-import { toast } from "react-toastify";
+import { ReloaderContext } from "../context/Reloader";
 
 function TotalCard({ Data, val, fn }) {
 
   const Total = Data.reduce((acc, curr) => acc + curr.fees, 0);
   const { user } = useContext(UserContext);
+  const { dispatch } = useContext(ReloaderContext);
 
   const handlePayment = async () => {
+    
     const courses = [];
     Data.forEach(e => {
       courses.push(e._id);
@@ -51,7 +47,7 @@ function TotalCard({ Data, val, fn }) {
         try {
           await axios.post("http://localhost:42690/api/payments/verify", { response }, { headers: { "Authorization": `Bearer ${user.token}` } });
           toast.success("Payment Successful");
-          fn(!val);
+          dispatch({ type: "RELOAD" });
         } catch (err) {
           toast.error("Transaction Failed");
         }

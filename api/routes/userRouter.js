@@ -17,6 +17,7 @@ const {
   signin,
   protect,
   logout,
+  changePassword
 } = require("../controllers/authController");
 
 router.post("/signup", signup);
@@ -24,14 +25,14 @@ router.post("/signin", signin);
 router.get("/logout", logout);
 
 router.post("/add-course", protect, addCourse);
-router.post("/myCourse", protect, myCourse);
-router.post("/remove-Course", protect, removeCourse);
+router.post("/my-course", protect, myCourse);
+router.post("/remove-course", protect, removeCourse);
+router.post("/update-rating", protect, updateRating);
+router.post("/change-password", protect, changePassword);
 
 router.route("/user-details")
 .get(protect, getDetails)
-.put(protect, updateDetails);
-
-router.put("/update-rating", protect, updateRating);
+.post(protect, updateDetails);
 
 router.get("/checkout", protect, getCheckout);
 router.get("/classroom", protect, getClassroom);

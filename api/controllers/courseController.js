@@ -26,8 +26,13 @@ exports.getCourse = catchAsync(async (req, res, next) => {
 
 // Add A New Course
 exports.createCourse = catchAsync(async (req, res, next) => {
-  req.body.instructorID = req.user._id;
-  const newCourse = await Course.create(req.body);
+  let course = {...req.body, instructorID: req.user._id, videos: [], instructorName: req.user.fname + " " + req.user.lname};
+  const newCourse = await Course.create(course);
+  
+  const user = req.user;
+  user.courseTaken.push({course: newCourse._id});
+  await user.save({ validateBeforeSave: false });
+
   res.status(201).json({
     status: "success",
     course: newCourse,

@@ -1,14 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
+
+// Importing context providers
 import { UserContextProvider } from "./context/UserContext";
-import { CoursesContextProvider } from "./context/CoursesContext";
+import { ReloaderContextProvider } from "./context/Reloader";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-    <CoursesContextProvider>
+    <ReloaderContextProvider>
         <UserContextProvider>
             <App />
         </UserContextProvider>
-    </CoursesContextProvider>
+    </ReloaderContextProvider>
 );

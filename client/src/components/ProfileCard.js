@@ -1,26 +1,23 @@
-import { useContext, useState, useEffect } from "react";
+import { Avatar, Box, Button, Card, CardActions, CardContent, Typography } from "@mui/material";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import { useContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
-import {
-  Avatar,
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Typography,
-} from "@mui/material";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
 
+// Importing stylesheets
 import { UserContext } from "../context/UserContext";
-import storage from "../firebase";
+import { ReloaderContext } from "../context/Reloader";
 
-let userDetails = {};
+// Importing Firebase Settings
+import storage from "../firebase";
 
 export default function ProfileCard() {
 
   const { user } = useContext(UserContext);
+  const [loading, setLoading] = useState(false);
+  const { reload, dispatch } = useContext(ReloaderContext);
+  const [formData, setUserDetails] = useState({});
   const [imageUpload, setImageUpload] = useState(null);
   const [imageURL, setImageURL] = useState("");
 
@@ -32,7 +29,7 @@ export default function ProfileCard() {
       .then((url) => {
         setImageURL(url);
       })
-      .catch((err) => {
+      .catch(() => {
         setImageURL("/default.jpg");
       });
 
@@ -41,14 +38,21 @@ export default function ProfileCard() {
       .get("http://localhost:42690/api/users/user-details", {
         headers: { Authorization: `Bearer ${user.token}` },
       })
-      .then((res) => {
-        userDetails = res.data.fetchedUser;
+      .then(({ data }) => {
+        setUserDetails((prevState) => ({ ...prevState, ...data.fetchedUser }));
       })
-      .catch((err) => {
+      .catch(() => {
         toast.error("Failure to Load Profile");
       });
 
-  }, []);
+  }, [reload]);
+
+  // handleChange
+  const handleChange = (e) => {
+    setImageUpload(() => e.target.files[0]);
+    setLoading(true);
+    toast.info("Please Save Changes");
+  };
 
   // To Save Image Upload
   const saveImage = () => {
@@ -56,72 +60,77 @@ export default function ProfileCard() {
 
     toast.info("Processing Request");
     const imageRef = ref(storage, `users/${user.image}`);
-    uploadBytes(imageRef, imageUpload).then((res) => {
-      getDownloadURL(res.ref)
+    uploadBytes(imageRef, imageUpload).then(({ ref }) => {
+      getDownloadURL(ref)
         .then((url) => {
           setImageURL(url);
-          window.location.reload(false);
+          dispatch({ type: "RELOAD" });
         })
-        .catch((err) => {
-          toast.error("Something Went Wrong");
-          setImageURL("/default.jpg");
+        .catch(() => {
+          toast.info(() => "Failed To Upload Image");
         });
     });
+    setLoading(false);
   };
 
   return (
     <Card className="ProfileCard">
       <CardContent>
-        <Box
-          sx={{
-            alignItems: "center",
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
+
+        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+        
+          {/* USER IMAGE */}
           <Avatar
             src={imageURL}
             sx={{
-              height: 80,
               mb: 2,
               width: 80,
+              height: 80,
               border: "1px solid black",
               backgroundSize: "contain",
             }}
           />
 
+          {/* USER NAME */}
           <Typography gutterBottom variant="h5">
-            {userDetails.fname} {userDetails.lname}
+            {formData.fname} {formData.lname}
           </Typography>
 
+          {/* USER ROLE */}
           <Box sx={{ display: "flex", margin: "5px" }}>
             <Typography color="text.secondary" variant="body2">
-              {userDetails.role}
+              {formData.role}
             </Typography>
           </Box>
 
+          {/* EMAIL ID */}
           <Box sx={{ display: "flex", margin: "5px" }}>
             <Typography color="text.secondary" variant="body2">
-              {userDetails.emailId}
+              {formData.emailId}
             </Typography>
           </Box>
 
-          <Box sx={{ display: "flex", margin: "5px" }}>
-            <LocationOnIcon fontSize="small" />
-            <Typography color="text.secondary" variant="body2">
-              {userDetails.state}, {userDetails.country}
-            </Typography>
-          </Box>
+          {/* LOCATION */}
+          {(formData && formData.state) &&
+            <Box sx={{ display: "flex", margin: "5px" }}>
+              <LocationOnIcon fontSize="small" />
+              <Typography color="text.secondary" variant="body2">
+                {formData.state}, {formData.country}
+              </Typography>
+            </Box>
+          }
+
         </Box>
       </CardContent>
-      <hr
-        style={{ width: "90%", borderTop: "0.2px solid rgba(230,230,230)" }}
-      />
+
+      <hr style={{ width: "90%", borderTop: "0.2px solid rgba(230,230,230)" }} />
 
       <CardActions sx={{ display: "flex", justifyContent: "space-evenly" }}>
+
         {/* Button to Upload Image */}
         <Button
           component="label"
+          disabled={loading}
           sx={{
             backgroundColor: "white",
             marginTop: "5px",
@@ -133,10 +142,7 @@ export default function ProfileCard() {
           Upload File
           <input
             type="file"
-            onChange={(e) => {
-              toast.info("Save Changes");
-              setImageUpload(e.target.files[0]);
-            }}
+            onChange={handleChange}
             hidden
           />
         </Button>
@@ -156,6 +162,7 @@ export default function ProfileCard() {
         >
           Save Changes
         </Button>
+
       </CardActions>
     </Card>
   );

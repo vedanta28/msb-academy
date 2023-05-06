@@ -91,7 +91,6 @@ exports.removeCourse = catchAsync(async (req, res, next) => {
   await user.save({ validateBeforeSave: false });
   res.status(200).json({
     message: "Course Removed",
-    user,
   });
 });
 
@@ -103,7 +102,6 @@ exports.getCheckout = catchAsync(async (req, res, next) => {
     status: "success",
     cart,
   });
-  next();
 });
 
 // Get Classroom
@@ -114,7 +112,6 @@ exports.getClassroom = catchAsync(async (req, res, next) => {
     status: "success",
     classroom,
   });
-  next();
 });
 
 // Update Rating

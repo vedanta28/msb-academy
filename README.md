@@ -2,6 +2,11 @@
 An online teaching plaform.
 Made with Love.
 
+## Contributors
+Koustav Sen (senkoustav9)
+Vedanta Mohapatra (vedanta28)
+Arnav Behera (ARNAV69420)
+
 ## Run Locally
 
 Clone the project

@@ -27,7 +27,7 @@ export default function LessonAdder({ CourseID }) {
     }
 
     await axios
-      .post(`http://localhost:42690/api/courses/${CourseID}`,
+      .post(`${process.env.REACT_APP_BACKEND_URL}/api/courses/${CourseID}`,
         { videoName, videoLink, videoDuration }, {
           headers: { Authorization: `Bearer ${user.token}` }
         })

@@ -62,7 +62,7 @@ function CourseDetails({ Data, CourseID, Bought }) {
   const handleBuy = () => {
     axios
       .post(
-        "http://localhost:42690/api/users/add-course",
+        `${process.env.REACT_APP_BACKEND_URL}/api/users/add-course`,
         { courseID: CourseID },
         { headers: { Authorization: `Bearer ${user.token}` } }
       )
@@ -95,7 +95,7 @@ function CourseDetails({ Data, CourseID, Bought }) {
 
     setRatingValue(newValue);
     axios
-      .post("http://localhost:42690/api/users/update-rating", 
+      .post(`${process.env.REACT_APP_BACKEND_URL}/api/users/update-rating`, 
       { courseID: CourseID, rating: newValue }, 
       {  headers: { Authorization: `Bearer ${user.token}` }})
       .then(() => {

@@ -71,7 +71,7 @@ export default function SignUpForm() {
 
     dispatch({ type: "LOGIN_START" });
     try {
-      const { data } = await axios.post("http://localhost:42690/api/users/signup", {
+      const { data } = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/users/signup`, {
         fname, lname, state, country, phoneNo, emailId, role, dob, password
       });
 

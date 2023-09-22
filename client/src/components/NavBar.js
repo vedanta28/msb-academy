@@ -50,7 +50,7 @@ function NavBar() {
     if (path === "/log out") {
       try {
         const { status } = await axios.get(
-          "http://localhost:42690/api/users/logout"
+          `${process.env.REACT_APP_BACKEND_URL}/api/users/logout`
         );
         if (status === 200) {
           dispatch({ type: "LOGOUT" });
@@ -79,7 +79,7 @@ function NavBar() {
           setImageURL("/default.jpg");
         });
 
-      axios.get("http://localhost:42690/api/users/user-details",
+      axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/user-details`,
         { headers: { "Authorization": `Bearer ${user.token}` } })
         .then((res) => {
           if (res.data.fetchedUser.role === "Instructor") {

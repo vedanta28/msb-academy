@@ -41,7 +41,7 @@ function CoursesCard({ Data, Checkout }) {
   // To Remove Course From Checkout
   const handleDelete = () => {
     axios
-      .post("http://localhost:42690/api/users/remove-course",
+      .post(`${process.env.REACT_APP_BACKEND_URL}/api/users/remove-course`,
         { courseID: Data._id },
         { headers: { "Authorization": `Bearer ${user.token}` } })
       .then(() => {

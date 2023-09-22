@@ -29,7 +29,7 @@ function Course() {
   const [rating, setRating] = useState(0);
   
   useEffect(() => {
-    axios.get(`http://localhost:42690/api/courses/${courseID}`,
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/courses/${courseID}`,
       { headers: { "Authorization": `Bearer ${user.token}` } })
       .then(({ data }) => {
         setValues((prevState) => ({ ...prevState, ...data.course, videos: null }));
@@ -39,7 +39,7 @@ function Course() {
         toast.error("Failed to Load Course");
       })
 
-    axios.post(`http://localhost:42690/api/users/my-course`,
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/users/my-course`,
       { courseID }, { headers: { "Authorization": `Bearer ${user.token}` } })
       .then(({data}) => {
         setPurchase(() => data.bought);

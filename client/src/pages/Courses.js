@@ -15,7 +15,8 @@ function Courses() {
   const [reqCourses, setReqCourses] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:42690/api/courses')
+    console.log(`${process.env.REACT_APP_BACKEND_URL}/api/courses`)
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/courses`)
       .then(({ data }) => {
         setReqCourses(() => data.courses);
       })

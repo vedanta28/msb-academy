@@ -23,7 +23,7 @@ function Checkout() {
     useEffect(() => {
         // route for checkout courses
         setReqCourses([]);
-        axios.get("http://localhost:42690/api/users/checkout",
+        axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/checkout`,
             { headers: { "Authorization": `Bearer ${user.token}` } })
             .then((res) => {
                 setReqCourses(res.data.cart);

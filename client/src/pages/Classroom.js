@@ -20,7 +20,7 @@ function Classroom() {
 
   useEffect(() => {
     // route for classroom courses 
-    axios.get("http://localhost:42690/api/users/classroom",
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/classroom`,
       { headers: { "Authorization": `Bearer ${user.token}` } })
       .then(({ data }) => {
         setReqCourses(() => data.classroom);

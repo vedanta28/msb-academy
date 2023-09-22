@@ -43,7 +43,7 @@ export default function PasswordCard()
 
     dispatch({ type: "UPDATE_START" });
     axios
-      .post("http://localhost:42690/api/users/change-password", 
+      .post(`${process.env.REACT_APP_BACKEND_URL}/api/users/change-password`, 
       { oldPassword, newPassword }, 
       { headers: { Authorization: `Bearer ${user.token}` } })
       .then(({data}) => {

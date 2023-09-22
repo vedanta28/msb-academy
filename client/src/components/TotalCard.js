@@ -22,7 +22,7 @@ function TotalCard({ Data, val, fn }) {
     });
 
     // Create An Order
-    const { data } = await axios.post("http://localhost:42690/api/payments/order",
+    const { data } = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/payments/order`,
       { courses },
       { headers: { "Authorization": `Bearer ${user.token}` } });
 
@@ -45,7 +45,7 @@ function TotalCard({ Data, val, fn }) {
       image: "/msb.svg",
       handler: async (response) => {
         try {
-          await axios.post("http://localhost:42690/api/payments/verify", { response }, { headers: { "Authorization": `Bearer ${user.token}` } });
+          await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/payments/verify`, { response }, { headers: { "Authorization": `Bearer ${user.token}` } });
           toast.success("Payment Successful");
           dispatch({ type: "RELOAD" });
         } catch (err) {

@@ -27,7 +27,7 @@ export default function NewCourseForm() {
     }
 
     axios
-      .post("http://localhost:42690/api/courses/", { name, description, fees }, {
+      .post(`${process.env.REACT_APP_BACKEND_URL}/api/courses/`, { name, description, fees }, {
         headers: { Authorization: `Bearer ${user.token}` }
       })
       .then(() => {

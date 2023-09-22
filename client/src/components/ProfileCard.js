@@ -35,7 +35,7 @@ export default function ProfileCard() {
 
     // FOR DETAILS
     axios
-      .get("http://localhost:42690/api/users/user-details", {
+      .get(`${process.env.REACT_APP_BACKEND_URL}/api/users/user-details`, {
         headers: { Authorization: `Bearer ${user.token}` },
       })
       .then(({ data }) => {

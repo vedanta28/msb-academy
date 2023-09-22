@@ -21,7 +21,7 @@ export default function ProfileDetails() {
   // Fetch User Details
   useEffect(() => {
     axios
-      .get("http://localhost:42690/api/users/user-details", {
+      .get(`${process.env.REACT_APP_BACKEND_URL}/api/users/user-details`, {
         headers: { Authorization: `Bearer ${user.token}` },
       })
       .then(({data}) => {
@@ -51,7 +51,7 @@ export default function ProfileDetails() {
 
     // Send Request
     axios
-      .post("http://localhost:42690/api/users/user-details",
+      .post(`${process.env.REACT_APP_BACKEND_URL}/api/users/user-details`,
         { fname, lname, state, country, phoneNo },
         { headers: { Authorization: `Bearer ${user.token}` }})
       .then(() => {
